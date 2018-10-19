@@ -1,0 +1,74 @@
+.tcfArrayWidget
+  display: block
+
+.tcfArrayWidget--empty
+  display: flex
+  align-items: center
+  justify-content: center
+  min-height: 75px
+
+  background: #f1f5f8
+  border-radius: 5px
+
+.tcfArrayWidget--footer
+  padding: 5px 0
+
+.tcfArrayWidgetMemberList
+  min-height: 100px;
+
+.tcfArrayWidgetMemberList--placeholder
+  display: block
+
+
+.tcfArrayWidgetMember
+  padding: 5px 0
+
+  &.isDragging
+    opacity: 0.5
+
+  &.hasDropTarget
+    display: none
+
+.tcfArrayWidgetMember--panel
+  overflow: hidden
+
+  background: #fff
+  border: 1px solid rgba(0, 0, 20, 0.1)
+  border-radius: 5px
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1)
+
+.tcfArrayWidgetMember--header
+  display: flex
+  flex-flow: row nowrap
+  align-items: stretch
+
+  background: #f1f5f8
+
+.tcfArrayWidgetMember--headerHandle
+  display: flex
+  flex-flow: row nowrap
+  align-items: center
+
+  flex: 1
+  padding: 5px 10px
+
+  cursor: move
+
+  > .tcfIcon
+    margin-right: 5px
+
+.tcfArrayWidgetMember--headerHandleIcon
+  color: rgba(0, 0, 0, 0.25)
+
+  *:hover > &
+    color: #0d78f2
+
+.tcfArrayWidgetMember--headerActions
+  padding: 5px 10px
+
+.tcfArrayWidgetMember--widget
+  padding: 20px
+
+.tcfArrayWidgetMember--preview
+  padding: 20px
+  cursor: pointer

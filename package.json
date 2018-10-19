@@ -1,0 +1,42 @@
+{
+  "name": "craft-contentfield-ui",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "NODE_ENV=production rollup -c",
+    "watch": "NODE_ENV=development rollup -c -w"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/classnames": "^2.2.6",
+    "@types/handlebars": "^4.0.39",
+    "@types/jquery": "^3.3.6",
+    "@types/prop-types": "^15.5.5",
+    "@types/react": "^16.4.12",
+    "@types/react-dom": "^16.0.7",
+    "@types/react-redux": "^6.0.6",
+    "@types/redux": "^3.6.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "classnames": "^2.2.6",
+    "handlebars": "^4.0.11",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.2",
+    "react-dnd": "^5.0.0",
+    "react-dnd-html5-backend": "^5.0.1",
+    "react-dom": "^16.4.2",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
+    "rollup": "^0.65.0",
+    "rollup-plugin-commonjs": "^9.1.6",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-postcss": "^1.6.2",
+    "rollup-plugin-typescript": "^0.8.1",
+    "rollup-plugin-uglify-es": "0.0.1",
+    "stylus": "^0.54.5",
+    "tslib": "^1.9.3",
+    "typescript": "^3.0.1"
+  }
+}
