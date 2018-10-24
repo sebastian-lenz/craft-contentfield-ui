@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { addReferences } from '../../../store/actions';
-import { ReferenceField, RootState, Reference } from '../../../store/models';
-import { WidgetProps } from '../registry';
 import uuid from '../../../store/utils/uuid';
+import { addReferences } from '../../../store/actions';
+import { ReferenceField } from '.';
+import { RootState, Reference } from '../../../store/models';
+import { WidgetProps } from '../types';
 
 export interface ExternalProps extends WidgetProps<ReferenceField> {
   data: Array<number> | undefined;

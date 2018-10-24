@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import Factory from '../../Factory';
 import isModel from '../../../store/utils/isModel';
 import List from './List';
-import { ArrayField } from '../../../store/models';
+import { ArrayField } from './index';
+import { getDefinition } from '../registry';
 import { toggleExpanded } from '../../../store/actions';
-import { WidgetProps } from '../registry';
+import { WidgetProps } from '../types';
 
 import './index.styl';
 
@@ -14,9 +14,7 @@ export type Props = WidgetProps<ArrayField> & {
   onToggleExpanded: (uuid: string, expand?: boolean) => void;
 };
 
-export interface State {}
-
-export class ArrayWidget extends React.Component<Props, State> {
+export class ArrayWidget extends React.Component<Props> {
   handleAdd = (value: any) => {
     const { data, onToggleExpanded, onUpdate } = this.props;
     const newValue = Array.isArray(data) ? data.slice() : [];
@@ -52,6 +50,15 @@ export class ArrayWidget extends React.Component<Props, State> {
       return null;
     }
 
+    const definition = getDefinition(field.member);
+    let factory: React.ReactNode;
+    if (definition) {
+      factory = React.createElement(definition.factory, {
+        field: field.member,
+        onCreate: this.handleAdd,
+      });
+    }
+
     return (
       <List
         data={data}
@@ -60,7 +67,7 @@ export class ArrayWidget extends React.Component<Props, State> {
         onUpdate={this.handleUpdate}
         path={path}
       >
-        <Factory field={field.member} onCreate={this.handleAdd} />
+        {factory}
       </List>
     );
   }

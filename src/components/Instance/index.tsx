@@ -1,59 +1,70 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import Widget from '../Widget';
-import { Model, RootState, Schema } from '../../store/models';
-import { AnyPathSegment } from '../../store/utils/parsePath';
-import { updateValue } from '../../store/actions';
+import createModel from '../../store/utils/createModel';
 import FieldPanel from '../FieldPanel';
+import InstanceForm from '../InstanceForm';
+import Select from '../Select';
+import { AnyPathSegment } from '../../store/utils/parsePath';
+import { changeType, updateValue } from '../../store/actions';
+import { Model, RootState, Schema } from '../../store/models';
+import isModel from '../../store/utils/isModel';
 
-export interface ExternalProps {
+export type ExternalProps = {
   className?: string;
   model: Model;
   path: Array<AnyPathSegment>;
-}
+  schemaNames: Array<string>;
+};
 
-export interface Props extends ExternalProps {
-  onUpdate: (key: string, value: any) => void;
-  schema: Schema | null;
-}
+export type Props = ExternalProps & {
+  onChangeType: (type: string) => void;
+  schemas: Array<Schema>;
+};
 
-export class Instance extends React.Component<Props> {
-  render() {
-    const { className, model, onUpdate, path, schema } = this.props;
-    if (!schema) {
-      return (
-        <div className={className}>{`Could not resolve schema for "${
-          model.__type
-        }"`}</div>
-      );
-    }
+export function Instance({
+  className,
+  model,
+  onChangeType,
+  path,
+  schemas,
+}: Props) {
+  let schemaSelect: React.ReactNode;
 
-    return (
-      <div className={className}>
-        {Object.keys(schema.fields).map(name => (
-          <FieldPanel key={name} label={schema.fields[name].label}>
-            <Widget
-              data={model[name]}
-              field={schema.fields[name]}
-              model={model}
-              onUpdate={(value: any) => onUpdate(name, value)}
-              path={path}
-            />
-          </FieldPanel>
-        ))}
-      </div>
+  if (schemas.length > 1) {
+    schemaSelect = (
+      <FieldPanel label="Schema">
+        <Select
+          onChange={onChangeType}
+          options={schemas.map(({ qualifier, label }) => ({
+            key: qualifier,
+            label,
+            value: qualifier,
+          }))}
+          value={model.__type}
+        />
+      </FieldPanel>
     );
   }
+
+  let isValidModel = false;
+  if (isModel(model)) {
+    isValidModel = schemas.some(schema => schema.qualifier === model.__type);
+  }
+
+  return (
+    <div className={className}>
+      {schemaSelect}
+      {isValidModel ? <InstanceForm model={model} path={path} /> : null}
+    </div>
+  );
 }
 
 export default connect(
   (state: RootState, props: ExternalProps) => ({
-    schema: state.schemas[props.model.__type],
+    schemas: props.schemaNames.map(name => state.schemas[name]),
   }),
-  (disptach, props) => ({
-    onUpdate: (key: string, value: any) => {
-      disptach(updateValue(props.path, key, value));
-    },
+  (dispatch, props: ExternalProps) => ({
+    onChangeType: (type: string) => dispatch(changeType(props.path, type)),
   })
 )(Instance);

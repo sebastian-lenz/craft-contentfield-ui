@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-import { StringField } from '../../../store/models';
-import { WidgetProps } from '../registry';
+import { TextField } from './index';
+import { WidgetProps } from '../types';
 
-export interface Props extends WidgetProps<StringField> {}
+export interface Props extends WidgetProps<TextField> {}
 
 export default function InputWidget({ data, onUpdate }: Props) {
   return (

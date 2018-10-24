@@ -6,27 +6,34 @@ import { RootState } from '../models';
 
 export interface UpdateValueAction extends Action {
   path: string | Array<AnyPathSegment>;
-  key: string;
+  key?: string;
   type: 'updateValue';
   value: any;
 }
 
 export function applyUpdateValue(
   state: RootState,
-  action: UpdateValueAction
+  { path, key, value }: UpdateValueAction
 ): RootState {
   return {
     ...state,
-    model: modifyPath(state.model, action.path, model => ({
-      ...model,
-      [action.key]: action.value,
-    })),
+    model: modifyPath(
+      state.model,
+      path,
+      model =>
+        key
+          ? {
+              ...model,
+              [key]: value,
+            }
+          : value
+    ),
   };
 }
 
 export default function updateValue(
   path: string | Array<AnyPathSegment>,
-  key: string,
+  key: string | undefined,
   value: any
 ): UpdateValueAction {
   return {

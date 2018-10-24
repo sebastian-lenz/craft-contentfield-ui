@@ -1,15 +1,10 @@
 import * as React from 'react';
 
 import uuid from '../../../store/utils/uuid';
-import { WidgetProps } from '../registry';
-import { StringField } from '../../../store/models';
+import { RedactorField } from './index';
+import { WidgetProps } from '../types';
 
-export type Props = WidgetProps<
-  StringField<{
-    redactor?: Craft.RedactorInputOptions;
-    type: 'redactor';
-  }>
->;
+export type Props = WidgetProps<RedactorField>;
 
 export default class RedactorWidget extends React.Component<Props> {
   element: HTMLTextAreaElement | null = null;
@@ -17,8 +12,7 @@ export default class RedactorWidget extends React.Component<Props> {
   uuid: string = `element-${uuid()}`;
 
   handleChange = (value: string) => {
-    const { onUpdate } = this.props;
-    onUpdate(value);
+    this.props.onUpdate(value);
   };
 
   render() {
@@ -51,12 +45,12 @@ export default class RedactorWidget extends React.Component<Props> {
 
     const { field } = this.props;
 
-    if (element && field.widget && field.widget.redactor) {
+    if (element && field.redactor) {
       instance = new Craft.RedactorInput({
-        ...field.widget.redactor,
+        ...field.redactor,
         id: this.uuid,
         redactorConfig: {
-          ...field.widget.redactor.redactorConfig,
+          ...field.redactor.redactorConfig,
         },
       });
 

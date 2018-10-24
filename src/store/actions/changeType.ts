@@ -1,11 +1,11 @@
 import { Action } from 'redux';
 import { RootState } from '../models';
 import modifyPath from '../utils/modifyPath';
-import findOwner from '../utils/findOwner';
+import { AnyPathSegment } from '../utils/parsePath';
 
 export interface ChangeTypeAction extends Action {
   newType: string;
-  path: string;
+  path: string | Array<AnyPathSegment>;
   type: 'changeType';
 }
 
@@ -13,8 +13,6 @@ export function applyChangeType(
   state: RootState,
   action: ChangeTypeAction
 ): RootState {
-  const owner = findOwner(state, action.path);
-
   return {
     ...state,
     model: modifyPath(state.model, action.path, model => ({
@@ -25,7 +23,7 @@ export function applyChangeType(
 }
 
 export default function changeType(
-  path: string,
+  path: string | Array<AnyPathSegment>,
   newType: string
 ): ChangeTypeAction {
   return {

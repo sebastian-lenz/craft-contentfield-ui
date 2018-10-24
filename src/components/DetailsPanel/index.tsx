@@ -67,7 +67,7 @@ export default class DetailsPanel extends React.Component<Props, State> {
       </div>,
     ];
 
-    if (inTransition && lastUri) {
+    if (inTransition && lastUri && lastUri !== uri) {
       items.push(
         <div className={cx('tcfDetailsPanel--item', 'last')} key={lastUri}>
           {lastChildren}

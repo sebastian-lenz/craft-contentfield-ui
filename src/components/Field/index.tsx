@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { AnyField, Model } from '../../store/models';
+import { Model } from '../../store/models';
 import { AnyPathSegment } from '../../store/utils/parsePath';
-import { getComponent } from './registry';
+import { getComponent, AnyField } from './registry';
 
 export interface Props {
   className?: string;

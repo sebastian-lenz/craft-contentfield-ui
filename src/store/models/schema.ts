@@ -1,7 +1,19 @@
-import { AnyField } from './fields';
+import { AnyField, FieldType } from '../../components/Field/registry';
+
+export interface Field {
+  group: string;
+  label: string;
+  name: string;
+  type: FieldType;
+  width: string;
+}
+
+export interface FieldMap {
+  [name: string]: AnyField;
+}
 
 export interface Schema {
-  fields: { [name: string]: AnyField };
+  fields: FieldMap;
   icon: string;
   label: string;
   preview: string | null;

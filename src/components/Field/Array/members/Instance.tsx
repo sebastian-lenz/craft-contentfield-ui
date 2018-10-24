@@ -12,6 +12,7 @@ import { toggleExpanded } from '../../../../store/actions';
 import isModel from '../../../../store/utils/isModel';
 import DetailsPanel from '../../../DetailsPanel';
 import Text from '../../../Text';
+import Instance from '../../../Instance';
 
 export type ReceivedProps = Props & {
   isExpanded: boolean;
@@ -43,6 +44,10 @@ class Member extends React.Component<ReceivedProps> {
       path,
     } = this.props;
 
+    if (field.type !== 'instance') {
+      return null;
+    }
+
     return (
       <div
         className={cx('tcfArrayWidgetMember', { hasDropTarget, isDragging })}
@@ -55,13 +60,11 @@ class Member extends React.Component<ReceivedProps> {
               uri={isExpanded ? 'details' : 'summary'}
             >
               {isExpanded ? (
-                <Widget
+                <Instance
                   className="tcfArrayWidgetMember--widget"
-                  data={child}
-                  field={field}
-                  model={model}
-                  onUpdate={this.handleUpdate}
+                  model={child}
                   path={path}
+                  schemaNames={field.schemas}
                 />
               ) : (
                 <InstancePreview

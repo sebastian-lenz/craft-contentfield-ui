@@ -1,8 +1,9 @@
 import { DragSource, ConnectDragSource, ConnectDragPreview } from 'react-dnd';
 import { findDOMNode } from 'react-dom';
 
-import { AnyField, Model } from '../../../../store/models';
+import { Model } from '../../../../store/models';
 import { AnyPathSegment } from '../../../../store/utils/parsePath';
+import { AnyField } from '../../registry';
 
 export interface DragItem {
   data: any;

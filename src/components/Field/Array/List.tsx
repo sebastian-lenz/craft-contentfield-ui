@@ -4,7 +4,7 @@ import { ConnectDropTarget, DropTarget, DropTargetMonitor } from 'react-dnd';
 
 import DefaultMember from './members/Default';
 import InstanceMember from './members/Instance';
-import { AnyField } from '../../../store/models';
+import { AnyField } from '../registry';
 import { AnyPathSegment } from '../../../store/utils/parsePath';
 import { DragItem } from './members/dragSource';
 import { moveModel } from '../../../store/actions';
@@ -146,7 +146,11 @@ export class List extends React.PureComponent<Props, State> {
 
     let footer: React.ReactNode;
     if (members.length === 0) {
-      members.push(<div className="tcfArrayWidget--empty">{children}</div>);
+      members.push(
+        <div className="tcfArrayWidget--empty" key="empty">
+          {children}
+        </div>
+      );
     } else {
       footer = <div className="tcfArrayWidget--footer">{children}</div>;
     }
@@ -169,7 +173,7 @@ export class List extends React.PureComponent<Props, State> {
 }
 
 const connection = connect(
-  () => ({}),
+  null,
   dispatch => ({
     onMove: (options: MoveModelOptions) => dispatch(moveModel(options)),
   })
@@ -188,8 +192,6 @@ const dropTarget = DropTarget<ExternalProps & ReduxProps, DropProps>(
             '__type' in data &&
             props.field.schemas.indexOf(data.__type) !== -1
           );
-        case 'string':
-          return typeof data === 'string';
         default:
           return false;
       }
