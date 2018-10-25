@@ -2,7 +2,8 @@ import $ from 'jquery';
 import Handlebars from 'handlebars';
 
 import isModel from './isModel';
-import { RootState } from '../models';
+import { RootState, Schema } from '../models';
+import createModel from './createModel';
 
 export default function loadRootState(
   script: Element,
@@ -30,12 +31,24 @@ export default function loadRootState(
     }
   }
 
+  let rootSchema: Schema | undefined = undefined;
+  if (payload.config.rootSchemas.length === 1) {
+    rootSchema = payload.schemas[payload.config.rootSchemas[0]];
+  }
+
   try {
     payload.model = JSON.parse(field.value);
   } catch (error) {}
 
-  if (!isModel(payload.model)) {
-    payload.model = { __type: 'unknown', __uuid: '0' };
+  if (
+    rootSchema &&
+    (!isModel(payload.model) || payload.model.__type !== rootSchema.qualifier)
+  ) {
+    payload.model = createModel({
+      oldModel: payload.model,
+      schema: rootSchema,
+      schemas: payload.schemas,
+    });
   }
 
   return payload;

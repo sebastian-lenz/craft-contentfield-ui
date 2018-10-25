@@ -1,16 +1,18 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import createModel from '../../store/utils/createModel';
 import FieldPanel from '../FieldPanel';
 import InstanceForm from '../InstanceForm';
+import isModel from '../../store/utils/isModel';
 import Select from '../Select';
 import { AnyPathSegment } from '../../store/utils/parsePath';
-import { changeType, updateValue } from '../../store/actions';
+import { changeType } from '../../store/actions';
 import { Model, RootState, Schema } from '../../store/models';
-import isModel from '../../store/utils/isModel';
+
+import './index.styl';
 
 export type ExternalProps = {
+  canChangeType?: boolean;
   className?: string;
   model: Model;
   path: Array<AnyPathSegment>;
@@ -23,7 +25,8 @@ export type Props = ExternalProps & {
 };
 
 export function Instance({
-  className,
+  canChangeType = true,
+  className = 'tcfInstance',
   model,
   onChangeType,
   path,
@@ -31,15 +34,14 @@ export function Instance({
 }: Props) {
   let schemaSelect: React.ReactNode;
 
-  if (schemas.length > 1) {
+  if (canChangeType && schemas.length > 1) {
     schemaSelect = (
-      <FieldPanel label="Schema">
+      <FieldPanel label="Type">
         <Select
           onChange={onChangeType}
           options={schemas.map(({ qualifier, label }) => ({
             key: qualifier,
             label,
-            value: qualifier,
           }))}
           value={model.__type}
         />

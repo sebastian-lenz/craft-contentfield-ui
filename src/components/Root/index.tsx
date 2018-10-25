@@ -15,7 +15,14 @@ export interface Props {
 export class Root extends React.Component<Props> {
   render() {
     const { model, schemas } = this.props;
-    return <Instance model={model} path={[]} schemaNames={schemas} />;
+    return (
+      <Instance
+        className="tcfRoot"
+        model={model}
+        path={[]}
+        schemaNames={schemas}
+      />
+    );
   }
 }
 

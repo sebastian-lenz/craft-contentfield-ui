@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Model } from '../../store/models';
 import { AnyPathSegment } from '../../store/utils/parsePath';
-import { getComponent, AnyField } from './registry';
+import fields, { AnyField } from '../../fields';
 
 export interface Props {
   className?: string;
@@ -13,22 +13,8 @@ export interface Props {
   field: AnyField;
 }
 
-export default class Widget extends React.Component<Props> {
-  render() {
-    const { className, data, model, onUpdate, path, field } = this.props;
-
-    const component = getComponent(field);
-    if (!component) {
-      return <div>{`Could not resolve field type "${field.type}"`}</div>;
-    }
-
-    return React.createElement(component, {
-      className,
-      data,
-      field,
-      model,
-      onUpdate,
-      path,
-    });
-  }
+export default function Field(props: Props) {
+  const { field } = props;
+  const { widget } = fields.getDefinition(field);
+  return React.createElement(widget, props);
 }

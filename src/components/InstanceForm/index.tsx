@@ -66,7 +66,7 @@ export function InstanceForm({
           field={field}
           model={model}
           onUpdate={(value: any) => onUpdate(name, value)}
-          path={path}
+          path={[...path, { type: 'property', name }]}
         />
       </FieldPanel>
     );

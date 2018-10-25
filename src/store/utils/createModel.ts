@@ -1,23 +1,37 @@
+import fields from '../../fields';
 import uuid from './uuid';
-import { getDefinition } from '../../components/Field/registry';
-import { Model, Schema } from '../models';
+import { Model, Schema, Schemas } from '../models';
 
-export default function createModel(schema: Schema, previous?: Model): Model {
+export interface CreateModelOptions {
+  oldModel?: Model;
+  schemas: Schemas;
+  schema: Schema;
+}
+
+export default function createModel({
+  schemas,
+  schema,
+  oldModel,
+}: CreateModelOptions): Model {
   const result: Model = {
-    ...(previous || {}),
     __type: schema.qualifier,
     __uuid: uuid(),
   };
 
-  /*
-  for (const name in schema.fields) {
+  for (const name of Object.keys(schema.fields)) {
     const field = schema.fields[name];
-    const definition = getDefinition(field);
-    if (definition) {
-      result[name] = null;
+    const definition = fields.getDefinition(field);
+    let value = oldModel && name in oldModel ? oldModel[name] : undefined;
+
+    if (value === void 0 || !definition.isValue(field, value)) {
+      value = definition.createValue({
+        field,
+        schemas,
+      });
     }
+
+    result[name] = value;
   }
-  */
 
   return result;
 }

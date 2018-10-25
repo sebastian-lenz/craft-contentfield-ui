@@ -1,23 +1,15 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import preview from '../Field/Instance/preview';
+import fields from '../../fields';
+import { InstanceField } from '../../fields/Instance';
 import { Reference, Schemas, Model, RootState } from '../../store/models';
 
 import './index.styl';
 
-export interface PreviewContext {
-  i18nCategory: string;
-  references: Array<Reference>;
-  schemas: Schemas;
-}
-
-export type Renderable<T = { [name: string]: any }> = T & {
-  toHTML: () => string;
-};
-
 export interface ExternalProps {
   className?: string;
+  field: InstanceField;
   model: Model;
   onClick?: () => void;
 }
@@ -32,6 +24,7 @@ export class InstancePreview extends React.PureComponent<Props> {
   render() {
     const {
       className,
+      field,
       i18nCategory,
       model,
       references,
@@ -39,13 +32,20 @@ export class InstancePreview extends React.PureComponent<Props> {
       onClick,
     } = this.props;
 
+    const definition = fields.getDefinition('instance');
+    const preview = definition.preview({
+      context: {
+        i18nCategory,
+        references,
+        schemas,
+      },
+      field,
+      value: model,
+    });
+
     try {
       const innerHTML = {
-        __html: preview(model, undefined, {
-          i18nCategory,
-          references,
-          schemas,
-        }),
+        __html: typeof preview === 'object' ? preview.toHTML() : preview,
       };
 
       return (

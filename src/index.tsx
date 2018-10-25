@@ -3,9 +3,11 @@ import * as ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
-import store from './store';
-import Root from './components/Root';
 import loadRootState from './store/utils/loadRootState';
+import Root from './components/Root';
+import store from './store';
+
+import './fields/includes';
 
 (window as any).createContentField = function(id: string) {
   try {

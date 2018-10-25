@@ -1,4 +1,4 @@
-import { AnyField, FieldType } from '../../components/Field/registry';
+import { AnyField, FieldType } from '../../fields';
 
 export interface Field {
   group: string;
