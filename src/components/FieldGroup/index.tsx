@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import './index.styl';
+
 export interface Props {
   children: React.ReactNode;
   label?: string;
@@ -8,18 +10,14 @@ export interface Props {
 export const toolbarGroup = 'toolbar';
 
 export default function FieldGroup({ children, label }: Props) {
-  if (!label || label === '') {
-    return <>{children}</>;
-  }
-
-  if (label === toolbarGroup) {
-    return <div>{children}</div>;
+  if (!label || label === '' || label === toolbarGroup) {
+    return <div className="tcfFieldGroup--content">{children}</div>;
   }
 
   return (
     <div>
       <div>{label}</div>
-      <div>{children}</div>
+      <div className="tcfFieldGroup--content">{children}</div>
     </div>
   );
 }

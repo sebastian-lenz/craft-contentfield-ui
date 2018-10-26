@@ -22,14 +22,22 @@ export interface Snapshot {
 
 export default class DetailsPanel extends React.Component<Props, State> {
   element: HTMLDivElement | null = null;
-  state: State = {
-    inTransition: false,
-    lastChildren: null,
-    lastUri: null,
-    uri: null,
-  };
 
-  componentDidUpdate(props: Props, state: State, snapshot: Snapshot | null) {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      inTransition: false,
+      lastChildren: null,
+      lastUri: null,
+      uri: props.uri,
+    };
+  }
+
+  componentDidUpdate(
+    prevProps: Props,
+    prevState: State,
+    snapshot: Snapshot | null
+  ) {
     const { element } = this;
     if (element && snapshot) {
       const height = element.offsetHeight;
@@ -39,9 +47,10 @@ export default class DetailsPanel extends React.Component<Props, State> {
     }
   }
 
-  getSnapshotBeforeUpdate(props: Props, state: State): Snapshot | null {
+  getSnapshotBeforeUpdate(prevProps: Props, prevState: State): Snapshot | null {
     const { element } = this;
-    if (!state.inTransition && this.state.inTransition && element) {
+    if (this.state.inTransition && element) {
+      element.style.height = '';
       return { height: element.offsetHeight };
     }
 

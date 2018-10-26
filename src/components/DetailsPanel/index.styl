@@ -5,5 +5,25 @@
     transition: height 200ms
 
 .tcfDetailsPanel--item
+  animation: tcfDetailsPanel--fadeIn 200ms both
+
   &.last
     position: absolute
+    top: 0
+    right: 0
+    left: 0
+
+    animation: tcfDetailsPanel--fadeOut 200ms both
+
+
+@keyframes tcfDetailsPanel--fadeIn
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+@keyframes tcfDetailsPanel--fadeOut
+  from
+    opacity: 1
+  to
+    opacity: 0

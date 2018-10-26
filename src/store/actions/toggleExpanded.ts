@@ -1,7 +1,5 @@
 import { Action } from 'redux';
 
-import modifyPath from '../utils/modifyPath';
-import { AnyPathSegment } from '../utils/parsePath';
 import { RootState } from '../models';
 
 export interface ToggleExpandedAction extends Action {

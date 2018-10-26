@@ -27,7 +27,7 @@ export default function Select<Option extends SelectOption>({
     <div className="tcfSelect select">
       <select
         className="tcfSelect--select"
-        value={selectedIndex == -1 ? undefined : options[selectedIndex].key}
+        value={selectedIndex == -1 ? undefined : selectedIndex}
         onChange={event => {
           let index = event.target.selectedIndex;
           let value: Option['key'] | null = null;
@@ -36,13 +36,13 @@ export default function Select<Option extends SelectOption>({
             value = options[index].key;
           }
           if (value !== null || allowUndecided) {
-            onChange(options[index].key);
+            onChange(value);
           }
         }}
       >
         {hasUndecied ? <option>(None)</option> : null}
         {options.map((option, index) => (
-          <option key={option.key} value={option.key}>
+          <option key={index} value={index}>
             {option.label}
           </option>
         ))}

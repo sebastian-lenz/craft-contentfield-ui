@@ -1,7 +1,5 @@
 import { Action } from 'redux';
 import { RootState, Reference } from '../models';
-import modifyPath from '../utils/modifyPath';
-import findOwner from '../utils/findOwner';
 
 export interface AddReferencesAction extends Action {
   references: Array<Reference>;

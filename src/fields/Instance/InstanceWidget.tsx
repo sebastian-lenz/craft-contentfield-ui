@@ -16,7 +16,7 @@ export default function InstanceWidget({
     <Instance
       className={className}
       model={data}
-      path={path}
+      path={[...path, { type: 'property', name: field.name }]}
       schemaNames={field.schemas}
     />
   );

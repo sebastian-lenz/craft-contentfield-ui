@@ -61,7 +61,7 @@ class Member extends React.Component<ReceivedProps> {
               {isExpanded ? (
                 <Instance
                   canChangeType={false}
-                  className="tcfArrayWidgetMember--widget"
+                  className="tcfArrayWidgetMember--form"
                   model={child}
                   path={path}
                   schemaNames={field.schemas}

@@ -1,6 +1,7 @@
 import fields from './index';
 
 import ArrayFieldDefinition, { ArrayField } from './Array';
+import ColorFieldDefinition, { ColorField } from './Color';
 import InstanceFieldDefinition, { InstanceField } from './Instance';
 import RedactorFieldDefinition, { RedactorField } from './Redactor';
 import ReferenceFieldDefinition, { ReferenceField } from './Reference';
@@ -10,6 +11,7 @@ import TextareaFieldDefinition, { TextareaField } from './Textarea';
 
 export type FieldTypeMap = {
   array: ArrayField;
+  color: ColorField;
   instance: InstanceField;
   redactor: RedactorField;
   reference: ReferenceField;
@@ -20,6 +22,7 @@ export type FieldTypeMap = {
 
 fields.initialize({
   array: new ArrayFieldDefinition(),
+  color: new ColorFieldDefinition(),
   instance: new InstanceFieldDefinition(),
   redactor: new RedactorFieldDefinition(),
   reference: new ReferenceFieldDefinition(),

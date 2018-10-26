@@ -1,0 +1,35 @@
+.tcfColorInputSlider
+  position: relative
+  overflow: hidden
+  height: 16px
+
+  border-radius: 3px
+
+  &.hue
+    background: linear-gradient(to right, rgb(255, 0, 0) 0%, rgb(255, 255, 0) 17%, rgb(0, 255, 0) 33%, rgb(0, 255, 255) 50%, rgb(0, 0, 255) 67%, rgb(255, 0, 255) 83%, rgb(255, 0, 0) 100%)
+
+  &.alpha
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAACgAQMAAACxAfVuAAAABlBMVEW/v7////+Zw/90AAAAL0lEQVR4AWJg+I8JB6MgoB06IAEAAAAQ9P91OwIfiBOmT58+ffr06fP76dOnT58BbhM6GwUtLbwAAAAASUVORK5CYII=')
+
+.tcfColorInputSlider--gradient
+  position: absolute
+  top: 0
+  right: 0
+  bottom: 0
+  left: 0
+
+.tcfColorInputSlider--track
+  position: relative
+  height: 100%
+  margin: 0 5px
+
+.tcfColorInputSlider--handle
+  position: absolute
+  top: 1px
+  bottom: 1px
+  width: 8px
+  margin-left: -4px
+
+  border-radius: 2px
+  background: #fff
+  box-shadow: 0 0 1px #000

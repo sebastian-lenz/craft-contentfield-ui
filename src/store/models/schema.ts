@@ -5,7 +5,7 @@ export interface Field {
   label: string;
   name: string;
   type: FieldType;
-  width: string;
+  width: number;
 }
 
 export interface FieldMap {

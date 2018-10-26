@@ -9,7 +9,6 @@ import { Model, RootState, Schema } from '../../store/models';
 import { updateValue } from '../../store/actions';
 
 export interface ExternalProps {
-  className?: string;
   model: Model;
   path: Array<AnyPathSegment>;
 }
@@ -29,19 +28,9 @@ function getGroupSort(a: Group, b: Group) {
   return a.index - b.index;
 }
 
-export function InstanceForm({
-  className,
-  model,
-  onUpdate,
-  path,
-  schema,
-}: Props) {
+export function InstanceForm({ model, onUpdate, path, schema }: Props) {
   if (!schema) {
-    return (
-      <div className={className}>{`Could not resolve schema for "${
-        model.__type
-      }"`}</div>
-    );
+    return <div>{`Could not resolve schema for "${model.__type}"`}</div>;
   }
 
   const groups: Array<Group> = [];
@@ -60,26 +49,26 @@ export function InstanceForm({
     }
 
     group.fields.push(
-      <FieldPanel key={field.name} label={field.label}>
+      <FieldPanel key={field.name} label={field.label} width={field.width}>
         <Field
           data={model[field.name]}
           field={field}
           model={model}
           onUpdate={(value: any) => onUpdate(name, value)}
-          path={[...path, { type: 'property', name }]}
+          path={path}
         />
       </FieldPanel>
     );
   }
 
   return (
-    <div className={className}>
+    <>
       {groups.sort(getGroupSort).map(group => (
         <FieldGroup key={group.index} label={group.label}>
           {group.fields}
         </FieldGroup>
       ))}
-    </div>
+    </>
   );
 }
 

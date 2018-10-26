@@ -1,0 +1,32 @@
+.tcfFlyout
+  position: absolute
+  top: 0
+  right: 0
+  bottom: 0
+  left: 0
+
+.tcfFlyout--panel
+  position: absolute
+
+  background: #fff
+  border-radius: 5px
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2))
+
+  &:after
+    content: ''
+    display: block
+    position: absolute
+    left: 50%
+    width: 0
+    height: 0
+    margin-left: -8px
+
+    border: 8px solid transparent
+
+  &.above:after
+    bottom: -16px
+    border-top-color: #fff
+
+  &.below:after
+    top: 16px
+    border-bottom-color: #fff
