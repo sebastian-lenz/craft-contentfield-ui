@@ -9,6 +9,7 @@ import FieldDefinition, {
   PreviewResult,
   PreviewOptions,
   CreateOptions,
+  PreviewObject,
 } from '../FieldDefinition';
 
 export interface InstanceField extends Field {
@@ -59,7 +60,8 @@ export default class InstanceFieldType extends FieldDefinition<
       return Craft.t(context.i18nCategory, schema.label);
     }
 
-    const data: any = {
+    const data: PreviewObject = {
+      toHTML: () => previewTemplate(data),
       toString: () => previewTemplate(data),
     };
 

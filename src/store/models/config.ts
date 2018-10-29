@@ -11,6 +11,7 @@ export interface Reference {
 }
 
 export interface Config {
+  googleMapsApiKey?: string;
   elementId: number | null;
   expanded: Array<string>;
   i18nCategory: string;

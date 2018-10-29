@@ -1,3 +1,4 @@
+import toHTML from '../../utils/toHTML';
 import { Reference } from '../../store/models';
 import { ReferencePreviewOptions } from './index';
 import { SafeString } from 'handlebars';
@@ -37,15 +38,11 @@ export class ReferencePreviewItem {
   ): string {
     const { reference } = this;
     const $element = reference.$element.clone(false, true);
-    $element.removeClass('removable');
-
-    if (!$element.hasClass(size)) {
-      $element.removeClass(size === 'small' ? 'large' : 'small');
-      $element.addClass(size);
-    }
+    $element.removeClass('large removable small');
+    $element.addClass(size);
 
     const $thumb = $element.find('.elementthumb');
-    if ($thumb) {
+    if ($thumb.length) {
       let image: HTMLImageElement = $thumb.find('img')[0] as HTMLImageElement;
       if (!image) {
         image = document.createElement('img');
@@ -72,23 +69,41 @@ export class ReferencePreviewItem {
     return new SafeString(this.createPreview(size, onlyThumb));
   }
 
-  large(): SafeString {
+  get asBackground(): SafeString | null {
+    const { reference } = this;
+    const $thumb = reference.$element.find('.elementthumb');
+    const srcset = $thumb.attr('data-srcset');
+    if (!srcset) return null;
+
+    const src = srcset.split(',').pop();
+    if (!src) return null;
+
+    return new SafeString(
+      `<div class="tcfInstancePreview--background" style="background-image: url('${src.trim()}');"></div><div class="tcfInstancePreview--background blur" style="background-image: url('${src.trim()}');"></div>`
+    );
+  }
+
+  get asLargeElement(): SafeString {
     return this.createSafePreview('large', false);
   }
 
-  largeImage(): SafeString {
+  get asLargeImage(): SafeString {
     return this.createSafePreview('large', true);
   }
 
-  small(): SafeString {
+  get asSmallElement(): SafeString {
     return this.createSafePreview('small', false);
   }
 
-  smallImage(): SafeString {
+  get asSmallImage(): SafeString {
     return this.createSafePreview('small', true);
   }
 
-  toHTML(): string {
+  toHTML(): SafeString {
+    return new SafeString(this.toString());
+  }
+
+  toString(): string {
     return this.createPreview();
   }
 }
@@ -98,9 +113,38 @@ export default class ReferencePreview extends Array<ReferencePreviewItem> {
     super(...createPreviewItems(options));
   }
 
-  toHTML(): string {
-    return `<div class="tcfInstancePreview--elements">${this.map(item =>
-      item.toHTML()
-    ).join('')}</div>`;
+  get asBackground(): SafeString | null {
+    return this.length ? this[0].asBackground : null;
+  }
+
+  get asLargeElement(): SafeString | null {
+    return this.length ? this[0].asLargeElement : null;
+  }
+
+  get asLargeImage(): SafeString | null {
+    return this.length ? this[0].asLargeImage : null;
+  }
+
+  get asSmallElement(): SafeString | null {
+    return this.length ? this[0].asSmallElement : null;
+  }
+
+  get asSmallImage(): SafeString | null {
+    return this.length ? this[0].asSmallImage : null;
+  }
+
+  toHTML(): SafeString {
+    return new SafeString(
+      `<div class="tcfInstancePreview--elements">${this.toString()}</div>`
+    );
+  }
+
+  toString(): string {
+    const result: Array<string> = [];
+    for (let index = 0; index < this.length; index++) {
+      result.push(toHTML(this[index]));
+    }
+
+    return result.join('');
   }
 }

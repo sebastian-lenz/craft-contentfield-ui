@@ -13,7 +13,6 @@ import './index.styl';
 
 export type ExternalProps = {
   canChangeType?: boolean;
-  className?: string;
   model: Model;
   path: Array<AnyPathSegment>;
   schemaNames: Array<string>;
@@ -26,7 +25,6 @@ export type Props = ExternalProps & {
 
 export function Instance({
   canChangeType = true,
-  className = 'tcfInstance',
   model,
   onChangeType,
   path,
@@ -55,10 +53,10 @@ export function Instance({
   }
 
   return (
-    <div className={className}>
+    <>
       {schemaSelect}
       {isValidModel ? <InstanceForm model={model} path={path} /> : null}
-    </div>
+    </>
   );
 }
 

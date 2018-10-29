@@ -1,0 +1,31 @@
+.tcfArrayWidgetList
+  min-height: 100px;
+
+.tcfArrayWidgetList--empty
+  display: flex
+  align-items: center
+  justify-content: center
+  min-height: 75px
+
+  background: #f1f5f8
+  border-radius: 5px
+
+.tcfArrayWidgetList--placeholder
+  position: relative
+  display: block
+
+  &:after
+    content: ''
+    position: absolute
+    display: block
+    top: 5px
+    right: 0
+    bottom: 5px
+    left: 0
+
+    background: #f1f5f8
+    border-radius: 5px
+
+.tcfArrayWidgetList--footer
+  padding: 5px 0
+

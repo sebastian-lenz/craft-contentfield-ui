@@ -1,19 +1,22 @@
 .tcfDetailsPanel
   position: relative
-
-  &.inTransition
-    transition: height 200ms
+  overflow: hidden
+  will-change: height 
 
 .tcfDetailsPanel--item
-  animation: tcfDetailsPanel--fadeIn 200ms both
+  position: relative
+  will-change: opacity 
 
-  &.last
+  &.to
+    animation: tcfDetailsPanel--fadeIn 250ms both
+
+  &.from
     position: absolute
     top: 0
     right: 0
     left: 0
 
-    animation: tcfDetailsPanel--fadeOut 200ms both
+    animation: tcfDetailsPanel--fadeOut 250ms both
 
 
 @keyframes tcfDetailsPanel--fadeIn

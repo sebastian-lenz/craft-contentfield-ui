@@ -1,4 +1,5 @@
 import * as React from 'react';
+import cx from 'classnames';
 import { connect } from 'react-redux';
 
 import fields from '../../fields';
@@ -20,16 +21,16 @@ export interface Props extends ExternalProps {
   schemas: Schemas;
 }
 
-export class InstancePreview extends React.PureComponent<Props> {
+export class InstancePreview extends React.Component<Props> {
   render() {
     const {
       className,
       field,
       i18nCategory,
       model,
+      onClick,
       references,
       schemas,
-      onClick,
     } = this.props;
 
     const definition = fields.getDefinition('instance');
@@ -50,7 +51,7 @@ export class InstancePreview extends React.PureComponent<Props> {
 
       return (
         <div
-          className={className}
+          className={cx('tcfInstancePreview', className)}
           dangerouslySetInnerHTML={innerHTML}
           onClick={onClick}
         />
@@ -68,6 +69,10 @@ export class InstancePreview extends React.PureComponent<Props> {
         </div>
       );
     }
+  }
+
+  shouldComponentUpdate(nextProps: Props) {
+    return nextProps.model !== this.props.model;
   }
 }
 

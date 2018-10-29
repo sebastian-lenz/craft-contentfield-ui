@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-import babelCore from 'babel-core';
+import babelCore from '@babel/core';
 import commonJs from 'rollup-plugin-commonjs';
 import nodeResolve from 'rollup-plugin-node-resolve';
 import postcss from 'rollup-plugin-postcss';
@@ -60,7 +60,7 @@ export default vendors(
       {
         name: 'babel',
         transformBundle: function(code) {
-          return babelCore.transform(code, { presets: [['env']] });
+          return babelCore.transform(code, { presets: [['@babel/env']] });
         },
       },
       postcss({

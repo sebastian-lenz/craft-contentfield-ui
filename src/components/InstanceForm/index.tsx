@@ -8,6 +8,8 @@ import { AnyPathSegment } from '../../store/utils/parsePath';
 import { Model, RootState, Schema } from '../../store/models';
 import { updateValue } from '../../store/actions';
 
+import './index.styl';
+
 export interface ExternalProps {
   model: Model;
   path: Array<AnyPathSegment>;
@@ -20,8 +22,9 @@ export interface Props extends ExternalProps {
 
 export interface Group {
   index: number;
-  label: string;
+  label?: string;
   fields: Array<React.ReactNode>;
+  style?: React.CSSProperties;
 }
 
 function getGroupSort(a: Group, b: Group) {
@@ -34,21 +37,25 @@ export function InstanceForm({ model, onUpdate, path, schema }: Props) {
   }
 
   const groups: Array<Group> = [];
-  let group: Group | undefined = undefined;
+  let currentGroup: Group | undefined = undefined;
 
   for (const name of Object.keys(schema.fields)) {
     const field = schema.fields[name];
-    if (!group || (field.group && group.label !== field.group)) {
-      group = {
-        index: field.group === toolbarGroup ? -1 : groups.length,
-        label: field.group,
+
+    if (!currentGroup || field.group) {
+      const label = field.group ? field.group.label : undefined;
+      const style = field.group ? field.group.style : undefined;
+      currentGroup = {
+        index: label === toolbarGroup ? -1 : groups.length,
+        label: label,
         fields: [],
+        style,
       };
 
-      groups.push(group);
+      groups.push(currentGroup);
     }
 
-    group.fields.push(
+    currentGroup.fields.push(
       <FieldPanel key={field.name} label={field.label} width={field.width}>
         <Field
           data={model[field.name]}
@@ -61,15 +68,22 @@ export function InstanceForm({ model, onUpdate, path, schema }: Props) {
     );
   }
 
-  return (
-    <>
-      {groups.sort(getGroupSort).map(group => (
-        <FieldGroup key={group.index} label={group.label}>
-          {group.fields}
-        </FieldGroup>
-      ))}
-    </>
-  );
+  const children = groups.sort(getGroupSort).map(group => (
+    <FieldGroup key={group.index} label={group.label} style={group.style}>
+      {group.fields}
+    </FieldGroup>
+  ));
+
+  const { grid } = schema;
+  if (grid) {
+    return (
+      <div className="tcfInstanceForm" style={{ grid }}>
+        {children}
+      </div>
+    );
+  }
+
+  return <>{children}</>;
 }
 
 export default connect(

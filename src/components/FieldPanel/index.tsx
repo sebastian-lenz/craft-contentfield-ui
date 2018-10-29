@@ -16,10 +16,8 @@ export default function FieldPanel({ children, label, width }: Props) {
 
   return (
     <div className="tcfFieldPanel field" style={style}>
-      <div className="tcfFieldPanel--heading heading">
-        <label className="tcfFieldPanel--label">{label}</label>
-      </div>
-      <div className="tcfFieldPanel--input input ltr">{children}</div>
+      <div className="tcfFieldPanel--label">{label}</div>
+      {children}
     </div>
   );
 }

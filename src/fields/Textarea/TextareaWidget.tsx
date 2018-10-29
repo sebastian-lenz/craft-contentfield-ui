@@ -8,7 +8,7 @@ export interface Props extends WidgetProps<TextareaField> {}
 export default function TextareaWidget({ data, onUpdate }: Props) {
   return (
     <textarea
-      className="text fullwidth"
+      className="tcfTextareaWidget text fullwidth"
       onChange={event => onUpdate(event.target.value)}
       value={data}
     />

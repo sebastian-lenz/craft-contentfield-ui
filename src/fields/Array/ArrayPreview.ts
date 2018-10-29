@@ -1,4 +1,7 @@
+import { SafeString } from 'handlebars';
+
 import fields from '../index';
+import toHTML from '../../utils/toHTML';
 import { ArrayPreviewOptions } from './index';
 import { PreviewResult } from '../FieldDefinition';
 
@@ -25,9 +28,17 @@ export default class ArrayPreview extends Array<PreviewResult> {
     super(...createItems(options));
   }
 
-  toHTML(): string {
-    return `<div>${this.map(
-      item => (typeof item === 'object' ? item.toHTML() : item)
-    ).join('')}</div>`;
+  get asList(): SafeString {
+    return new SafeString(
+      `<ul>${this.map(item => `<li>${toHTML(item)}</li>`).join('')}</ul>`
+    );
+  }
+
+  toHTML(): SafeString {
+    return new SafeString(this.toString());
+  }
+
+  toString(): string {
+    return this.map(item => toHTML(item)).join('');
   }
 }

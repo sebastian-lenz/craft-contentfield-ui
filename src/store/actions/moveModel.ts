@@ -36,7 +36,19 @@ export function applyMoveModel(
       throw new Error('Unsupported operation');
     }
 
+    const commonLength = Math.min(targetPath.length, sourcePath.length);
+    const commonPath = targetPath.slice(0, commonLength);
+    const targetSegment = targetPath[commonLength];
+
     if (
+      targetSegment &&
+      isPathEqual(sourcePath, commonPath) &&
+      sourceSegment.type === targetSegment.type &&
+      sourceSegment.name === targetSegment.name &&
+      sourceSegment.index < targetSegment.index
+    ) {
+      targetSegment.index -= 1;
+    } else if (
       isPathEqual(sourcePath, targetPath) &&
       sourceSegment.index < targetIndex
     ) {
@@ -61,7 +73,7 @@ export function applyMoveModel(
     } else {
       data.splice(targetIndex, 0, dataToMove);
     }
-    return { ...model, [sourceSegment.name]: data };
+    return { ...model, [targetField]: data };
   });
 
   return {

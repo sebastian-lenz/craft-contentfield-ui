@@ -2,7 +2,7 @@ import * as React from 'react';
 import cx from 'classnames';
 
 import Button from '../../../components/Button';
-import dragSource, { Props } from './dragSource';
+import dragSource, { Props } from '../utils/dragSource';
 import Field from '../../../components/Field';
 
 class Member extends React.Component<Props> {
@@ -19,7 +19,6 @@ class Member extends React.Component<Props> {
   render() {
     const {
       child,
-      dragPreview,
       dragSource,
       field,
       hasDropTarget,

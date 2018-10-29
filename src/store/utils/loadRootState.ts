@@ -4,6 +4,7 @@ import Handlebars from 'handlebars';
 import isModel from './isModel';
 import { RootState, Schema } from '../models';
 import createModel from './createModel';
+import { setGoogleMapsApiKey } from '../../fields/Location/utils/requireGoogleMaps';
 
 export default function loadRootState(
   script: Element,
@@ -30,6 +31,8 @@ export default function loadRootState(
       schema.previewTemplate = null;
     }
   }
+
+  setGoogleMapsApiKey(payload.config.googleMapsApiKey);
 
   let rootSchema: Schema | undefined = undefined;
   if (payload.config.rootSchemas.length === 1) {

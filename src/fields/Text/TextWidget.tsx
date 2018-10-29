@@ -9,7 +9,7 @@ export default function InputWidget({ data, onUpdate }: Props) {
   return (
     <input
       autoComplete="off"
-      className="text fullwidth"
+      className="tcfTextWidget text fullwidth"
       onChange={event => onUpdate(event.target.value)}
       value={data}
     />

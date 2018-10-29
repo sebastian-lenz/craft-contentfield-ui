@@ -6,14 +6,16 @@ import './index.styl';
 export interface Props {
   children: React.ReactNode;
   className?: string;
+  itemClassName?: string;
   uri: string;
 }
 
 export interface State {
+  currentChildren: React.ReactNode;
+  currentUri: string;
   inTransition: boolean;
   lastChildren: React.ReactNode;
   lastUri: string | null;
-  uri: string | null;
 }
 
 export interface Snapshot {
@@ -26,10 +28,11 @@ export default class DetailsPanel extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      currentChildren: props.children,
+      currentUri: props.uri,
       inTransition: false,
       lastChildren: null,
       lastUri: null,
-      uri: props.uri,
     };
   }
 
@@ -40,56 +43,80 @@ export default class DetailsPanel extends React.Component<Props, State> {
   ) {
     const { element } = this;
     if (element && snapshot) {
-      const height = element.offsetHeight;
-      element.style.height = `${snapshot.height}px`;
-      element.getBoundingClientRect();
-      element.style.height = `${height}px`;
+      setTimeout(() => {
+        element.style.height = '';
+        const height = element.offsetHeight;
+        element.style.height = `${snapshot.height}px`;
+
+        element.getBoundingClientRect();
+        element.style.transition = 'height 200ms';
+        element.style.height = `${height}px`;
+      }, 0);
     }
   }
 
   getSnapshotBeforeUpdate(prevProps: Props, prevState: State): Snapshot | null {
     const { element } = this;
-    if (this.state.inTransition && element) {
-      element.style.height = '';
-      return { height: element.offsetHeight };
+    if (prevState.currentUri !== this.state.currentUri && element) {
+      const height = element.offsetHeight;
+      element.style.height = `${height}px`;
+      return { height };
     }
 
     return null;
   }
 
-  handleTransitionEnd = () => {
-    const { props } = this;
+  handleAnimationEnd = () => {
+    const { element } = this;
+    if (element) {
+      element.style.height = '';
+      element.style.transition = '';
+    }
+
     this.setState({
       inTransition: false,
-      lastChildren: props.children,
-      lastUri: props.uri,
+      lastChildren: null,
+      lastUri: null,
     });
   };
 
   render() {
-    const { children, className, uri } = this.props;
-    const { inTransition, lastChildren, lastUri } = this.state;
+    const { className, itemClassName } = this.props;
+    const {
+      currentChildren,
+      currentUri,
+      inTransition,
+      lastChildren,
+      lastUri,
+    } = this.state;
 
-    const items: Array<React.ReactNode> = [
-      <div className="tcfDetailsPanel--item" key={uri}>
-        {children}
-      </div>,
-    ];
+    const items: Array<React.ReactNode> = [];
 
-    if (inTransition && lastUri && lastUri !== uri) {
+    if (inTransition && lastUri) {
       items.push(
-        <div className={cx('tcfDetailsPanel--item', 'last')} key={lastUri}>
+        <div
+          className={cx(itemClassName, 'tcfDetailsPanel--item', 'from')}
+          key={lastUri}
+        >
           {lastChildren}
         </div>
       );
     }
 
-    return (
+    items.push(
       <div
-        className={cx('tcfDetailsPanel', className, { inTransition })}
-        onTransitionEnd={this.handleTransitionEnd}
-        ref={this.setElement}
+        className={cx(itemClassName, 'tcfDetailsPanel--item', {
+          to: inTransition,
+        })}
+        key={currentUri}
+        onAnimationEnd={this.handleAnimationEnd}
       >
+        {currentChildren}
+      </div>
+    );
+
+    return (
+      <div className={cx(className, 'tcfDetailsPanel')} ref={this.setElement}>
         {items}
       </div>
     );
@@ -100,18 +127,20 @@ export default class DetailsPanel extends React.Component<Props, State> {
   };
 
   static getDerivedStateFromProps(props: Props, state: State): State | null {
-    if (props.uri !== state.uri && !state.inTransition) {
+    if (props.uri === state.currentUri) {
       return {
         ...state,
-        inTransition: true,
-        uri: props.uri,
+        currentChildren: props.children,
       };
     }
 
-    if (!state.inTransition) {
+    if (props.uri !== state.currentUri && !state.inTransition) {
       return {
-        ...state,
-        lastChildren: props.children,
+        inTransition: true,
+        lastChildren: state.currentChildren,
+        lastUri: state.currentUri,
+        currentChildren: props.children,
+        currentUri: props.uri,
       };
     }
 

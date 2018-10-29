@@ -28,12 +28,12 @@ export interface PreviewContext {
   schemas: Schemas;
 }
 
-export type PreviewResult =
-  | string
-  | SafeString
-  | {
-      toHTML: () => string;
-    };
+export type PreviewObject = {
+  toHTML: () => SafeString;
+  [name: string]: any;
+};
+
+export type PreviewResult = string | SafeString | PreviewObject;
 
 export interface FieldDefinitionOptions<T extends BaseField> {
   widget: WidgetComponent<T>;

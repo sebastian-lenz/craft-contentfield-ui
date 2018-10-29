@@ -1,3 +1,22 @@
+.tcfInstancePreview
+  > *
+    user-select: none
+    pointer-events: none
+
+  dl
+    display: flex
+    flex-flow: row nowrap
+    align-items: center
+
+  dt, dd
+    margin-right: 10px
+    
+    &:last-child 
+      margin-right: 0
+
+  dt
+    flex: 1
+
 .tcfInstancePreview--textSnippet
   overflow: hidden
   max-height: 100px
@@ -32,3 +51,16 @@
   &.large
     width: 100px
     height: 100px
+
+.tcfInstancePreview--background
+  position: absolute
+  top: 0
+  right: 0
+  bottom: 0
+  left: 0
+
+  background-size: cover
+  background-position: center center
+
+  &.blur
+    filter: blur(2px)

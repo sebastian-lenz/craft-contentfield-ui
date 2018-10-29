@@ -8,8 +8,6 @@ import { ArrayField } from './index';
 import { toggleExpanded } from '../../store/actions';
 import { WidgetProps } from '../FieldDefinition';
 
-import './index.styl';
-
 export type Props = WidgetProps<ArrayField> & {
   onToggleExpanded: (uuid: string, expand?: boolean) => void;
 };

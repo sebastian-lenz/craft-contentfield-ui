@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { RgbColor, rgbToHex, hexToRgb } from '../Color';
 
-import './index.styl';
+import InputBase from '../../Input';
 import { withColorContext, InjectedColorProps } from '../ColorContext';
+import { RgbColor, rgbToHex, hexToRgb } from '../Color';
 
 export type InputType = 'hex' | 'red' | 'green' | 'blue' | 'alpha';
 
@@ -90,7 +90,7 @@ export class Input extends React.Component<Props, State> {
       props.value = this.getValue();
     }
 
-    return React.createElement('input', props);
+    return React.createElement(InputBase, props);
   }
 }
 

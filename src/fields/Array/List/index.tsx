@@ -1,20 +1,25 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { ConnectDropTarget, DropTarget, DropTargetMonitor } from 'react-dnd';
+import { ConnectDropTarget, DropTargetMonitor } from 'react-dnd';
 
-import DefaultMember from './members/Default';
-import InstanceMember from './members/Instance';
-import moveModel, { MoveModelOptions } from '../../store/actions/moveModel';
-import { AnyField } from '../index';
-import { AnyPathSegment } from '../../store/utils/parsePath';
-import { DragItem } from './members/dragSource';
+import dropTarget from '../utils/dropTarget';
+import moveModel, { MoveModelOptions } from '../../../store/actions/moveModel';
+import InstanceMember from '../InstanceMember';
+import isModel from '../../../store/utils/isModel';
+import { AnyField } from '../../index';
+import { AnyPathSegment } from '../../../store/utils/parsePath';
+import { RootState, Schemas } from '../../../store/models';
+import { toggleExpanded } from '../../../store/actions';
+
+import './index.styl';
+import DefaultMember from '../DefaultMember';
 
 function getElementIndex(element: Element): number {
   let index = 0;
 
   while (element.previousElementSibling) {
     element = element.previousElementSibling;
-    if (!element.classList.contains('tcfArrayWidgetMemberList--placeholder')) {
+    if (!element.classList.contains('tcfArrayWidgetList--placeholder')) {
       index += 1;
     }
   }
@@ -36,7 +41,10 @@ export interface DropProps {
 }
 
 export interface ReduxProps {
+  expanded: Array<string>;
+  schemas: Schemas;
   onMove: (options: MoveModelOptions) => void;
+  onToggleExpanded: (uuid: string) => void;
 }
 
 export type Props = ExternalProps & DropProps & ReduxProps;
@@ -72,10 +80,8 @@ export class List extends React.PureComponent<Props, State> {
           continue;
         }
 
-        if (
-          target.classList.contains('tcfArrayWidgetMemberList--placeholder')
-        ) {
-          this.state.dropIndex;
+        if (target.classList.contains('tcfArrayWidgetList--placeholder')) {
+          return this.state.dropIndex;
         }
 
         const rect = target.getBoundingClientRect();
@@ -97,39 +103,13 @@ export class List extends React.PureComponent<Props, State> {
 
   render() {
     const { dropIndex, placeholderHeight } = this.state;
-    const {
-      children,
-      connectDropTarget,
-      data,
-      field,
-      isOver,
-      onDelete,
-      onUpdate,
-      path,
-    } = this.props;
-
-    const basePath = path.slice(0, path.length - 1);
-    const items = Array.isArray(data) ? data : [];
-    const component =
-      field.type === 'instance' ? InstanceMember : DefaultMember;
-
-    const members: Array<React.ReactElement<any>> = items.map((child, index) =>
-      React.createElement(component, {
-        child,
-        field,
-        index,
-        key: '__uuid' in child ? child.__uuid : index,
-        model: data,
-        onDelete,
-        onUpdate,
-        path: [...basePath, { index, name: field.name, type: 'index' }],
-      })
-    );
+    const { children, connectDropTarget, isOver } = this.props;
+    const members = this.renderMembers();
 
     if (isOver) {
       const placeholder = (
         <div
-          className="tcfArrayWidgetMemberList--placeholder"
+          className="tcfArrayWidgetList--placeholder"
           key="placeholder"
           style={{ height: placeholderHeight }}
         />
@@ -137,7 +117,7 @@ export class List extends React.PureComponent<Props, State> {
 
       if (dropIndex <= 0) {
         members.unshift(placeholder);
-      } else if (dropIndex >= items.length) {
+      } else if (dropIndex >= members.length) {
         members.push(placeholder);
       } else {
         members.splice(dropIndex, 0, placeholder);
@@ -147,24 +127,70 @@ export class List extends React.PureComponent<Props, State> {
     let footer: React.ReactNode;
     if (members.length === 0) {
       members.push(
-        <div className="tcfArrayWidget--empty" key="empty">
+        <div className="tcfArrayWidgetList--empty" key="empty">
           {children}
         </div>
       );
     } else {
-      footer = <div className="tcfArrayWidget--footer">{children}</div>;
+      footer = <div className="tcfArrayWidgetList--footer">{children}</div>;
     }
 
     return (
-      <div className="tcfArrayWidget">
+      <>
         {connectDropTarget(
-          <div className="tcfArrayWidget--list" ref={this.setElement}>
+          <div className="tcfArrayWidgetList" ref={this.setElement}>
             {members}
           </div>
         )}
         {footer}
-      </div>
+      </>
     );
+  }
+
+  renderMembers(): Array<React.ReactElement<any>> {
+    const {
+      data,
+      expanded,
+      field,
+      onDelete,
+      onToggleExpanded,
+      onUpdate,
+      path: parentPath,
+      schemas,
+    } = this.props;
+
+    const items = Array.isArray(data) ? data : [];
+
+    return items.map((child, index) => {
+      const path: Array<AnyPathSegment> = [
+        ...parentPath,
+        { index, name: field.name, type: 'index' },
+      ];
+
+      const props = {
+        index,
+        key: '__uuid' in child ? child.__uuid : index,
+        model: data,
+        onDelete,
+        onToggleExpanded,
+        onUpdate,
+        path,
+      };
+
+      if (isModel(child) && field.type === 'instance') {
+        return (
+          <InstanceMember
+            {...props}
+            child={child}
+            field={field}
+            isExpanded={expanded.indexOf(child.__uuid) !== -1}
+            schema={schemas[child.__type]}
+          />
+        );
+      } else {
+        return <DefaultMember {...props} isExpanded />;
+      }
+    });
   }
 
   setElement = (element: HTMLElement | null) => {
@@ -173,49 +199,13 @@ export class List extends React.PureComponent<Props, State> {
 }
 
 const connection = connect(
-  null,
+  (state: RootState) => ({
+    expanded: state.config.expanded,
+    schemas: state.schemas,
+  }),
   dispatch => ({
     onMove: (options: MoveModelOptions) => dispatch(moveModel(options)),
-  })
-);
-
-const dropTarget = DropTarget<ExternalProps & ReduxProps, DropProps>(
-  'MEMBER',
-  {
-    canDrop: (props, monitor) => {
-      const { data } = monitor.getItem() as DragItem;
-      switch (props.field.type) {
-        case 'instance':
-          return (
-            data &&
-            typeof data === 'object' &&
-            '__type' in data &&
-            props.field.schemas.indexOf(data.__type) !== -1
-          );
-        default:
-          return false;
-      }
-    },
-    drop: (props, monitor, component: List) => {
-      if (!monitor.didDrop()) {
-        const item = monitor.getItem() as DragItem;
-        props.onMove({
-          source: item.path,
-          target: props.path,
-          targetField: props.field.name,
-          targetIndex: component.getDropIndex(monitor),
-        });
-
-        return { executed: true };
-      }
-    },
-    hover: (props, monitor, component: List) => {
-      component.handleDragHover(monitor);
-    },
-  },
-  (connect, monitor): DropProps => ({
-    connectDropTarget: connect.dropTarget(),
-    isOver: monitor.isOver({ shallow: true }) && monitor.canDrop(),
+    onToggleExpanded: (uuid: string) => dispatch(toggleExpanded(uuid)),
   })
 );
 

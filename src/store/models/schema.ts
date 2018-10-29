@@ -1,7 +1,7 @@
 import { AnyField, FieldType } from '../../fields';
 
 export interface Field {
-  group: string;
+  group?: FieldGroup;
   label: string;
   name: string;
   type: FieldType;
@@ -12,8 +12,14 @@ export interface FieldMap {
   [name: string]: AnyField;
 }
 
+export interface FieldGroup {
+  label?: string;
+  style?: React.CSSProperties;
+}
+
 export interface Schema {
   fields: FieldMap;
+  grid?: string;
   icon: string;
   label: string;
   preview: string | null;
