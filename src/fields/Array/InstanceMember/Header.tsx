@@ -8,6 +8,7 @@ import { Schema } from '../../../store/models';
 
 export interface Props {
   dragSource: DragElementWrapper<DragSourceOptions>;
+  isCollapsible: boolean;
   isExpanded: boolean;
   onDelete: () => void;
   onToggleExpanded: () => void;
@@ -16,6 +17,7 @@ export interface Props {
 
 export default function Header({
   dragSource,
+  isCollapsible,
   isExpanded,
   onDelete,
   onToggleExpanded,
@@ -40,10 +42,12 @@ export default function Header({
         <div className="tcfArrayWidgetMember--headerHandle">{handleItems}</div>
       )}
       <div className="tcfArrayWidgetMember--headerActions">
-        <Button onClick={onToggleExpanded}>
-          <Icon name={isExpanded ? 'done' : 'edit'} />
-          <Text value={isExpanded ? 'Apply' : 'Edit'} />
-        </Button>
+        {isCollapsible ? (
+          <Button onClick={onToggleExpanded}>
+            <Icon name={isExpanded ? 'done' : 'edit'} />
+            <Text value={isExpanded ? 'Apply' : 'Edit'} />
+          </Button>
+        ) : null}
         <Button onClick={onDelete}>
           <Icon name="remove" />
           <Text value="Delete" />

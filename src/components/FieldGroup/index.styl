@@ -1,9 +1,14 @@
 .tcfFieldGroup--content
   display: flex;
   flex-flow: row wrap;
-  margin: 0 -10px
 
-  > *
+  &.isCompact
+    margin: -20px
+  
+  &:not(.isCompact)
+    margin: -12px -10px
+    
+  &:not(.isCompact) > *
     box-sizing: border-box
     margin: 12px 0
     padding: 0 10px

@@ -36,17 +36,30 @@ class InstanceMember extends React.Component<Props> {
       dragSource,
       field,
       hasDropTarget,
+      isCollapsible,
       isDragging,
       isExpanded,
       path,
       schema,
     } = this.props;
 
+    let isCompact = false;
+    if (schema) {
+      const fieldNames = Object.keys(schema.fields);
+      if (
+        fieldNames.length === 1 &&
+        schema.fields[fieldNames[0]].type === 'redactor'
+      ) {
+        isCompact = true;
+      }
+    }
+
     let content: React.ReactNode;
-    if (isExpanded) {
+    if (!isCollapsible || isExpanded) {
       content = (
         <Instance
           canChangeType={false}
+          isCompact={isCompact}
           model={child}
           path={path}
           schemaNames={field.schemas}
@@ -65,12 +78,16 @@ class InstanceMember extends React.Component<Props> {
 
     return (
       <div
-        className={cx('tcfArrayWidgetMember', { hasDropTarget, isDragging })}
+        className={cx('tcfArrayWidgetMember', {
+          hasDropTarget,
+          isDragging,
+        })}
       >
         {dragPreview(
           <div className="tcfArrayWidgetMember--panel">
             <Header
               dragSource={dragSource}
+              isCollapsible={isCollapsible}
               isExpanded={isExpanded}
               onDelete={this.handleDelete}
               onToggleExpanded={this.handleToggleExpanded}

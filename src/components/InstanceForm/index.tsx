@@ -11,6 +11,7 @@ import { updateValue } from '../../store/actions';
 import './index.styl';
 
 export interface ExternalProps {
+  isCompact?: boolean;
   model: Model;
   path: Array<AnyPathSegment>;
 }
@@ -31,7 +32,13 @@ function getGroupSort(a: Group, b: Group) {
   return a.index - b.index;
 }
 
-export function InstanceForm({ model, onUpdate, path, schema }: Props) {
+export function InstanceForm({
+  isCompact,
+  model,
+  onUpdate,
+  path,
+  schema,
+}: Props) {
   if (!schema) {
     return <div>{`Could not resolve schema for "${model.__type}"`}</div>;
   }
@@ -56,7 +63,12 @@ export function InstanceForm({ model, onUpdate, path, schema }: Props) {
     }
 
     currentGroup.fields.push(
-      <FieldPanel key={field.name} label={field.label} width={field.width}>
+      <FieldPanel
+        isCompact={isCompact}
+        key={field.name}
+        label={field.label}
+        width={field.width}
+      >
         <Field
           data={model[field.name]}
           field={field}
@@ -69,7 +81,12 @@ export function InstanceForm({ model, onUpdate, path, schema }: Props) {
   }
 
   const children = groups.sort(getGroupSort).map(group => (
-    <FieldGroup key={group.index} label={group.label} style={group.style}>
+    <FieldGroup
+      isCompact={isCompact}
+      key={group.index}
+      label={group.label}
+      style={group.style}
+    >
       {group.fields}
     </FieldGroup>
   ));

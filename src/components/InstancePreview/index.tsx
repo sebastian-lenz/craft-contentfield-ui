@@ -7,6 +7,7 @@ import { InstanceField } from '../../fields/Instance';
 import { Reference, Schemas, Model, RootState } from '../../store/models';
 
 import './index.styl';
+import toHTML from '../../utils/toHTML';
 
 export interface ExternalProps {
   className?: string;
@@ -36,6 +37,7 @@ export class InstancePreview extends React.Component<Props> {
     const definition = fields.getDefinition('instance');
     const preview = definition.preview({
       context: {
+        depth: 0,
         i18nCategory,
         references,
         schemas,
@@ -46,7 +48,7 @@ export class InstancePreview extends React.Component<Props> {
 
     try {
       const innerHTML = {
-        __html: typeof preview === 'object' ? preview.toHTML() : preview,
+        __html: toHTML(preview),
       };
 
       return (

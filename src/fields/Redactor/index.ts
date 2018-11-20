@@ -4,6 +4,7 @@ import RedactorWidget from './RedactorWidget';
 import StringFieldDefinition from '../StringFieldDefinition';
 import { Field } from '../../store/models';
 import { PreviewResult, PreviewOptions } from '../FieldDefinition';
+import RedactorPreview from './RedactorPreview';
 
 export interface RedactorField extends Field {
   redactor?: Craft.RedactorInputOptions;
@@ -20,8 +21,6 @@ export default class RedactorFieldType extends StringFieldDefinition<
   }
 
   preview({ value }: PreviewOptions<RedactorField, string>): PreviewResult {
-    return new SafeString(
-      `<div class="tcfInstancePreview--textSnippet">${value}</div>`
-    );
+    return new RedactorPreview(value);
   }
 }

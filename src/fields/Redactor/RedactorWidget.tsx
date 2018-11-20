@@ -1,12 +1,20 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 
 import uuid from '../../store/utils/uuid';
 import { RedactorField } from './index';
+import { RootState } from '../../store/models';
 import { WidgetProps } from '../FieldDefinition';
 
-export type Props = WidgetProps<RedactorField>;
+import './RedactorWidget.styl';
 
-export default class RedactorWidget extends React.Component<Props> {
+export type ExternalProps = WidgetProps<RedactorField>;
+
+export interface Props extends ExternalProps {
+  elementSiteId: number | null;
+}
+
+export class RedactorWidget extends React.Component<Props> {
   element: HTMLTextAreaElement | null = null;
   instance: Craft.RedactorInput | null = null;
   uuid: string = `element-${uuid()}`;
@@ -19,7 +27,7 @@ export default class RedactorWidget extends React.Component<Props> {
     const { data } = this.props;
 
     return (
-      <div>
+      <div className="tcfRedactorWidget">
         <textarea
           defaultValue={typeof data === 'string' ? data : ''}
           id={this.uuid}
@@ -43,11 +51,12 @@ export default class RedactorWidget extends React.Component<Props> {
       instance = null;
     }
 
-    const { field } = this.props;
+    const { elementSiteId, field } = this.props;
 
     if (element && field.redactor) {
       instance = new Craft.RedactorInput({
         ...field.redactor,
+        elementSiteId: elementSiteId,
         id: this.uuid,
         redactorConfig: {
           ...field.redactor.redactorConfig,
@@ -62,3 +71,7 @@ export default class RedactorWidget extends React.Component<Props> {
     this.instance = instance;
   };
 }
+
+export default connect((state: RootState) => ({
+  elementSiteId: state.config.elementSiteId,
+}))(RedactorWidget);

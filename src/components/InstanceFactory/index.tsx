@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Button from '../Button';
 import createModel from '../../store/utils/createModel';
 import Icon from '../Icon';
-import Select from '../Select';
+import Select, { sortOptions } from '../Select';
 import Text from '../Text';
 import { FactoryProps } from '../../fields/FieldDefinition';
 import { InstanceField } from '../../fields/Instance';
@@ -50,18 +50,27 @@ export class InstanceFactory extends React.Component<Props, State> {
     const { available, label } = this.props;
     const { selectedSchema } = this.state;
 
+    let select: React.ReactNode;
+    if (available.length > 1) {
+      const options = available.map(schema => ({
+        key: schema,
+        label: schema.label,
+      }));
+
+      options.sort(sortOptions);
+
+      select = (
+        <Select
+          onChange={this.handleSchemaChange}
+          options={options}
+          value={selectedSchema}
+        />
+      );
+    }
+
     return (
       <div className="tcfFactory">
-        {available.length > 1 ? (
-          <Select
-            onChange={this.handleSchemaChange}
-            options={available.map(schema => ({
-              key: schema,
-              label: schema.label,
-            }))}
-            value={selectedSchema}
-          />
-        ) : null}
+        {select}
         <Button onClick={this.handleCreate} secondary>
           <Text value={label || 'Create'} />
           <Icon name="plus" />
@@ -72,7 +81,9 @@ export class InstanceFactory extends React.Component<Props, State> {
 
   static getDerivedStateFromProps(props: Props, state: State): State | null {
     if (props.available.length && !state.selectedSchema) {
-      return { selectedSchema: props.available[0] };
+      const schemas = props.available.slice();
+      schemas.sort((left, right) => left.label.localeCompare(right.label));
+      return { selectedSchema: schemas[0] };
     }
 
     return null;

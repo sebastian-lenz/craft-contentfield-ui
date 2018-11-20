@@ -1,0 +1,53 @@
+.tcfOEmbedWidget--input
+  margin-bottom: 10px
+
+
+.tcfOEmbedWidget--info
+  display: flex
+  flex-flow: row nowrap
+  padding: 10px
+
+  background: #f1f5f8
+  border-radius: 3px
+
+.tcfOEmbedWidget--infoImage
+  width: 100px
+  height: auto
+  margin-right: 10px
+  align-self: center
+
+.tcfOEmbedWidget--infoContent
+  flex: 1
+
+.tcfOEmbedWidget--infoTitle
+  font-weight: bold
+
+
+.tcfOEmbedWidget--activity
+  display: flex
+  flex-flow: row nowrap
+  align-items: center
+  justify-content: flex-start
+  height: 20px
+
+.tcfOEmbedWidget--activityBounce
+  width: 8px
+  height: 8px
+  margin: 0 2px
+
+  background-color: #333f4d
+  border-radius: 100%
+
+  animation: tcfOEmbedWidget--activityKeyframes 1.4s infinite ease-in-out both
+
+  &.first
+    animation-delay: -0.32s
+
+  &.second
+    animation-delay: -0.16s
+
+@keyframes tcfOEmbedWidget--activityKeyframes
+  0%, 80%, 100%
+    transform: scale(0)
+  40%
+    transform: scale(1.0)

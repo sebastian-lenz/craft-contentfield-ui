@@ -2,20 +2,16 @@ import { Model } from '../models';
 import { AnyPathSegment } from './parsePath';
 
 export type ModifyCallback = {
-  (value: Model): Model;
+  (value?: Model): Model | undefined;
 };
 
 export default function modifySegment(
   scope: Model,
   segment: AnyPathSegment | undefined,
   callback: ModifyCallback
-): Model {
+): Model | undefined {
   if (!segment) {
     return callback(scope);
-  }
-
-  if (!(segment.name in scope)) {
-    throw new Error(`The property "${segment.name}" does not exist.`);
   }
 
   const target = scope[segment.name];

@@ -30,6 +30,7 @@ function getElementIndex(element: Element): number {
 export interface ExternalProps {
   data: any;
   field: AnyField;
+  isCollapsible: boolean;
   onDelete: (index: number) => void;
   onUpdate: (index: number, value: any) => void;
   path: Array<AnyPathSegment>;
@@ -152,6 +153,7 @@ export class List extends React.PureComponent<Props, State> {
       data,
       expanded,
       field,
+      isCollapsible,
       onDelete,
       onToggleExpanded,
       onUpdate,
@@ -169,6 +171,7 @@ export class List extends React.PureComponent<Props, State> {
 
       const props = {
         index,
+        isCollapsible,
         key: '__uuid' in child ? child.__uuid : index,
         model: data,
         onDelete,

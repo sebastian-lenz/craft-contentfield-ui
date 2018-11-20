@@ -1,7 +1,59 @@
 .tcfSelect
-  box-shadow: none !important
-  background: none !important
-  border-radius: 0 !important
+  position: relative
 
-  > select
-    background: linear-gradient(#fff, #fafafa) !important
+  &:after
+    content: 'downangle'
+    display: inline-block
+    position: absolute
+    z-index: 1
+    top: calc(50% - 5px)
+    right: 9px
+
+    direction: ltr
+    font-size: 10px
+    font-family: 'Craft'
+    font-weight: normal
+    font-variant: normal
+    font-style: normal
+    line-height: 1
+    speak: none
+    text-align: center
+    text-transform: none
+    vertical-align: middle
+    word-wrap: normal !important
+
+    -webkit-font-feature-settings: "liga", "dlig"
+    -ms-font-feature-settings: "liga", "dlig"
+    -o-font-feature-settings: "liga", "dlig"
+    font-feature-settings: "liga", "dlig"
+    text-rendering: optimizeLegibility
+    -webkit-font-smoothing: antialiased
+    -moz-osx-font-smoothing: grayscale
+
+    -webkit-user-select: none
+    -moz-user-select: none
+    -ms-user-select: none
+    user-select: none
+    pointer-events: none
+
+.tcfSelect--select
+  display: block
+  position: relative
+  width: 100%
+  box-sizing: border-box
+  padding: 0 22px 0 10px
+
+  background: linear-gradient(#fff, #fafafa)
+  border: none
+  border-radius: 3px
+  box-shadow: inset 0 0 0 1px transparent, 0 0 0 1px rgba(0, 0, 0, 0.025), 0 1px 1px rgba(0, 0, 0, 0.1)
+
+  transition: box-shadow linear 50ms
+  -webkit-appearance: none
+  -moz-appearance: none
+  appearance: none
+
+  color: #29323d
+  font-size: 14px
+  line-height: 32px
+  white-space: pre

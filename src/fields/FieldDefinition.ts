@@ -23,6 +23,7 @@ export interface PreviewOptions<Field extends BaseField, Value> {
 }
 
 export interface PreviewContext {
+  depth: number;
   i18nCategory: string;
   references: Array<Reference>;
   schemas: Schemas;

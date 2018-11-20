@@ -12,21 +12,21 @@
   border-radius: 5px
   filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2))
 
-  &:after
-    content: ''
-    display: block
-    position: absolute
-    left: 50%
-    width: 0
-    height: 0
-    margin-left: -8px
+.tcfFlyout--handle
+  content: ''
+  display: block
+  position: absolute
+  left: 50%
+  width: 0
+  height: 0
+  margin-left: -8px
 
-    border: 8px solid transparent
+  border: 8px solid transparent
 
-  &.above:after
+  .above > &
     bottom: -16px
     border-top-color: #fff
 
-  &.below:after
+  .below > &
     top: -16px
     border-bottom-color: #fff

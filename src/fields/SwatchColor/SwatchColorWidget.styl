@@ -1,0 +1,37 @@
+.tcfSwatchColorWidget
+  position: relative
+  overflow: hidden
+  box-sizing: border-box
+  height: 32px
+  max-width: 64px
+  
+  border: 1px solid rgba(0, 0, 20, 0.1);
+  border-radius: 3px
+  
+  cursor: pointer
+
+  &.isUndecided
+    background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiID48cGF0aCBkPSJtMCAwIDcuNjggNy42OCIgc3Ryb2tlPSIjN2UwMDAwIiBzdHJva2Utd2lkdGg9IjEiIHZlY3Rvci1lZmZlY3Q9Im5vbi1zY2FsaW5nLXN0cm9rZSIvPjwvc3ZnPg==')
+    background-size: 100% 100%
+    background-repeat: no-repeat
+
+.tcfSwatchColorWidget--swatches
+  display: flex
+  flex-flow: row wrap
+  max-width: 290px
+  padding: 15px
+
+.tcfSwatchColorWidget--swatch
+  box-sizing: border-box
+  height: 32px
+  width: 48px
+  margin: 5px
+
+  border: 1px solid rgba(0, 0, 20, 0.1);
+  border-radius: 3px
+
+  cursor: pointer
+
+  &.isSelected
+    border: 1px solid #fff
+    box-shadow: 0 0 0 2px #0D99F2

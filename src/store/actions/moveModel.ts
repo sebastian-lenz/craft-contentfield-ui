@@ -4,6 +4,7 @@ import modifyPath from '../utils/modifyPath';
 import parsePath, { AnyPathSegment } from '../utils/parsePath';
 import { RootState } from '../models';
 import isPathEqual from '../utils/isPathEqual';
+import findByPath from '../utils/findByPath';
 
 export interface MoveModelOptions {
   source: string | Array<AnyPathSegment>;
@@ -22,58 +23,48 @@ export function applyMoveModel(
 ): RootState {
   const sourcePath = Array.isArray(source) ? source.slice() : parsePath(source);
   const targetPath = Array.isArray(target) ? target.slice() : parsePath(target);
-  let model = state.model;
-  let dataToMove: any;
+  let { model } = state;
 
+  const childToMove = findByPath(model, sourcePath);
   const sourceSegment = sourcePath.pop();
-  if (!sourceSegment || sourceSegment.type !== 'index') {
+  if (!childToMove || !sourceSegment || sourceSegment.type !== 'index') {
     throw new Error('Unsupported operation');
   }
 
-  model = modifyPath(model, sourcePath, model => {
-    let data = model[sourceSegment.name];
-    if (!Array.isArray(data)) {
+  // Copy to target
+  model = modifyPath(model, targetPath, target => {
+    if (!target) {
+      throw new Error('Could not find target');
+    }
+
+    let children = target[targetField];
+    if (!Array.isArray(children)) {
       throw new Error('Unsupported operation');
     }
 
-    const commonLength = Math.min(targetPath.length, sourcePath.length);
-    const commonPath = targetPath.slice(0, commonLength);
-    const targetSegment = targetPath[commonLength];
-
-    if (
-      targetSegment &&
-      isPathEqual(sourcePath, commonPath) &&
-      sourceSegment.type === targetSegment.type &&
-      sourceSegment.name === targetSegment.name &&
-      sourceSegment.index < targetSegment.index
-    ) {
-      targetSegment.index -= 1;
-    } else if (
-      isPathEqual(sourcePath, targetPath) &&
-      sourceSegment.index < targetIndex
-    ) {
-      targetIndex -= 1;
+    children = children.slice();
+    if (targetIndex >= children.length) {
+      children.push({ ...childToMove });
+    } else {
+      children.splice(targetIndex, 0, { ...childToMove });
     }
 
-    dataToMove = data[sourceSegment.index];
-    data = data.slice();
-    data.splice(sourceSegment.index, 1);
-    return { ...model, [sourceSegment.name]: data };
+    return { ...target, [targetField]: children };
   });
 
-  model = modifyPath(model, targetPath, model => {
-    let data = model[targetField];
-    if (!Array.isArray(data)) {
+  // Remove from source
+  model = modifyPath(model, sourcePath, source => {
+    if (!source) {
+      throw new Error('Could not find source');
+    }
+
+    let children = source[sourceSegment.name];
+    if (!Array.isArray(children)) {
       throw new Error('Unsupported operation');
     }
 
-    data = data.slice();
-    if (targetIndex >= data.length) {
-      data.push(dataToMove);
-    } else {
-      data.splice(targetIndex, 0, dataToMove);
-    }
-    return { ...model, [targetField]: data };
+    children = children.filter(child => child !== childToMove);
+    return { ...source, [sourceSegment.name]: children };
   });
 
   return {

@@ -10,6 +10,10 @@ export interface Props {
 }
 
 export default class Flyout extends React.Component<Props> {
+  handle: HTMLDivElement | null = null;
+  handleStyle: React.CSSProperties = {
+    left: '0px',
+  };
   origin: HTMLDivElement | null = null;
   panel: HTMLDivElement | null = null;
   panelClassName: string = 'tcfFlyout--panel';
@@ -40,12 +44,22 @@ export default class Flyout extends React.Component<Props> {
             ref={this.setPanel}
             style={{ ...this.panelStyle }}
           >
+            <div
+              className="tcfFlyout--handle"
+              ref={this.setHandle}
+              style={{ ...this.handleStyle }}
+            />
             {children}
           </div>
         </Overlay>
       </div>
     );
   }
+
+  setHandle = (handle: HTMLDivElement | null) => {
+    this.handle = handle;
+    this.update();
+  };
 
   setOrigin = (origin: HTMLDivElement | null) => {
     this.origin = origin;
@@ -58,20 +72,31 @@ export default class Flyout extends React.Component<Props> {
   };
 
   update() {
-    const { origin, panel, panelStyle } = this;
-    if (!origin || !panel) return;
+    const { handle, handleStyle, origin, panel, panelStyle } = this;
+    if (!origin || !panel || !handle) return;
 
     const originRect = origin.getBoundingClientRect();
     const panelRect = panel.getBoundingClientRect();
     let className = 'tcfFlyout--panel';
 
-    panelStyle.left = `${Math.max(
+    const panelLeft = Math.max(
       10,
       Math.min(
         window.innerWidth - panelRect.width - 10,
         originRect.left + (originRect.width - panelRect.width) * 0.5
       )
-    )}px`;
+    );
+
+    const handleLeft = Math.max(
+      10,
+      Math.min(
+        panelRect.width - 10,
+        originRect.left + originRect.width * 0.5 - panelLeft
+      )
+    );
+
+    handleStyle.left = `${handleLeft}px`;
+    panelStyle.left = `${panelLeft}px`;
 
     if (originRect.top + originRect.height * 0.5 > window.innerHeight * 0.5) {
       className += ' above';
@@ -81,6 +106,7 @@ export default class Flyout extends React.Component<Props> {
       panelStyle.top = `${originRect.top + originRect.height + 5}px`;
     }
 
+    handle.style.left = handleStyle.left;
     panel.className = this.panelClassName = className;
     panel.style.left = panelStyle.left;
     panel.style.top = panelStyle.top;

@@ -1,3 +1,4 @@
+import LocationPreview from './LocationPreview';
 import LocationWidget from './LocationWidget';
 import { Field } from '../../store/models';
 import { Location, isLocation } from './Location';
@@ -7,7 +8,6 @@ import FieldDefinition, {
   PreviewOptions,
   CreateOptions,
 } from '../FieldDefinition';
-import LocationPreview from './LocationPreview';
 
 export interface LocationField extends Field {
   defaultValue?: Location;

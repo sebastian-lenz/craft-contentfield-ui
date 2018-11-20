@@ -61,6 +61,7 @@ export class ArrayWidget extends React.Component<Props> {
       <List
         data={data}
         field={field.member}
+        isCollapsible={field.collapsible}
         onDelete={this.handleDelete}
         onUpdate={this.handleUpdate}
         path={path}

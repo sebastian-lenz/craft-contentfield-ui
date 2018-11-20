@@ -10,11 +10,17 @@ export default function modifyPath(
   const remaining = typeof path === 'string' ? parsePath(path) : path.slice();
   let segment = remaining.shift();
 
-  function modifyCallback(value: Model): Model {
+  function modifyCallback(value?: Model): Model | undefined {
     segment = remaining.shift();
-    return segment
-      ? modifySegment(value, segment, modifyCallback)
-      : callback(value);
+    if (segment) {
+      if (value) {
+        return modifySegment(value, segment, modifyCallback);
+      } else {
+        return value;
+      }
+    } else {
+      return callback(value);
+    }
   }
 
   return modifySegment(data, segment, modifyCallback) as Model;

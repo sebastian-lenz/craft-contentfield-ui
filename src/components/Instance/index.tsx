@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import FieldPanel from '../FieldPanel';
 import InstanceForm from '../InstanceForm';
 import isModel from '../../store/utils/isModel';
-import Select from '../Select';
+import Select, { sortOptions } from '../Select';
 import { AnyPathSegment } from '../../store/utils/parsePath';
 import { changeType } from '../../store/actions';
 import { Model, RootState, Schema } from '../../store/models';
@@ -13,6 +13,7 @@ import './index.styl';
 
 export type ExternalProps = {
   canChangeType?: boolean;
+  isCompact?: boolean;
   model: Model;
   path: Array<AnyPathSegment>;
   schemaNames: Array<string>;
@@ -25,6 +26,7 @@ export type Props = ExternalProps & {
 
 export function Instance({
   canChangeType = true,
+  isCompact,
   model,
   onChangeType,
   path,
@@ -32,30 +34,36 @@ export function Instance({
 }: Props) {
   let schemaSelect: React.ReactNode;
 
-  if (canChangeType && schemas.length > 1) {
-    schemaSelect = (
-      <FieldPanel label="Type">
-        <Select
-          onChange={onChangeType}
-          options={schemas.map(({ qualifier, label }) => ({
-            key: qualifier,
-            label,
-          }))}
-          value={model.__type}
-        />
-      </FieldPanel>
-    );
-  }
-
   let isValidModel = false;
   if (isModel(model)) {
     isValidModel = schemas.some(schema => schema.qualifier === model.__type);
   }
 
+  if (canChangeType && schemas.length > 1) {
+    const options = schemas.map(({ qualifier, label }) => ({
+      key: qualifier,
+      label,
+    }));
+
+    options.sort(sortOptions);
+
+    schemaSelect = (
+      <FieldPanel label="Type">
+        <Select
+          onChange={onChangeType}
+          options={options}
+          value={isValidModel ? model.__type : null}
+        />
+      </FieldPanel>
+    );
+  }
+
   return (
     <>
       {schemaSelect}
-      {isValidModel ? <InstanceForm model={model} path={path} /> : null}
+      {isValidModel ? (
+        <InstanceForm model={model} isCompact={isCompact} path={path} />
+      ) : null}
     </>
   );
 }

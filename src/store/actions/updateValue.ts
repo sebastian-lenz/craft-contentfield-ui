@@ -17,16 +17,13 @@ export function applyUpdateValue(
 ): RootState {
   return {
     ...state,
-    model: modifyPath(
-      state.model,
-      path,
-      model =>
-        key
-          ? {
-              ...model,
-              [key]: value,
-            }
-          : value
+    model: modifyPath(state.model, path, model =>
+      key
+        ? {
+            ...model,
+            [key]: value,
+          }
+        : value
     ),
   };
 }

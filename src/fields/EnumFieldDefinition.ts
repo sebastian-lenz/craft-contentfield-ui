@@ -9,6 +9,7 @@ import FieldDefinition, {
 export type EnumKey = number | string;
 
 export interface EnumOption {
+  [key: string]: any;
   key: EnumKey;
   label: string;
 }

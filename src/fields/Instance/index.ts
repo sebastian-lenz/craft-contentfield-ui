@@ -11,6 +11,7 @@ import FieldDefinition, {
   CreateOptions,
   PreviewObject,
 } from '../FieldDefinition';
+import { SafeString } from 'handlebars';
 
 export interface InstanceField extends Field {
   schemas: Array<string>;
@@ -50,6 +51,10 @@ export default class InstanceFieldType extends FieldDefinition<
     context,
     value,
   }: PreviewOptions<InstanceField, Model>): PreviewResult {
+    if (!isModel(value)) {
+      return '';
+    }
+
     const schema = context.schemas[value.__type];
     if (!schema) {
       return '';
@@ -61,16 +66,21 @@ export default class InstanceFieldType extends FieldDefinition<
     }
 
     const data: PreviewObject = {
-      toHTML: () => previewTemplate(data),
+      toHTML: () => new SafeString(previewTemplate(data)),
       toString: () => previewTemplate(data),
     };
+
+    data.depth = context.depth;
 
     for (const name of Object.keys(schema.fields)) {
       const field = schema.fields[name];
       const definition = fields.getDefinition(field);
       if (definition) {
         data[name] = definition.preview({
-          context,
+          context: {
+            ...context,
+            depth: context.depth + 1,
+          },
           field,
           value: value[name],
         });

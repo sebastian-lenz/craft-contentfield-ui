@@ -10,6 +10,7 @@ import FieldDefinition, {
 } from '../FieldDefinition';
 
 export interface ArrayField extends Field {
+  collapsible: boolean;
   member: AnyField;
   type: 'array';
 }

@@ -14,6 +14,10 @@ export interface Props<Option extends SelectOption> {
   onChange: (value: Option['key']) => void;
 }
 
+export function sortOptions(left: SelectOption, right: SelectOption): number {
+  return left.label.localeCompare(right.label);
+}
+
 export default function Select<Option extends SelectOption>({
   allowUndecided,
   options,
@@ -24,7 +28,7 @@ export default function Select<Option extends SelectOption>({
   const hasUndecied = allowUndecided || selectedIndex === -1;
 
   return (
-    <div className="tcfSelect select">
+    <div className="tcfSelect">
       <select
         className="tcfSelect--select"
         value={selectedIndex == -1 ? undefined : selectedIndex}
