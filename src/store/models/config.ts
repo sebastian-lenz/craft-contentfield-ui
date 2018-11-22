@@ -13,10 +13,15 @@ export interface Reference {
 export interface Site {
   id: number;
   label: string;
+  language: string;
 }
 
 export interface Config {
-  apiEndpoint: string;
+  apiEndpoints: {
+    fetchSite: string;
+    oembed: string;
+    translate: string;
+  };
   googleMapsApiKey?: string;
   elementId: number | null;
   elementSiteId: number | null;

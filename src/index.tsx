@@ -1,6 +1,9 @@
+import '@babel/polyfill';
+
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { createStore } from 'redux';
+import thunk from 'redux-thunk';
+import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
 
 import loadRootState from './store/utils/loadRootState';
@@ -26,7 +29,12 @@ import './fields/includes';
       throw new Error('Missing components.');
     }
 
-    const redux = createStore(store, loadRootState(script, field));
+    const redux = createStore(
+      store,
+      loadRootState(script, field),
+      applyMiddleware(thunk)
+    );
+
     redux.subscribe(() => {
       field.value = JSON.stringify(redux.getState().model);
     });

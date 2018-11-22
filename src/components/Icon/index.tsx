@@ -6,12 +6,13 @@ import './index.styl';
 export interface Props {
   className?: string;
   name: string;
+  size?: 'medium' | 'large' | 'huge';
 }
 
 const CRAFT_PREFIX = 'craft:';
 const MATERIAL_PREFIX = 'material:';
 
-export default function Icon({ className, name }: Props) {
+export default function Icon({ className, name, size }: Props) {
   let iconType = 'craft';
   if (name.startsWith(MATERIAL_PREFIX)) {
     iconType = 'material';
@@ -20,5 +21,5 @@ export default function Icon({ className, name }: Props) {
     name = name.substr(CRAFT_PREFIX.length);
   }
 
-  return <div className={cx('tcfIcon', className, iconType)}>{name}</div>;
+  return <div className={cx('tcfIcon', className, iconType, size)}>{name}</div>;
 }

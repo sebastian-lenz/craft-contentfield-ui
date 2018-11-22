@@ -17,6 +17,8 @@ export function applyAddReferences(
         ({ id, type }) => reference.id === id && reference.type === type
       )
     ) {
+      reference.$element = $(reference.element);
+      reference.hasThumb = reference.$element.hasClass('hasthumb');
       references.push(reference);
     }
   }

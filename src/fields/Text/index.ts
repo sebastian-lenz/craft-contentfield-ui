@@ -1,8 +1,7 @@
-import StringFieldDefinition from '../StringFieldDefinition';
+import StringFieldDefinition, { BaseTextField } from '../StringFieldDefinition';
 import TextWidget from './TextWidget';
-import { Field } from '../../store/models';
 
-export interface TextField extends Field {
+export interface TextField extends BaseTextField {
   type: 'text';
 }
 

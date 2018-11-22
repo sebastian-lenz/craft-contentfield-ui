@@ -1,10 +1,47 @@
 .tcfSynchronize 
   width: 50%
   max-height: 80%
-  min-width: 400px
-  max-width: 1200px
+  min-width: 500px
+  max-width: 800px
   padding: 20px
 
   background: #fff
   border-radius: 5px
-  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2))
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2)
+
+
+.tcfSynchronize--message
+  display: flex
+  flex-flow: column nowrap
+  align-items: center
+
+.tcfSynchronize--messageIcon 
+  margin-bottom: 10px
+  
+  &.error
+    color: #c00
+
+  &.finished
+    color: #0c0
+
+.tcfSynchronize--title
+  margin-bottom: 10px
+
+  font-size: 20px
+
+.tcfSynchronize--actions
+  display: flex
+  flex-flow: row nowrap
+  justify-content: center
+  width: 100%
+  margin-top: 20px
+  padding-top: 10px
+
+  border-top: 1px solid rgba(0, 0, 20, 0.1)
+
+.tcfSynchronize--working
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 100%
+  height: 200px

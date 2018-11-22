@@ -12,6 +12,10 @@ export default function loadRootState(
 ): RootState {
   const payload = JSON.parse(script.innerHTML) as RootState;
 
+  payload.sync = {
+    status: 'idle',
+  };
+
   payload.config.expanded = [];
 
   payload.config.references = payload.config.references.map(reference => {

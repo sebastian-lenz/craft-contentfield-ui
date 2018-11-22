@@ -19,6 +19,9 @@ export function createRootState(): RootState {
       __uuid: '0',
     },
     schemas: {},
+    sync: {
+      status: 'idle',
+    },
   };
 }
 

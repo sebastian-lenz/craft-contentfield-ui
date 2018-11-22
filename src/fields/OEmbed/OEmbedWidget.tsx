@@ -55,7 +55,7 @@ export class OEmbedWidget extends React.Component<Props, State> {
     this.request = null;
     this.props.onUpdate({
       ...this.getOEmbed(),
-      info: result.info,
+      info: result.data,
     });
   }
 
@@ -136,5 +136,5 @@ export class OEmbedWidget extends React.Component<Props, State> {
 }
 
 export default connect((state: RootState) => ({
-  apiEndpoint: state.config.apiEndpoint,
+  apiEndpoint: state.config.apiEndpoints.oembed,
 }))(OEmbedWidget);

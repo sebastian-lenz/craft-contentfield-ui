@@ -75,6 +75,11 @@ export default vendors(
     },
   },
   {
+    '@babel/polyfill': {
+      development: 'polyfill/dist/polyfill.js',
+      production: 'polyfill/dist/polyfill.min.js',
+      varName: '_babelPolyfill',
+    },
     handlebars: {
       development: 'dist/handlebars.js',
       production: 'dist/handlebars.min.js',
@@ -114,6 +119,11 @@ export default vendors(
       development: 'dist/redux.js',
       production: 'dist/redux.min.js',
       varName: 'Redux',
+    },
+    'redux-thunk': {
+      development: 'dist/redux-thunk.js',
+      production: 'dist/redux-thunk.min.js',
+      varName: 'ReduxThunk',
     },
   }
 );

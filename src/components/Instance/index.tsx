@@ -48,7 +48,7 @@ export function Instance({
     options.sort(sortOptions);
 
     schemaSelect = (
-      <FieldPanel label="Type">
+      <FieldPanel className="tcfInstance--typeSelect" label="Type">
         <Select
           onChange={onChangeType}
           options={options}

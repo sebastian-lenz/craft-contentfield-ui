@@ -1,24 +1,25 @@
 import addReferences, { applyAddReferences, AddReferencesAction } from './addReferences';
 import changeType, { applyChangeType, ChangeTypeAction } from './changeType';
 import moveModel, { applyMoveModel, MoveModelAction } from './moveModel';
-import synchronize, { applySynchronize, SynchronizeAction } from './synchronize';
+import synchronize from './synchronize';
 import toggleExpanded, { applyToggleExpanded, ToggleExpandedAction } from './toggleExpanded';
 import updateValue, { applyUpdateValue, UpdateValueAction } from './updateValue';
+import updateSync, { applyUpdateSync, UpdateSyncAction } from './updateSync';
 
 export type AnyAction =
   | AddReferencesAction
   | ChangeTypeAction
   | MoveModelAction
-  | SynchronizeAction
   | ToggleExpandedAction
+  | UpdateSyncAction
   | UpdateValueAction;
 
 export const handlers = {
   addReferences: applyAddReferences,
   changeType: applyChangeType,
   moveModel: applyMoveModel,
-  synchronize: applySynchronize,
   toggleExpanded: applyToggleExpanded,
+  updateSync: applyUpdateSync,
   updateValue: applyUpdateValue,
 };
 
@@ -28,5 +29,6 @@ export {
   moveModel,
   synchronize,
   toggleExpanded,
+  updateSync,
   updateValue,
 };

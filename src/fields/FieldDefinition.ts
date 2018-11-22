@@ -1,6 +1,9 @@
+import { SafeString } from 'handlebars';
+
+import clone from '../utils/clone';
 import Factory from '../components/Factory';
 import { AnyPathSegment } from '../store/utils/parsePath';
-import { SafeString } from 'handlebars';
+import { SynchronizeOptions } from '../store/utils/synchronizeModels';
 
 import {
   Field as BaseField,
@@ -9,6 +12,12 @@ import {
   Model,
   Schema,
 } from '../store/models';
+
+export interface CloneOptions<Field extends BaseField>
+  extends SynchronizeOptions {
+  field: Field;
+  value: any;
+}
 
 export interface CreateOptions<Field extends BaseField> {
   field: Field;
@@ -75,6 +84,15 @@ export default abstract class FieldDefinition<
   constructor({ factory, widget }: FieldDefinitionOptions<Field>) {
     this.factory = factory || (Factory as any);
     this.widget = widget;
+  }
+
+  async cloneValue(options: CloneOptions<Field>): Promise<Value> {
+    const { field, value } = options;
+    if (this.isValue(field, value)) {
+      return clone(value);
+    } else {
+      return this.createValue(options);
+    }
   }
 
   abstract createValue(options: CreateOptions<Field>): Value;

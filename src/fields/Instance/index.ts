@@ -1,3 +1,6 @@
+import { SafeString } from 'handlebars';
+
+import cloneModel from '../../store/utils/cloneModel';
 import createModel from '../../store/utils/createModel';
 import fields from '../index';
 import InstanceFactory from '../../components/InstanceFactory';
@@ -10,8 +13,8 @@ import FieldDefinition, {
   PreviewOptions,
   CreateOptions,
   PreviewObject,
+  CloneOptions,
 } from '../FieldDefinition';
-import { SafeString } from 'handlebars';
 
 export interface InstanceField extends Field {
   schemas: Array<string>;
@@ -27,6 +30,18 @@ export default class InstanceFieldType extends FieldDefinition<
       factory: InstanceFactory as any,
       widget: InstanceWidget,
     });
+  }
+
+  async cloneValue(options: CloneOptions<InstanceField>): Promise<Model> {
+    const { field, value, ...syncOptions } = options;
+    if (this.isValue(field, value)) {
+      return cloneModel({
+        ...syncOptions,
+        source: value,
+      });
+    } else {
+      return this.createValue(options);
+    }
   }
 
   createValue({ field, schema, schemas }: CreateOptions<InstanceField>): Model {

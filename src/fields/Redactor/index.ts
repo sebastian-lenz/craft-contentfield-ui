@@ -1,12 +1,9 @@
-import { SafeString } from 'handlebars';
-
-import RedactorWidget from './RedactorWidget';
-import StringFieldDefinition from '../StringFieldDefinition';
-import { Field } from '../../store/models';
-import { PreviewResult, PreviewOptions } from '../FieldDefinition';
 import RedactorPreview from './RedactorPreview';
+import RedactorWidget from './RedactorWidget';
+import StringFieldDefinition, { BaseTextField } from '../StringFieldDefinition';
+import { PreviewResult, PreviewOptions } from '../FieldDefinition';
 
-export interface RedactorField extends Field {
+export interface RedactorField extends BaseTextField {
   redactor?: Craft.RedactorInputOptions;
   type: 'redactor';
 }

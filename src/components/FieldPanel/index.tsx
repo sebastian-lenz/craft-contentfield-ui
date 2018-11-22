@@ -1,9 +1,11 @@
 import * as React from 'react';
+import cx from 'classnames';
 
 import './index.styl';
 
 export interface Props {
   children: React.ReactNode;
+  className?: string;
   isCompact?: boolean;
   label: string;
   width?: number | string;
@@ -11,6 +13,7 @@ export interface Props {
 
 export default function FieldPanel({
   children,
+  className,
   isCompact,
   label,
   width,
@@ -25,7 +28,7 @@ export default function FieldPanel({
   }
 
   return (
-    <div className="tcfFieldPanel" style={style}>
+    <div className={cx('tcfFieldPanel', className)} style={style}>
       <div className="tcfFieldPanel--label">{label}</div>
       {children}
     </div>
