@@ -127,7 +127,7 @@ export class OEmbedWidget extends React.Component<Props, State> {
     const request = new XMLHttpRequest();
     request.onreadystatechange = () => this.handleRequestStateChange(request);
     request.onerror = () => this.handleRequestError();
-    request.open('GET', `${apiEndpoint}/oembed&${params.join('&')}`);
+    request.open('GET', `${apiEndpoint}&${params.join('&')}`);
     request.send();
 
     if (this.request) this.request.abort();
