@@ -76,6 +76,8 @@ export class ElementSelect extends React.Component<Props> {
     onAddReferences(
       elements.map(reference => ({
         ...reference,
+        $element: $(reference.$element[0].outerHTML),
+        element: reference.$element[0].outerHTML,
         type: elementType,
       }))
     );
