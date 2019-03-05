@@ -8,6 +8,7 @@ import { LinkField } from './index';
 import { WidgetProps } from '../FieldDefinition';
 
 import './LinkWidget.styl';
+import Checkbox from '../../components/Checkbox';
 
 export interface Props extends WidgetProps<LinkField> {}
 
@@ -16,21 +17,22 @@ export default function LinkWidget({ data, field, onUpdate }: Props) {
   if (isLink(data)) {
     link = data;
   } else {
-    link = { elementId: 0, type: '', url: '' };
+    link = { elementId: 0, openInNewWindow: false, type: '', url: '' };
   }
 
   const linkType = field.linkTypes[link.type];
   let editor: React.ReactNode;
   if (linkType && linkType.type === 'input') {
     editor = (
-      <InputEditor link={link} linkType={linkType} onUpdate={onUpdate} />
+      <InputEditor key={link.type} link={link} linkType={linkType} onUpdate={onUpdate} />
     );
   } else if (linkType && linkType.type === 'element') {
     editor = (
-      <ElementEditor link={link} linkType={linkType} onUpdate={onUpdate} />
+      <ElementEditor key={link.type} link={link} linkType={linkType} onUpdate={onUpdate} />
     );
   }
 
+  const { allowNewWindow } = field;
   return (
     <div className="tcfLinkWidget">
       <div className="tcfLinkWidget--type">
@@ -44,6 +46,14 @@ export default function LinkWidget({ data, field, onUpdate }: Props) {
         />
       </div>
       <div className="tcfLinkWidget--editor">{editor}</div>
+      {allowNewWindow ? (
+        <Checkbox
+          onChange={openInNewWindow => onUpdate({ ...link, openInNewWindow })}
+          value={link.openInNewWindow}
+        >
+          Open in new window
+        </Checkbox>
+      ) : null}
     </div>
   );
 }

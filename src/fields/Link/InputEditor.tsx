@@ -13,6 +13,7 @@ export default function InputEditor({ link, linkType, onUpdate }: Props) {
   return (
     <Input
       type={linkType.inputType}
+      value={link.url}
       onChange={event => onUpdate({ ...link, url: event.currentTarget.value })}
     />
   );

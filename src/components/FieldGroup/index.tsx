@@ -20,7 +20,10 @@ export default function FieldGroup({
 }: Props) {
   if (!label || label === '' || label === toolbarGroup) {
     return (
-      <div className={cx('tcfFieldGroup--content', { isCompact })}>
+      <div
+        className={cx('tcfFieldGroup--content', { isCompact })}
+        style={style}
+      >
         {children}
       </div>
     );

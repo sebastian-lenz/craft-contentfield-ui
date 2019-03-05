@@ -6,6 +6,7 @@ import { isLink, Link, LinkTypeMap } from './Link';
 
 export interface LinkField extends Field {
   type: 'link';
+  allowNewWindow: boolean;
   linkTypes: LinkTypeMap;
 }
 
@@ -17,7 +18,7 @@ export default class LinkFieldType extends FieldDefinition<LinkField, Link> {
   }
 
   createValue(): Link {
-    return { elementId: 0, type: 'url', url: '' };
+    return { elementId: 0, openInNewWindow: false, type: 'url', url: '' };
   }
 
   isValue(field: LinkField, value: any): value is Link {

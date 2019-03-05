@@ -20,6 +20,7 @@ export interface ElementLinkType extends LinkType {
 
 export interface Link {
   elementId: number;
+  openInNewWindow: boolean;
   type: string;
   url: string;
 }
