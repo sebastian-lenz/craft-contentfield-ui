@@ -286,12 +286,16 @@ declare namespace Craft {
     params?: { [name: string]: string }
   ): string;
 
+  export interface BaseElementSelectCriteria {
+    [key: string]: any;
+  }
+
   export interface BaseElementSelectInputOptions {
     id: string;
     name: string;
     elementType: string;
     sources: string[] | null;
-    criteria: null;
+    criteria?: BaseElementSelectCriteria | null;
     sourceElementId: number | null;
     viewMode: 'small' | 'large';
     limit: number | null;

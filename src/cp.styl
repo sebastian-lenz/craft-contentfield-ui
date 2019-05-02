@@ -1,0 +1,70 @@
+// Layout of the utility section
+
+.tcfUtility
+  position: relative
+  display: flex
+  position: relative
+  width: 100%
+  height: 100%
+  padding: 0 !important
+
+.tcfUtility--wrap
+  position: absolute
+  top: -24px
+  right: -24px
+  bottom: 0
+  left: -24px
+
+  display: flex
+  flex-flow: column nowrap
+
+.tcfUtility--tabs
+  padding: 16px 0 0 0
+  background: #f1f5f8
+
+.tcfUtility--content
+  overflow: auto
+  flex: 1
+  padding: 24px
+
+
+// Styles used by the sources utility
+
+.tcfUtility--sourceTitle
+  font-weight: bold
+  
+  &:not(:first-child)
+    margin-top: 16px
+
+
+// Extra styles used in the icon preview in the utilities section
+// of the cp
+
+.tcfIconGrid
+  display: flex
+  flex-flow: row wrap
+
+.tcfIconGrid--item
+  display: flex
+  flex-flow: column nowrap
+  width: 160px
+  height: 96px
+  margin: 10px 5px
+
+  border-radius: 2px
+  background: #fbfcfd
+
+.tcfIconGrid--display
+  display: flex
+  align-items: center
+  justify-content: center
+  flex: 1
+
+.tcfIconGrid--label
+  overflow: hidden
+  padding: 5px
+
+  font-size: 75%
+  white-space: nowrap
+  text-align: center
+  text-overflow: ellipsis

@@ -3,6 +3,7 @@ import { Action } from 'redux';
 import modifyPath from '../utils/modifyPath';
 import { AnyPathSegment } from '../utils/parsePath';
 import { RootState } from '../models';
+import validate from '../utils/validate';
 
 export interface UpdateValueAction extends Action {
   path: string | Array<AnyPathSegment>;
@@ -17,14 +18,17 @@ export function applyUpdateValue(
 ): RootState {
   return {
     ...state,
-    model: modifyPath(state.model, path, model =>
-      key
+    model: modifyPath(state.model, path, model => {
+      const newModel = key
         ? {
             ...model,
             [key]: value,
           }
-        : value
-    ),
+        : value;
+
+      validate(state, newModel);
+      return newModel;
+    }),
   };
 }
 

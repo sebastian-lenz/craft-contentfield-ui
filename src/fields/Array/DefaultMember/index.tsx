@@ -2,10 +2,15 @@ import * as React from 'react';
 import cx from 'classnames';
 
 import Button from '../../../components/Button';
-import dragSource, { Props } from '../utils/dragSource';
+import dragSource, { Props as BaseProps } from '../utils/dragSource';
 import Field from '../../../components/Field';
+import Icon from '../../../components/Icon';
+import Text from '../../../components/Text';
+import { AnyField } from '../../index';
 
-class Member extends React.Component<Props> {
+export type Props = BaseProps<any, AnyField>;
+
+class DefaultMember extends React.Component<Props> {
   handleDelete = () => {
     const { index, onDelete } = this.props;
     onDelete(index);
@@ -19,33 +24,55 @@ class Member extends React.Component<Props> {
   render() {
     const {
       child,
+      dragPreview,
       dragSource,
       field,
       hasDropTarget,
+      index,
       isDragging,
       model,
       path,
     } = this.props;
 
-    return dragSource(
+    return (
       <div
         className={cx('tcfArrayWidgetMember', { hasDropTarget, isDragging })}
       >
-        <div className="tcfArrayWidgetMember--header">
-          <Button onClick={this.handleDelete}>Delete</Button>
-        </div>
-        <div className="tcfArrayWidgetMember--body">
-          <Field
-            data={child}
-            field={field}
-            model={model}
-            onUpdate={this.handleUpdate}
-            path={path}
-          />
-        </div>
+        {dragPreview(
+          <div className="tcfArrayWidgetMember--panel">
+            <div className="tcfArrayWidgetMember--header">
+              {dragSource(
+                <div className="tcfArrayWidgetMember--headerHandle">
+                  <Icon
+                    className="tcfArrayWidgetMember--headerHandleIcon"
+                    key="handle"
+                    name="move"
+                  />
+                  <span>{`Member #${index + 1}`}</span>
+                </div>
+              )}
+              <div className="tcfArrayWidgetMember--headerActions">
+                <Button onClick={this.handleDelete}>
+                  <Icon name="remove" />
+                  <Text value="Delete" />
+                </Button>
+              </div>
+            </div>
+            <div className="tcfArrayWidgetMember--body">
+              <Field
+                data={child}
+                errors={[]}
+                field={field}
+                model={model}
+                onUpdate={this.handleUpdate}
+                path={path}
+              />
+            </div>
+          </div>
+        )}
       </div>
     );
   }
 }
 
-export default dragSource(Member);
+export default dragSource(DefaultMember);

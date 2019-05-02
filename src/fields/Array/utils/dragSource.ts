@@ -1,7 +1,6 @@
 import { DragSource, ConnectDragSource, ConnectDragPreview } from 'react-dnd';
 import { findDOMNode } from 'react-dom';
 
-import { AnyField } from '../..';
 import { AnyPathSegment } from '../../../store/utils/parsePath';
 import { Field, Model, Schema } from '../../../store/models';
 

@@ -33,14 +33,14 @@ export class ArrayWidget extends React.Component<Props> {
     onUpdate(newValue);
   };
 
-  handleUpdate(index: number, value: any) {
+  handleUpdate = (index: number, value: any) => {
     const { data, onUpdate } = this.props;
     if (!Array.isArray(data)) return;
 
     const newValue = data.slice();
     newValue[index] = value;
     onUpdate(newValue);
-  }
+  };
 
   render() {
     const { field, data, path } = this.props;

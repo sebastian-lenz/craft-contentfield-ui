@@ -13,6 +13,7 @@ export interface InputLinkType extends LinkType {
 }
 
 export interface ElementLinkType extends LinkType {
+  criteria?: Craft.BaseElementSelectCriteria | null;
   elementType: string;
   sources: Array<string> | null;
   type: 'element';

@@ -172,7 +172,8 @@ export class List extends React.PureComponent<Props, State> {
       const props = {
         index,
         isCollapsible,
-        key: '__uuid' in child ? child.__uuid : index,
+        key:
+          typeof child === 'object' && '__uuid' in child ? child.__uuid : index,
         model: data,
         onDelete,
         onToggleExpanded,
@@ -191,7 +192,9 @@ export class List extends React.PureComponent<Props, State> {
           />
         );
       } else {
-        return <DefaultMember {...props} isExpanded />;
+        return (
+          <DefaultMember {...props} child={child} field={field} isExpanded />
+        );
       }
     });
   }

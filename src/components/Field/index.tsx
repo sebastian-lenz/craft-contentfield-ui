@@ -7,6 +7,7 @@ import fields, { AnyField } from '../../fields';
 export interface Props {
   className?: string;
   data: any;
+  errors: Array<string>;
   model: Model;
   onUpdate: (value: any) => void;
   path: Array<AnyPathSegment>;

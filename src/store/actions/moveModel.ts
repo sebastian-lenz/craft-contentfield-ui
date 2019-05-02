@@ -2,9 +2,8 @@ import { Action } from 'redux';
 
 import modifyPath from '../utils/modifyPath';
 import parsePath, { AnyPathSegment } from '../utils/parsePath';
-import { RootState } from '../models';
-import isPathEqual from '../utils/isPathEqual';
 import findByPath from '../utils/findByPath';
+import { RootState } from '../models';
 
 export interface MoveModelOptions {
   source: string | Array<AnyPathSegment>;
@@ -26,6 +25,9 @@ export function applyMoveModel(
   let { model } = state;
 
   const childToMove = findByPath(model, sourcePath);
+  const clonedChildToMove =
+    typeof childToMove === 'object' ? { ...childToMove } : childToMove;
+
   const sourceSegment = sourcePath.pop();
   if (!childToMove || !sourceSegment || sourceSegment.type !== 'index') {
     throw new Error('Unsupported operation');
@@ -44,9 +46,9 @@ export function applyMoveModel(
 
     children = children.slice();
     if (targetIndex >= children.length) {
-      children.push({ ...childToMove });
+      children.push(clonedChildToMove);
     } else {
-      children.splice(targetIndex, 0, { ...childToMove });
+      children.splice(targetIndex, 0, clonedChildToMove);
     }
 
     return { ...target, [targetField]: children };

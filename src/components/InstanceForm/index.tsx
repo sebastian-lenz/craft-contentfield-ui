@@ -48,6 +48,7 @@ export function InstanceForm({
 
   for (const name of Object.keys(schema.fields)) {
     const field = schema.fields[name];
+    const errors = model.__errors[name] || null;
 
     if (!currentGroup || field.group) {
       const label = field.group ? field.group.label : undefined;
@@ -64,13 +65,17 @@ export function InstanceForm({
 
     currentGroup.fields.push(
       <FieldPanel
+        errors={errors}
+        instructions={field.instructions}
         isCompact={isCompact}
+        isRequired={field.isRequired}
         key={field.name}
         label={field.label}
         width={field.width}
       >
         <Field
           data={model[field.name]}
+          errors={errors}
           field={field}
           model={model}
           onUpdate={(value: any) => onUpdate(name, value)}

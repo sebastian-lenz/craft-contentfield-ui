@@ -84,7 +84,7 @@ class InstanceMember extends React.Component<Props> {
         })}
       >
         {dragPreview(
-          <div className="tcfArrayWidgetMember--panel">
+          <div className={cx('tcfArrayWidgetMember--panel', { isExpanded })}>
             <Header
               dragSource={dragSource}
               isCollapsible={isCollapsible}

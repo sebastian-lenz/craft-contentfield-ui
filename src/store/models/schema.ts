@@ -1,7 +1,14 @@
 import { AnyField, FieldType } from '../../fields';
 
+export type FieldRule = {
+  options?: any;
+  type: string;
+};
+
 export interface Field {
   group?: FieldGroup;
+  instructions?: string;
+  isRequired?: boolean;
   label: string;
   name: string;
   type: FieldType;

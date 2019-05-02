@@ -30,8 +30,8 @@ export default function FieldGroup({
   }
 
   return (
-    <div style={style}>
-      <div>{label}</div>
+    <div className="tcfFieldGroup" style={style}>
+      <div className="tcfFieldGroup--label">{label}</div>
       <div className="tcfFieldGroup--content">{children}</div>
     </div>
   );

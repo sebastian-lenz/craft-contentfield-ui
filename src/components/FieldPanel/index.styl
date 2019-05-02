@@ -2,7 +2,55 @@
   width: 100%
 
 .tcfFieldPanel--label
-  margin-bottom: 5px
+  margin: 0 0 5px
   
   color: #576575
   font-weight: bold
+
+  &.hasErrors
+    color: #da5a47
+    
+  &.isRequired:after
+    content: 'asterisk'
+    display: inline-block
+    margin: -2px 0 0 7px
+
+    color: #da5a47
+    font-family: 'Craft'
+    font-size: 7px
+    font-style: normal
+    font-weight: normal
+    font-variant: normal
+    line-height: 1
+    text-transform: none
+    text-align: center
+    vertical-align: middle
+    word-wrap: normal !important
+
+    -webkit-font-feature-settings: "liga", "dlig"
+    -ms-font-feature-settings: "liga", "dlig"
+    -o-font-feature-settings: "liga", "dlig"
+    font-feature-settings: "liga", "dlig"
+
+    text-rendering: optimizeLegibility
+    -webkit-font-smoothing: antialiased
+    -moz-osx-font-smoothing: grayscale
+
+    -webkit-user-select: none
+    -moz-user-select: none
+    -ms-user-select: none
+    user-select: none
+
+.tcfFieldPanel--instructions
+  margin: -5px 0 5px
+
+  color: #8f98a3
+
+.tcfFieldPanel--errors
+  margin: 5px 0
+  padding: 0 0 0 20px
+
+  list-style: square
+
+.tcfFieldPanel--error
+  color: #da5a47

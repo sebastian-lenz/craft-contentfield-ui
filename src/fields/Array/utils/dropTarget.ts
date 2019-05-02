@@ -17,7 +17,7 @@ export default DropTarget<ExternalProps & ReduxProps, DropProps>(
             props.field.schemas.indexOf(data.__type) !== -1
           );
         default:
-          return false;
+          return true;
       }
     },
     drop: (props, monitor, component: List) => {

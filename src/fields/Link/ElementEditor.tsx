@@ -12,6 +12,7 @@ export interface Props {
 export default function ElementEditor({ link, linkType, onUpdate }: Props) {
   return (
     <ElementSelect
+      criteria={linkType.criteria}
       data={[link.elementId]}
       elementType={linkType.elementType}
       limit={1}

@@ -14,6 +14,7 @@ export default function createModel({
   oldModel,
 }: CreateModelOptions): Model {
   const result: Model = {
+    __errors: {},
     __type: schema.qualifier,
     __uuid: uuid(),
   };

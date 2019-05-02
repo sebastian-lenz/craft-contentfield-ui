@@ -11,6 +11,9 @@ import Root from './components/Root';
 import store from './store';
 
 import './fields/includes';
+import './cp.styl';
+
+(window as any).addContentFieldValidators = function() {};
 
 (window as any).createContentField = function(id: string) {
   try {

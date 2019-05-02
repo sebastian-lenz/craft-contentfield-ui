@@ -6,9 +6,11 @@ import { addReferences } from '../../store/actions';
 import { RootState, Reference } from '../../store/models';
 
 export interface ExternalProps {
+  criteria?: Craft.BaseElementSelectCriteria | null;
   data: Array<number> | undefined;
   elementType: string;
   limit: number | null;
+  modalStorageKey?: string | null;
   sources: string[] | null;
   onUpdate: (references: Array<number>) => void;
   viewMode: 'large' | 'small';
@@ -108,23 +110,25 @@ export class ElementSelect extends React.Component<Props> {
 
     if (element) {
       const {
+        criteria,
         elementType,
         limit = null,
+        modalStorageKey = null,
         sourceElementId,
         sources,
         viewMode = 'small',
       } = this.props;
 
       instance = new Craft.BaseElementSelectInput({
-        id: this.uuid,
-        name: this.uuid,
+        criteria,
         elementType: elementType,
+        id: this.uuid,
+        limit,
+        modalStorageKey,
+        name: this.uuid,
         sources,
-        criteria: null,
         sourceElementId,
         viewMode,
-        limit,
-        modalStorageKey: null,
       });
 
       for (const reference of this.getStoredReferences()) {

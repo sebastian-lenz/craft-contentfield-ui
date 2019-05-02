@@ -12,7 +12,7 @@ export type Props = {
   presetColors?: Array<string> | null;
 };
 
-export default function Picker({ disableAlpha }: Props) {
+export default function Picker({ disableAlpha, presetColors }: Props) {
   const values: Array<React.ReactNode> = [
     <div className="tcfColorInputPicker--value wide" key="hex">
       <Input type="hex" />
@@ -41,6 +41,20 @@ export default function Picker({ disableAlpha }: Props) {
     );
   }
 
+  let presets = null;
+  if (presetColors && presetColors.length) {
+    presets = (
+      <div className="tcfColorInputPicker--presets">
+        {presetColors.map(color => (
+          <Swatch
+            className="tcfColorInputPicker--presetsSwatch"
+            color={color}
+          />
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className="tcfColorInputPicker">
       <Saturation />
@@ -52,6 +66,7 @@ export default function Picker({ disableAlpha }: Props) {
         <Swatch className="tcfColorInputPicker--swatch" />
       </div>
       <div className="tcfColorInputPicker--values">{values}</div>
+      {presets}
     </div>
   );
 }

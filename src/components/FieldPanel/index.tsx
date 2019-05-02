@@ -6,7 +6,10 @@ import './index.styl';
 export interface Props {
   children: React.ReactNode;
   className?: string;
+  errors?: Array<string> | null;
+  instructions?: string | null;
   isCompact?: boolean;
+  isRequired?: boolean;
   label: string;
   width?: number | string;
 }
@@ -14,7 +17,10 @@ export interface Props {
 export default function FieldPanel({
   children,
   className,
+  errors,
+  instructions,
   isCompact,
+  isRequired,
   label,
   width,
 }: Props) {
@@ -27,9 +33,25 @@ export default function FieldPanel({
     return <>{children}</>;
   }
 
+  const hasErrors = errors && errors.length;
+
   return (
     <div className={cx('tcfFieldPanel', className)} style={style}>
-      <div className="tcfFieldPanel--label">{label}</div>
+      <div className={cx('tcfFieldPanel--label', { hasErrors, isRequired })}>
+        {label}
+      </div>
+      {instructions ? (
+        <div className="tcfFieldPanel--instructions">{instructions}</div>
+      ) : null}
+      {errors && errors.length ? (
+        <ul className="tcfFieldPanel--errors">
+          {errors.map((error, index) => (
+            <li className="tcfFieldPanel--error" key={index}>
+              {error}
+            </li>
+          ))}
+        </ul>
+      ) : null}
       {children}
     </div>
   );
