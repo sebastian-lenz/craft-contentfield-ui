@@ -44,14 +44,18 @@ export class ArrayWidget extends React.Component<Props> {
 
   render() {
     const { field, data, path } = this.props;
+    const { limit } = field;
     if (!field.member) {
       return null;
     }
 
-    const definition = fields.getDefinition(field.member);
+    const arrayData = Array.isArray(data) ? data : [];
+    const hasReachedLimit = limit > 0 && arrayData.length >= limit;
+    const memberDefinition = fields.getDefinition(field.member);
+
     let factory: React.ReactNode;
-    if (definition) {
-      factory = React.createElement(definition.factory, {
+    if (memberDefinition && !hasReachedLimit) {
+      factory = React.createElement(memberDefinition.factory, {
         field: field.member,
         onCreate: this.handleAdd,
       });
@@ -59,9 +63,10 @@ export class ArrayWidget extends React.Component<Props> {
 
     return (
       <List
-        data={data}
+        data={arrayData}
         field={field.member}
         isCollapsible={field.collapsible}
+        limit={limit}
         onDelete={this.handleDelete}
         onUpdate={this.handleUpdate}
         path={path}

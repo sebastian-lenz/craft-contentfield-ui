@@ -49,6 +49,7 @@ export default vendors(
       globals: {
         jquery: 'jQuery',
       },
+      name: 'contentField',
     },
     external: ['jquery'],
     plugins: [

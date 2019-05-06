@@ -1,34 +1,25 @@
-import { RootState, ErrorMap, Schema } from '../models';
+import api from '../../index';
 import isModel from './isModel';
-import validators from '../validators';
+import { RootState, ErrorMap, Schema } from '../models';
 
 function validateField(
   schema: Schema,
   model: any,
   fieldName: string
 ): Array<string> | null {
-  const { rules } = schema.fields[fieldName];
-  if (!rules) {
+  const { validatorId } = schema.fields[fieldName];
+  if (!validatorId) {
     return null;
   }
 
-  const value = model[fieldName];
+  const validator = api.getValidator(validatorId);
+  if (!validator) {
+    return null;
+  }
 
-  return rules.reduce(
-    (errors, rule) => {
-      if (!(rule.type in validators)) {
-        return errors;
-      }
-
-      const error = validators[rule.type](value, rule.options);
-      if (error) {
-        errors.push(error);
-      }
-
-      return errors;
-    },
-    [] as Array<string>
-  );
+  const messages: Array<string> = [];
+  validator(fieldName, model[fieldName], messages);
+  return messages;
 }
 
 export default function validate(state: RootState, model: any) {

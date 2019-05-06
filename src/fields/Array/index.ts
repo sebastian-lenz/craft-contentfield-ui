@@ -12,6 +12,7 @@ import FieldDefinition, {
 
 export interface ArrayField extends Field {
   collapsible: boolean;
+  limit: number;
   member: AnyField;
   type: 'array';
 }

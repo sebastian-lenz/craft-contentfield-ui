@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { ConnectDropTarget, DropTargetMonitor } from 'react-dnd';
 
+import DefaultMember from '../DefaultMember';
 import dropTarget from '../utils/dropTarget';
 import moveModel, { MoveModelOptions } from '../../../store/actions/moveModel';
 import InstanceMember from '../InstanceMember';
@@ -12,7 +13,6 @@ import { RootState, Schemas } from '../../../store/models';
 import { toggleExpanded } from '../../../store/actions';
 
 import './index.styl';
-import DefaultMember from '../DefaultMember';
 
 function getElementIndex(element: Element): number {
   let index = 0;
@@ -28,9 +28,10 @@ function getElementIndex(element: Element): number {
 }
 
 export interface ExternalProps {
-  data: any;
+  data: Array<any>;
   field: AnyField;
   isCollapsible: boolean;
+  limit: number;
   onDelete: (index: number) => void;
   onUpdate: (index: number, value: any) => void;
   path: Array<AnyPathSegment>;
@@ -66,8 +67,7 @@ export class List extends React.PureComponent<Props, State> {
     const offset = monitor.getClientOffset();
     const container = this.element;
     const { data } = this.props;
-
-    let dropIndex = Array.isArray(data) ? data.length : 0;
+    let dropIndex = data.length;
 
     if (container && offset) {
       let target: HTMLElement | null = document.elementFromPoint(
@@ -161,9 +161,7 @@ export class List extends React.PureComponent<Props, State> {
       schemas,
     } = this.props;
 
-    const items = Array.isArray(data) ? data : [];
-
-    return items.map((child, index) => {
+    return data.map((child, index) => {
       const path: Array<AnyPathSegment> = [
         ...parentPath,
         { index, name: field.name, type: 'index' },
@@ -172,9 +170,7 @@ export class List extends React.PureComponent<Props, State> {
       const props = {
         index,
         isCollapsible,
-        key:
-          typeof child === 'object' && '__uuid' in child ? child.__uuid : index,
-        model: data,
+        key: isModel(child) ? child.__uuid : index,
         onDelete,
         onToggleExpanded,
         onUpdate,

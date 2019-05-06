@@ -4,7 +4,11 @@ import { AnyAction, handlers } from './actions';
 export function createRootState(): RootState {
   return {
     config: {
-      apiEndpoint: '',
+      apiEndpoints: {
+        fetchSite: '',
+        oembed: '',
+        translate: '',
+      },
       elementId: null,
       elementSiteId: 0,
       expanded: [],
@@ -15,6 +19,7 @@ export function createRootState(): RootState {
       supportedSites: [],
     },
     model: {
+      __errors: {},
       __type: 'unknown',
       __uuid: '0',
     },

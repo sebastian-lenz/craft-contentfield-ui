@@ -12,6 +12,7 @@ export interface Field {
   label: string;
   name: string;
   type: FieldType;
+  validatorId?: string;
   width: number;
 }
 

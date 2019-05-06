@@ -1,9 +1,9 @@
 import { Action } from 'redux';
 
 import modifyPath from '../utils/modifyPath';
+import validate from '../utils/validate';
 import { AnyPathSegment } from '../utils/parsePath';
 import { RootState } from '../models';
-import validate from '../utils/validate';
 
 export interface UpdateValueAction extends Action {
   path: string | Array<AnyPathSegment>;

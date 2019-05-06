@@ -23,7 +23,6 @@ export interface ExternalProps<TChild, TField extends Field> {
   index: number;
   isCollapsible: boolean;
   isExpanded: boolean;
-  model: Model;
   onDelete: (index: number) => void;
   onUpdate: (index: number, value: any) => void;
   onToggleExpanded: (uuid: string) => void;

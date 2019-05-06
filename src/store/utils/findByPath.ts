@@ -13,7 +13,7 @@ export default function findByPath(
   let target: Model | null = scope;
   for (let index = 0; index < path.length; index++) {
     target = findBySegment(target, path[index]);
-    if (!target) return null;
+    if (!target) return target;
   }
 
   return target;
