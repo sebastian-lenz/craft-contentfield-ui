@@ -1,9 +1,11 @@
 import fields from './index';
 
 import ArrayFieldDefinition, { ArrayField } from './Array';
+import CheckboxFieldDefinition, { CheckboxField } from './Checkbox';
 import ColorFieldDefinition, { ColorField } from './Color';
 import OEmbedFieldDefinition, { OEmbedField } from './OEmbed';
 import InstanceFieldDefinition, { InstanceField } from './Instance';
+import LightswitchFieldDefinition, { LightswitchField } from './Lightswitch';
 import LinkFieldType, { LinkField } from './Link';
 import LocationFieldType, { LocationField } from './Location';
 import RedactorFieldDefinition, { RedactorField } from './Redactor';
@@ -15,8 +17,10 @@ import TextareaFieldDefinition, { TextareaField } from './Textarea';
 
 export type FieldTypeMap = {
   array: ArrayField;
+  checkbox: CheckboxField;
   color: ColorField;
   instance: InstanceField;
+  lightswitch: LightswitchField;
   link: LinkField;
   location: LocationField;
   oembed: OEmbedField;
@@ -30,8 +34,10 @@ export type FieldTypeMap = {
 
 fields.initialize({
   array: new ArrayFieldDefinition(),
+  checkbox: new CheckboxFieldDefinition(),
   color: new ColorFieldDefinition(),
   instance: new InstanceFieldDefinition(),
+  lightswitch: new LightswitchFieldDefinition(),
   link: new LinkFieldType(),
   location: new LocationFieldType(),
   oembed: new OEmbedFieldDefinition(),

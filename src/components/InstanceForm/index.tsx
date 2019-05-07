@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Field from '../Field';
 import FieldGroup, { toolbarGroup } from '../FieldGroup';
 import FieldPanel from '../FieldPanel';
+import fields from '../../fields';
 import { AnyPathSegment } from '../../store/utils/parsePath';
 import { Model, RootState, Schema } from '../../store/models';
 import { updateValue } from '../../store/actions';
@@ -49,6 +50,7 @@ export function InstanceForm({
   for (const name of Object.keys(schema.fields)) {
     const field = schema.fields[name];
     const errors = model.__errors[name] || null;
+    const { isAlwaysCompact } = fields.getDefinition(field);
 
     if (!currentGroup || field.group) {
       const label = field.group ? field.group.label : undefined;
@@ -67,7 +69,7 @@ export function InstanceForm({
       <FieldPanel
         errors={errors}
         instructions={field.instructions}
-        isCompact={isCompact}
+        isCompact={isCompact || isAlwaysCompact}
         isRequired={field.isRequired}
         key={field.name}
         label={field.label}
