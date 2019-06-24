@@ -5,7 +5,7 @@ import './index.styl';
 
 export interface Props {
   children: React.ReactNode;
-  isCompact?: boolean;
+  isBorderless?: boolean;
   label?: string;
   style?: React.CSSProperties;
 }
@@ -14,14 +14,14 @@ export const toolbarGroup = 'toolbar';
 
 export default function FieldGroup({
   children,
-  isCompact,
+  isBorderless,
   label,
   style,
 }: Props) {
   if (!label || label === '' || label === toolbarGroup) {
     return (
       <div
-        className={cx('tcfFieldGroup--content', { isCompact })}
+        className={cx('tcfFieldGroup--content', { isBorderless })}
         style={style}
       >
         {children}

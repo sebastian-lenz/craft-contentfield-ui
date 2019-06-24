@@ -8,7 +8,7 @@ export interface Props {
   className?: string;
   errors?: Array<string> | null;
   instructions?: string | null;
-  isCompact?: boolean;
+  isPlainField?: boolean;
   isRequired?: boolean;
   label: string;
   width?: number | string;
@@ -19,7 +19,7 @@ export default function FieldPanel({
   className,
   errors,
   instructions,
-  isCompact,
+  isPlainField,
   isRequired,
   label,
   width,
@@ -29,7 +29,7 @@ export default function FieldPanel({
     style = { width: typeof width === 'string' ? width : `${width}%` };
   }
 
-  if (isCompact) {
+  if (isPlainField) {
     return <>{children}</>;
   }
 

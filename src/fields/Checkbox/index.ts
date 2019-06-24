@@ -15,6 +15,6 @@ export default class CheckboxFieldDefinition extends BooleanFieldDefinition<
       widget: CheckboxWidget,
     });
 
-    this.isAlwaysCompact = true;
+    this.isAlwaysPlainField = true;
   }
 }

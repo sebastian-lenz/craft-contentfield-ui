@@ -22,6 +22,7 @@ export interface ExternalProps<TChild, TField extends Field> {
   field: TField;
   index: number;
   isCollapsible: boolean;
+  isCompact: boolean;
   isExpanded: boolean;
   onDelete: (index: number) => void;
   onUpdate: (index: number, value: any) => void;

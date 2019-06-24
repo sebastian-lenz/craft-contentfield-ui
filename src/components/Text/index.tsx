@@ -1,21 +1,12 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { RootState } from '../../store/models';
+import translate, { TranslateParams } from '../../store/utils/translate';
 
-export interface ExternalProps {
+export interface Props {
   className?: string;
-  category?: string;
+  params?: TranslateParams;
   value: string;
 }
 
-export type Props = ExternalProps & {
-  resolvedCategory: string;
-};
-
-export function Text({ className, resolvedCategory, value }: Props) {
-  return <span className={className}>{Craft.t(resolvedCategory, value)}</span>;
+export default function Text({ className, params, value }: Props) {
+  return <span className={className}>{translate(value, params)}</span>;
 }
-
-export default connect((state: RootState, props: ExternalProps) => ({
-  resolvedCategory: props.category || state.config.i18nCategory,
-}))(Text);

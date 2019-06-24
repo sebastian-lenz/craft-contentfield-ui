@@ -66,6 +66,7 @@ export class ArrayWidget extends React.Component<Props> {
         data={arrayData}
         field={field.member}
         isCollapsible={field.collapsible}
+        isCompact={field.compact}
         limit={limit}
         onDelete={this.handleDelete}
         onUpdate={this.handleUpdate}

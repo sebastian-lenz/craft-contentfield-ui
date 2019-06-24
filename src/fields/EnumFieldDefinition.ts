@@ -10,6 +10,7 @@ export type EnumKey = number | string;
 
 export interface EnumOption {
   [key: string]: any;
+  indent?: number;
   key: EnumKey;
   label: string;
 }

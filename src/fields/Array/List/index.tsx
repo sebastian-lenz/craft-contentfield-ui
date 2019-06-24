@@ -1,4 +1,5 @@
 import * as React from 'react';
+import cx from 'classnames';
 import { connect } from 'react-redux';
 import { ConnectDropTarget, DropTargetMonitor } from 'react-dnd';
 
@@ -31,6 +32,7 @@ export interface ExternalProps {
   data: Array<any>;
   field: AnyField;
   isCollapsible: boolean;
+  isCompact: boolean;
   limit: number;
   onDelete: (index: number) => void;
   onUpdate: (index: number, value: any) => void;
@@ -104,13 +106,13 @@ export class List extends React.PureComponent<Props, State> {
 
   render() {
     const { dropIndex, placeholderHeight } = this.state;
-    const { children, connectDropTarget, isOver } = this.props;
+    const { children, connectDropTarget, isCompact, isOver } = this.props;
     const members = this.renderMembers();
 
     if (isOver) {
       const placeholder = (
         <div
-          className="tcfArrayWidgetList--placeholder"
+          className={cx('tcfArrayWidgetList--placeholder', { isCompact })}
           key="placeholder"
           style={{ height: placeholderHeight }}
         />
@@ -154,6 +156,7 @@ export class List extends React.PureComponent<Props, State> {
       expanded,
       field,
       isCollapsible,
+      isCompact,
       onDelete,
       onToggleExpanded,
       onUpdate,
@@ -183,13 +186,20 @@ export class List extends React.PureComponent<Props, State> {
             {...props}
             child={child}
             field={field}
+            isCompact={isCompact}
             isExpanded={expanded.indexOf(child.__uuid) !== -1}
             schema={schemas[child.__type]}
           />
         );
       } else {
         return (
-          <DefaultMember {...props} child={child} field={field} isExpanded />
+          <DefaultMember
+            {...props}
+            child={child}
+            field={field}
+            isCompact={isCompact}
+            isExpanded
+          />
         );
       }
     });

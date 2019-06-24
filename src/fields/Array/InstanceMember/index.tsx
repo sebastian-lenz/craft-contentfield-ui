@@ -37,29 +37,31 @@ class InstanceMember extends React.Component<Props> {
       field,
       hasDropTarget,
       isCollapsible,
+      isCompact,
       isDragging,
       isExpanded,
       path,
       schema,
     } = this.props;
 
-    let isCompact = false;
+    let isBorderless = false;
     if (schema) {
       const fieldNames = Object.keys(schema.fields);
       if (
         fieldNames.length === 1 &&
         schema.fields[fieldNames[0]].type === 'redactor'
       ) {
-        isCompact = true;
+        isBorderless = true;
       }
     }
 
+    const isActualExpanded = !isCollapsible || isExpanded;
     let content: React.ReactNode;
-    if (!isCollapsible || isExpanded) {
+    if (isActualExpanded) {
       content = (
         <Instance
           canChangeType={false}
-          isCompact={isCompact}
+          isBorderless={isBorderless}
           model={child}
           path={path}
           schemaNames={field.schemas}
@@ -80,15 +82,21 @@ class InstanceMember extends React.Component<Props> {
       <div
         className={cx('tcfArrayWidgetMember', {
           hasDropTarget,
+          isCompact,
           isDragging,
         })}
       >
         {dragPreview(
-          <div className={cx('tcfArrayWidgetMember--panel', { isExpanded })}>
+          <div
+            className={cx('tcfArrayWidgetMember--panel', {
+              isExpanded: isActualExpanded,
+            })}
+          >
             <Header
               dragSource={dragSource}
               isCollapsible={isCollapsible}
-              isExpanded={isExpanded}
+              isExpanded={isActualExpanded}
+              model={child}
               onDelete={this.handleDelete}
               onToggleExpanded={this.handleToggleExpanded}
               schema={schema}

@@ -12,7 +12,7 @@ import { updateValue } from '../../store/actions';
 import './index.styl';
 
 export interface ExternalProps {
-  isCompact?: boolean;
+  isBorderless?: boolean;
   model: Model;
   path: Array<AnyPathSegment>;
 }
@@ -34,7 +34,7 @@ function getGroupSort(a: Group, b: Group) {
 }
 
 export function InstanceForm({
-  isCompact,
+  isBorderless,
   model,
   onUpdate,
   path,
@@ -50,7 +50,7 @@ export function InstanceForm({
   for (const name of Object.keys(schema.fields)) {
     const field = schema.fields[name];
     const errors = model.__errors[name] || null;
-    const { isAlwaysCompact } = fields.getDefinition(field);
+    const { isAlwaysPlainField: isAlwaysCompact } = fields.getDefinition(field);
 
     if (!currentGroup || field.group) {
       const label = field.group ? field.group.label : undefined;
@@ -69,7 +69,7 @@ export function InstanceForm({
       <FieldPanel
         errors={errors}
         instructions={field.instructions}
-        isCompact={isCompact || isAlwaysCompact}
+        isPlainField={isBorderless || isAlwaysCompact}
         isRequired={field.isRequired}
         key={field.name}
         label={field.label}
@@ -89,7 +89,7 @@ export function InstanceForm({
 
   const children = groups.sort(getGroupSort).map(group => (
     <FieldGroup
-      isCompact={isCompact}
+      isBorderless={isBorderless}
       key={group.index}
       label={group.label}
       style={group.style}

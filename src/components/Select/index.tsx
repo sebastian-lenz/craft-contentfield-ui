@@ -3,6 +3,7 @@ import * as React from 'react';
 import './index.styl';
 
 export interface SelectOption<T = any> {
+  indent?: number;
   key: T;
   label: string;
 }
@@ -47,6 +48,7 @@ export default function Select<Option extends SelectOption>({
         {hasUndecied ? <option>(None)</option> : null}
         {options.map((option, index) => (
           <option key={index} value={index}>
+            {option.indent ? '--'.repeat(option.indent) + ' ' : null}
             {option.label}
           </option>
         ))}

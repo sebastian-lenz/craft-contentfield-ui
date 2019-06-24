@@ -79,7 +79,7 @@ export default abstract class FieldDefinition<
   Value = any
 > {
   field?: Field;
-  isAlwaysCompact?: boolean;
+  isAlwaysPlainField?: boolean;
   widget: WidgetComponent<Field>;
   factory: FactoryComponent<Field>;
 

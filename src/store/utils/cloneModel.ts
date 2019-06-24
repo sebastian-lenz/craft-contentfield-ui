@@ -17,6 +17,7 @@ export default async function cloneModel({
   }
 
   const result: Model = {
+    __errors: {},
     __originalUuid: source.__uuid,
     __type: schema.qualifier,
     __uuid: uuid(),

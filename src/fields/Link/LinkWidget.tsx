@@ -1,14 +1,15 @@
 import * as React from 'react';
 
+import Checkbox from '../../components/Checkbox';
 import ElementEditor from './ElementEditor';
 import InputEditor from './InputEditor';
 import Select from '../../components/Select';
+import Text from '../../components/Text';
 import { isLink, Link } from './Link';
 import { LinkField } from './index';
 import { WidgetProps } from '../FieldDefinition';
 
 import './LinkWidget.styl';
-import Checkbox from '../../components/Checkbox';
 
 export interface Props extends WidgetProps<LinkField> {}
 
@@ -24,11 +25,21 @@ export default function LinkWidget({ data, field, onUpdate }: Props) {
   let editor: React.ReactNode;
   if (linkType && linkType.type === 'input') {
     editor = (
-      <InputEditor key={link.type} link={link} linkType={linkType} onUpdate={onUpdate} />
+      <InputEditor
+        key={link.type}
+        link={link}
+        linkType={linkType}
+        onUpdate={onUpdate}
+      />
     );
   } else if (linkType && linkType.type === 'element') {
     editor = (
-      <ElementEditor key={link.type} link={link} linkType={linkType} onUpdate={onUpdate} />
+      <ElementEditor
+        key={link.type}
+        link={link}
+        linkType={linkType}
+        onUpdate={onUpdate}
+      />
     );
   }
 
@@ -51,7 +62,7 @@ export default function LinkWidget({ data, field, onUpdate }: Props) {
           onChange={openInNewWindow => onUpdate({ ...link, openInNewWindow })}
           value={link.openInNewWindow}
         >
-          Open in new window
+          <Text value="FIELD_LINK_NEW_WINDOW" />
         </Checkbox>
       ) : null}
     </div>

@@ -1,8 +1,9 @@
 import { Action } from 'redux';
-import { RootState } from '../models';
+
+import createModel from '../utils/createModel';
 import modifyPath from '../utils/modifyPath';
 import { AnyPathSegment } from '../utils/parsePath';
-import createModel from '../utils/createModel';
+import { RootState } from '../models';
 
 export interface ChangeTypeAction extends Action {
   newType: string;

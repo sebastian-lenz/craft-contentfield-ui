@@ -13,7 +13,7 @@ import './index.styl';
 
 export type ExternalProps = {
   canChangeType?: boolean;
-  isCompact?: boolean;
+  isBorderless?: boolean;
   model: Model;
   path: Array<AnyPathSegment>;
   schemaNames: Array<string>;
@@ -26,7 +26,7 @@ export type Props = ExternalProps & {
 
 export function Instance({
   canChangeType = true,
-  isCompact,
+  isBorderless,
   model,
   onChangeType,
   path,
@@ -62,7 +62,7 @@ export function Instance({
     <>
       {schemaSelect}
       {isValidModel ? (
-        <InstanceForm model={model} isCompact={isCompact} path={path} />
+        <InstanceForm model={model} isBorderless={isBorderless} path={path} />
       ) : null}
     </>
   );

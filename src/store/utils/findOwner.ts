@@ -7,6 +7,7 @@ export interface OwnerInfo {
   field: Field;
   index?: number;
   owner: Model;
+  path: Array<AnyPathSegment>;
   schema: Schema;
 }
 
@@ -42,6 +43,7 @@ export default function findOwner(
     field,
     index,
     owner,
+    path,
     schema,
   };
 }

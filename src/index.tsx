@@ -3,21 +3,24 @@ import '@babel/polyfill';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import thunk from 'redux-thunk';
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, createStore, Store } from 'redux';
 import { Provider } from 'react-redux';
 
+import createInstanceApi from './store/utils/createInstanceApi';
 import loadRootState from './store/utils/loadRootState';
+import findByUuid from './store/utils/findByUuid';
 import Root from './components/Root';
 import store from './store';
-import { Validator, ValidatorMap } from './store/models';
+import { Validator, ValidatorMap, RootState } from './store/models';
 
 import './fields/includes';
 import './cp.styl';
 
+const stores: Array<Store<RootState>> = [];
 const validators: ValidatorMap = {};
 
 const api = {
-  create: function(id: string) {
+  create: (id: string) => {
     try {
       const element = document.getElementById(id);
       if (!element) {
@@ -27,7 +30,7 @@ const api = {
       const root = element.querySelector('.tcfField--app');
       const script = element.querySelector('script[type="application/json"]');
       const field = element.querySelector<HTMLInputElement>(
-        'input.tcfField--content'
+        'input.tcfField--model'
       );
 
       if (!field || !root || !script) {
@@ -40,6 +43,7 @@ const api = {
         applyMiddleware(thunk)
       );
 
+      stores.push(redux);
       redux.subscribe(() => {
         field.value = JSON.stringify(redux.getState().model);
       });
@@ -54,10 +58,17 @@ const api = {
       console.error('Could not start content editor: ' + error.message);
     }
   },
+  getInstanceApi: (uuid: string) => {
+    for (const store of stores) {
+      const state = store.getState();
+      const location = findByUuid(state, uuid);
+      return location ? createInstanceApi(store, location) : null;
+    }
+  },
   getValidator: function(id: string): Validator | null {
     return id in validators ? validators[id] : null;
   },
-  registerValidator: function(id: string, validator: Validator) {
+  registerValidator: (id: string, validator: Validator) => {
     validators[id] = validator;
   },
 };

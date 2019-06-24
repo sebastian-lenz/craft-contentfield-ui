@@ -3,11 +3,11 @@ import cx from 'classnames';
 import { connect } from 'react-redux';
 
 import fields from '../../fields';
+import toHTML from '../../utils/toHTML';
 import { InstanceField } from '../../fields/Instance';
 import { Reference, Schemas, Model, RootState } from '../../store/models';
 
 import './index.styl';
-import toHTML from '../../utils/toHTML';
 
 export interface ExternalProps {
   className?: string;

@@ -10,14 +10,18 @@ import Overlay from '../Overlay';
 import Synchronize from '../Synchronize';
 import Text from '../Text';
 import { Model, RootState, SyncState } from '../../store/models';
-import { updateSync } from '../../store/actions';
+import { OverlayState } from '../../store/models/overlay';
+import { updateSync, setOverlay } from '../../store/actions';
 
 import './index.styl';
+import createOverlay from '../../overlays';
 
 export interface Props {
   canSynchronize: boolean;
   model: Model;
+  onSetOverlay: (state: OverlayState) => void;
   onUpdateSync: (sync: SyncState) => void;
+  overlay: OverlayState;
   schemas: Array<string>;
   sync: SyncState;
 }
@@ -29,6 +33,10 @@ export interface State {
 export class Root extends React.Component<Props, State> {
   state: State = {
     isSynchronizing: false,
+  };
+
+  handleOverlayClose = () => {
+    this.props.onSetOverlay(null);
   };
 
   handleSyncClose = () => {
@@ -46,7 +54,7 @@ export class Root extends React.Component<Props, State> {
   };
 
   render() {
-    const { canSynchronize, model, schemas, sync } = this.props;
+    const { canSynchronize, model, overlay, schemas, sync } = this.props;
     const { isSynchronizing } = this.state;
 
     return (
@@ -67,6 +75,12 @@ export class Root extends React.Component<Props, State> {
             <Synchronize onClose={this.handleSyncClose} sync={sync} />
           </Overlay>
         ) : null}
+
+        {overlay ? (
+          <Overlay onClick={this.handleOverlayClose}>
+            {createOverlay(overlay)}
+          </Overlay>
+        ) : null}
       </>
     );
   }
@@ -77,10 +91,12 @@ export default DragDropContext(HTML5Backend)(
     (state: RootState) => ({
       canSynchronize: state.config.supportedSites.length > 1,
       model: state.model,
+      overlay: state.overlay,
       schemas: state.config.rootSchemas,
       sync: state.sync,
     }),
     dispatch => ({
+      onSetOverlay: (state: OverlayState) => dispatch(setOverlay(state)),
       onUpdateSync: (sync: SyncState) => dispatch(updateSync(sync)),
     })
   )(Root)

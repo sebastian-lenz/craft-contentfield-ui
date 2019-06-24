@@ -6,7 +6,7 @@ import { WidgetProps } from '../FieldDefinition';
 
 export interface Props extends WidgetProps<TextField> {}
 
-export default function InputWidget({ data, errors, onUpdate }: Props) {
+export default function TextWidget({ data, errors, onUpdate }: Props) {
   return (
     <input
       autoComplete="off"
@@ -14,7 +14,7 @@ export default function InputWidget({ data, errors, onUpdate }: Props) {
         error: errors && errors.length,
       })}
       onChange={event => onUpdate(event.target.value)}
-      value={data}
+      value={`${data}`}
     />
   );
 }

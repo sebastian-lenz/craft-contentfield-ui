@@ -23,6 +23,7 @@ export function createRootState(): RootState {
       __type: 'unknown',
       __uuid: '0',
     },
+    overlay: null,
     schemas: {},
     sync: {
       status: 'idle',

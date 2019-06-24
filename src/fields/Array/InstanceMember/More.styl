@@ -1,0 +1,43 @@
+@require '../../../includes'
+
+.tcfArrayWidgetMember--headerMore
+  position: relative
+
+.tcfArrayWidgetMember--headerMoreButton
+  display: flex
+  align-items: center
+  justify-content: center
+  height: 100%
+  width: 38px
+  
+  background: $gray-darker
+
+  color: $white
+  cursor: pointer
+
+.tcfArrayWidgetMember--headerMoreMenu
+  background: $white
+  border-radius: 3px
+
+.tcfArrayWidgetMember--headerMoreDivider
+  margin: 8px 0
+
+  border-top: 1px solid $border-color
+
+.tcfArrayWidgetMember--headerMoreItem
+  display: flex
+  flex-flow: row nowrap
+  align-items: center
+  padding: 4px 12px
+
+  cursor: pointer
+
+  &:hover
+    background: $primary-color
+    color: $white
+
+.tcfArrayWidgetMember--headerMoreItemIcon
+  margin-right: 8px
+
+.tcfArrayWidgetMember--headerMoreItemLabel
+  flex: 1

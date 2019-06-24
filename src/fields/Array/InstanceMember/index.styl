@@ -1,3 +1,4 @@
+@require '../../../includes'
 
 .tcfArrayWidgetMember
   padding: 5px 0
@@ -5,25 +6,50 @@
   &.isDragging
     opacity: 0.5
 
+  &.isCompact
+    padding: 0
+
   &.hasDropTarget
     display: none
   
 .tcfArrayWidgetMember--panel
+  position: relative
   overflow: hidden
 
-  background: #fff
-  border: 1px solid rgba(0, 0, 20, 0.1)
-  border-radius: 5px
-  
+  background: #f1f5f8
+  border: 1px solid #DEDEE1
+
   &.isExpanded
-    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1)
+    background: #fff
+
+  &.isExpanded:before
+    content: ''
+    display: block
+    position: absolute
+    top: 0
+    bottom: 0
+    left: 0
+    
+    border-left: 3px solid $primary-color
+
+  .isCompact > &
+    border-top: none
+
+  .isCompact:first-of-type > &
+    border-top: 1px solid #DEDEE1
+
+
+// Header
+//
 
 .tcfArrayWidgetMember--header
   display: flex
   flex-flow: row nowrap
   align-items: stretch
+  min-height: 36px
 
-  background: #f1f5f8
+  background: $gray-light
+  border-bottom: 1px solid $border-color
 
 .tcfArrayWidgetMember--headerHandle
   display: flex
@@ -31,12 +57,13 @@
   align-items: center
 
   flex: 1
-  padding: 5px 10px
+  padding: 0 10px
 
+  font-weight: bold
   cursor: move
 
   > .tcfIcon
-    margin-right: 5px
+    margin-right: 8px
 
 .tcfArrayWidgetMember--headerHandleIcon
   color: rgba(0, 0, 0, 0.25)
@@ -45,12 +72,39 @@
     color: #0d78f2
 
 .tcfArrayWidgetMember--headerActions
-  padding: 5px 10px
+  display: flex
+  flex-flow: row nowrap
+  padding: 0 0 0 10px
+
+.tcfArrayWidgetMember--headerActionsButton
+  padding: 8px 10px
+
+  border-left: 1px solid #DEDEE1
+  cursor: pointer
+
+  > .tcfIcon
+    margin: 0 8px
+
+  > .tcfIcon:first-child
+    margin-left: 0
+
+  > .tcfIcon:last-child
+    margin-right: 0
+
+  &.primary
+    background: $primary-color
+    color: $white
+
+    font-weight: bold
+
+
+// Content
+//
 
 .tcfArrayWidgetMember--body
   position: relative
   overflow: hidden
-  padding: 20px
+  padding: 16px
 
 .tcfArrayWidgetMember--preview
   cursor: pointer
