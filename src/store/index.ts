@@ -11,7 +11,6 @@ export function createRootState(): RootState {
       },
       elementId: null,
       elementSiteId: 0,
-      expanded: [],
       fieldHandle: '',
       i18nCategory: 'site',
       references: [],

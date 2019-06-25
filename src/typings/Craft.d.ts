@@ -306,12 +306,16 @@ declare namespace Craft {
 
   export class BaseElementSelectInput extends Garnish.Base {
     elementSort?: Garnish.Base;
+    $elementsContainer: JQuery;
+
     constructor(options: BaseElementSelectInputOptions);
+
     getElements(): JQuery;
     getSelectedElementIds(): Array<number>;
     createNewElement(element: any): any;
     appendElement(element: any): void;
     addElements(element: any): void;
+    resetElements(): void;
   }
 
   export interface RedactorInputOptions {
@@ -326,7 +330,15 @@ declare namespace Craft {
   }
 
   export class RedactorInput extends Garnish.Base {
-    redactor: any;
+    redactor: {
+      on: (event: string, callback: Function) => void;
+      off: (event: string, callback: Function) => void;
+      source: {
+        getCode: () => string;
+        setCode: (value: string) => void;
+      };
+    };
+
     constructor(options: RedactorInputOptions);
   }
 

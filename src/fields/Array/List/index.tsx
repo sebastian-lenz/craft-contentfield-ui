@@ -10,8 +10,7 @@ import InstanceMember from '../InstanceMember';
 import isModel from '../../../store/utils/isModel';
 import { AnyField } from '../../index';
 import { AnyPathSegment } from '../../../store/utils/parsePath';
-import { RootState, Schemas } from '../../../store/models';
-import { toggleExpanded } from '../../../store/actions';
+import { RootState, Schemas, Model } from '../../../store/models';
 
 import './index.styl';
 
@@ -34,6 +33,7 @@ export interface ExternalProps {
   isCollapsible: boolean;
   isCompact: boolean;
   limit: number;
+  model: Model;
   onDelete: (index: number) => void;
   onUpdate: (index: number, value: any) => void;
   path: Array<AnyPathSegment>;
@@ -45,10 +45,8 @@ export interface DropProps {
 }
 
 export interface ReduxProps {
-  expanded: Array<string>;
   schemas: Schemas;
   onMove: (options: MoveModelOptions) => void;
-  onToggleExpanded: (uuid: string) => void;
 }
 
 export type Props = ExternalProps & DropProps & ReduxProps;
@@ -153,12 +151,11 @@ export class List extends React.PureComponent<Props, State> {
   renderMembers(): Array<React.ReactElement<any>> {
     const {
       data,
-      expanded,
       field,
       isCollapsible,
       isCompact,
+      model,
       onDelete,
-      onToggleExpanded,
       onUpdate,
       path: parentPath,
       schemas,
@@ -174,8 +171,8 @@ export class List extends React.PureComponent<Props, State> {
         index,
         isCollapsible,
         key: isModel(child) ? child.__uuid : index,
+        model,
         onDelete,
-        onToggleExpanded,
         onUpdate,
         path,
       };
@@ -187,7 +184,6 @@ export class List extends React.PureComponent<Props, State> {
             child={child}
             field={field}
             isCompact={isCompact}
-            isExpanded={expanded.indexOf(child.__uuid) !== -1}
             schema={schemas[child.__type]}
           />
         );
@@ -198,7 +194,6 @@ export class List extends React.PureComponent<Props, State> {
             child={child}
             field={field}
             isCompact={isCompact}
-            isExpanded
           />
         );
       }
@@ -212,12 +207,10 @@ export class List extends React.PureComponent<Props, State> {
 
 const connection = connect(
   (state: RootState) => ({
-    expanded: state.config.expanded,
     schemas: state.schemas,
   }),
   dispatch => ({
     onMove: (options: MoveModelOptions) => dispatch(moveModel(options)),
-    onToggleExpanded: (uuid: string) => dispatch(toggleExpanded(uuid)),
   })
 );
 

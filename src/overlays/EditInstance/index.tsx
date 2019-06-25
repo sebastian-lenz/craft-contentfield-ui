@@ -10,6 +10,7 @@ import { RootState, Model } from '../../store/models';
 import { AnyPathSegment } from '../../store/utils/parsePath';
 import { setOverlay } from '../../store/actions';
 import Text from '../../components/Text';
+import ExpandedStateProvider from '../../contexts/ExpandedStateProvider';
 
 export interface Props extends EditOverlayState {
   model: Model;
@@ -41,16 +42,18 @@ class EditInstance extends React.Component<Props> {
     const { model, path } = this.props;
 
     return (
-      <Window>
-        <Window.Content>
-          <InstanceForm model={model} path={path} />
-        </Window.Content>
-        <Window.Footer>
-          <Button onClick={this.handleApply}>
-            <Text value="OVERLAY_EDIT_INSTANCE_APPLY" />
-          </Button>
-        </Window.Footer>
-      </Window>
+      <ExpandedStateProvider>
+        <Window>
+          <Window.Content>
+            <InstanceForm model={model} path={path} />
+          </Window.Content>
+          <Window.Footer>
+            <Button onClick={this.handleApply}>
+              <Text value="OVERLAY_EDIT_INSTANCE_APPLY" />
+            </Button>
+          </Window.Footer>
+        </Window>
+      </ExpandedStateProvider>
     );
   }
 }

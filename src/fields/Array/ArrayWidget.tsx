@@ -1,26 +1,28 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 
 import fields from '../index';
 import isModel from '../../store/utils/isModel';
 import List from './List';
 import { ArrayField } from './index';
-import { toggleExpanded } from '../../store/actions';
+import { Context } from '../../contexts/ExpandedStateProvider';
 import { WidgetProps } from '../FieldDefinition';
 
-export type Props = WidgetProps<ArrayField> & {
-  onToggleExpanded: (uuid: string, expand?: boolean) => void;
-};
+export type Props = WidgetProps<ArrayField>;
 
-export class ArrayWidget extends React.Component<Props> {
+export default class ArrayWidget extends React.Component<Props> {
+  context!: React.ContextType<typeof Context>;
+  static contextType = Context;
+
   handleAdd = (value: any) => {
-    const { data, onToggleExpanded, onUpdate } = this.props;
+    const { context } = this;
+    const { data, onUpdate } = this.props;
     const newValue = Array.isArray(data) ? data.slice() : [];
     newValue.push(value);
 
     onUpdate(newValue);
-    if (isModel(value)) {
-      onToggleExpanded(value.__uuid, true);
+
+    if (isModel(value) && context) {
+      context.toggleExpanded(value.__uuid, true);
     }
   };
 
@@ -43,7 +45,7 @@ export class ArrayWidget extends React.Component<Props> {
   };
 
   render() {
-    const { field, data, path } = this.props;
+    const { field, data, model, path } = this.props;
     const { limit } = field;
     if (!field.member) {
       return null;
@@ -68,6 +70,7 @@ export class ArrayWidget extends React.Component<Props> {
         isCollapsible={field.collapsible}
         isCompact={field.compact}
         limit={limit}
+        model={model}
         onDelete={this.handleDelete}
         onUpdate={this.handleUpdate}
         path={path}
@@ -77,11 +80,3 @@ export class ArrayWidget extends React.Component<Props> {
     );
   }
 }
-
-export default connect(
-  null,
-  disptach => ({
-    onToggleExpanded: (uuid: string, expand?: boolean) =>
-      disptach(toggleExpanded(uuid, expand)),
-  })
-)(ArrayWidget);

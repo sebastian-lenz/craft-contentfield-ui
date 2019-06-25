@@ -25,7 +25,6 @@ export interface Config {
   googleMapsApiKey?: string;
   elementId: number | null;
   elementSiteId: number | null;
-  expanded: Array<string>;
   fieldHandle: string;
   i18nCategory: string;
   references: Array<Reference>;

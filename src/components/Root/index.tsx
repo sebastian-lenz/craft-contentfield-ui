@@ -15,6 +15,7 @@ import { updateSync, setOverlay } from '../../store/actions';
 
 import './index.styl';
 import createOverlay from '../../overlays';
+import ExpandedStateProvider from '../../contexts/ExpandedStateProvider';
 
 export interface Props {
   canSynchronize: boolean;
@@ -58,7 +59,7 @@ export class Root extends React.Component<Props, State> {
     const { isSynchronizing } = this.state;
 
     return (
-      <>
+      <ExpandedStateProvider>
         <Instance model={model} path={[]} schemaNames={schemas} />
 
         {canSynchronize ? (
@@ -81,7 +82,7 @@ export class Root extends React.Component<Props, State> {
             {createOverlay(overlay)}
           </Overlay>
         ) : null}
-      </>
+      </ExpandedStateProvider>
     );
   }
 }

@@ -6,6 +6,7 @@ import dragSource, { Props as BaseProps } from '../utils/dragSource';
 import Header from './Header';
 import Instance from '../../../components/Instance';
 import InstancePreview from '../../../components/InstancePreview';
+import { Context } from '../../../contexts/ExpandedStateProvider';
 import { InstanceField } from '../../Instance';
 import { Model } from '../../../store/models';
 
@@ -14,14 +15,18 @@ import './index.styl';
 export type Props = BaseProps<Model, InstanceField>;
 
 class InstanceMember extends React.Component<Props> {
+  context!: React.ContextType<typeof Context>;
+  static contextType = Context;
+
   handleDelete = () => {
     const { index, onDelete } = this.props;
     onDelete(index);
   };
 
   handleToggleExpanded = () => {
-    const { child, onToggleExpanded } = this.props;
-    onToggleExpanded(child.__uuid);
+    const { toggleExpanded } = this.context;
+    const { child } = this.props;
+    toggleExpanded(child.__uuid);
   };
 
   handleUpdate = (value: any) => {
@@ -39,7 +44,6 @@ class InstanceMember extends React.Component<Props> {
       isCollapsible,
       isCompact,
       isDragging,
-      isExpanded,
       path,
       schema,
     } = this.props;
@@ -55,8 +59,10 @@ class InstanceMember extends React.Component<Props> {
       }
     }
 
+    const isExpanded = this.context.isExpanded(child.__uuid);
     const isActualExpanded = !isCollapsible || isExpanded;
     let content: React.ReactNode;
+
     if (isActualExpanded) {
       content = (
         <Instance

@@ -3,7 +3,6 @@ import changeType, { applyChangeType, ChangeTypeAction } from './changeType';
 import moveModel, { applyMoveModel, MoveModelAction } from './moveModel';
 import setOverlay, { applySetOverlay, SetOverlayAction } from './setOverlay';
 import synchronize from './synchronize';
-import toggleExpanded, { applyToggleExpanded, ToggleExpandedAction } from './toggleExpanded';
 import uuidOrder, {applyUuidOrder, UuidOrderAction} from './uuidOrder';
 import uuidRemove, {applyUuidRemove, UuidRemoveAction} from './uuidRemove';
 import updateValue, { applyUpdateValue, UpdateValueAction } from './updateValue';
@@ -14,7 +13,6 @@ export type AnyAction =
   | ChangeTypeAction
   | MoveModelAction
   | SetOverlayAction
-  | ToggleExpandedAction
   | UuidOrderAction
   | UuidRemoveAction
   | UpdateSyncAction
@@ -25,7 +23,6 @@ export const handlers = {
   changeType: applyChangeType,
   moveModel: applyMoveModel,
   setOverlay: applySetOverlay,
-  toggleExpanded: applyToggleExpanded,
   uuidOrder: applyUuidOrder,
   uuidRemove: applyUuidRemove,
   updateSync: applyUpdateSync,
@@ -38,7 +35,6 @@ export {
   moveModel,
   setOverlay,
   synchronize,
-  toggleExpanded,
   uuidOrder,
   uuidRemove,
   updateSync,
