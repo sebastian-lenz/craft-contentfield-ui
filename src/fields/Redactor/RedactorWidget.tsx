@@ -15,11 +15,28 @@ export interface Props extends ExternalProps {
 }
 
 export class RedactorWidget extends React.Component<Props> {
+  didRender: boolean = false;
   element: HTMLTextAreaElement | null = null;
   instance: Craft.RedactorInput | null = null;
+  renderedValue: string = '';
   uuid: string = `element-${uuid()}`;
 
-  handleChange = (value: string) => {
+  componentDidUpdate() {
+    const { instance, props, renderedValue } = this;
+    if (instance && props.data != renderedValue) {
+      this.didRender = true;
+      this.renderedValue = props.data;
+      instance.redactor.source.setCode(props.data);
+    }
+  }
+
+  handleChange = (value: string, ...args: any) => {
+    if (this.didRender) {
+      this.didRender = false;
+      return;
+    }
+
+    this.renderedValue = value;
     this.props.onUpdate(value);
   };
 

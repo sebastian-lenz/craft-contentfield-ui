@@ -28,8 +28,45 @@ export interface AddOptions {
 
 export class ElementSelect extends React.Component<Props> {
   element: HTMLDivElement | null = null;
+  renderedIds: Array<number> = [];
   uuid: string = `element-${uuid()}`;
   instance: Craft.BaseElementSelectInput | null = null;
+  isRendering: boolean = false;
+
+  componentDidUpdate() {
+    const { renderedIds } = this;
+    const actualIds = this.props.data || [];
+
+    if (
+      actualIds.length !== renderedIds.length ||
+      !actualIds.every((id, index) => id === renderedIds[index])
+    ) {
+      this.createReferences();
+    }
+  }
+
+  createReferences() {
+    const { instance } = this;
+    if (!instance) {
+      return;
+    }
+
+    this.isRendering = true;
+
+    const renderedIds: Array<number> = [];
+    instance.$elementsContainer.empty();
+
+    for (const reference of this.getStoredReferences()) {
+      const element = instance.createNewElement(reference);
+      instance.appendElement(element);
+      renderedIds.push(reference.id);
+    }
+
+    instance.resetElements();
+
+    this.renderedIds = renderedIds;
+    this.isRendering = false;
+  }
 
   getStoredReferences(): Array<Reference> {
     const { data, elementType, references } = this.props;
@@ -73,6 +110,7 @@ export class ElementSelect extends React.Component<Props> {
   }
 
   handleAdd = ({ elements }: AddOptions) => {
+    if (this.isRendering) return;
     const { elementType, onAddReferences } = this.props;
 
     onAddReferences(
@@ -88,8 +126,13 @@ export class ElementSelect extends React.Component<Props> {
   };
 
   handleChange = () => {
+    if (this.isRendering) return;
     const { onUpdate } = this.props;
-    onUpdate(this.getSelectedIds());
+    const ids = this.getSelectedIds();
+
+    this.renderedIds = ids;
+
+    onUpdate(ids);
   };
 
   setElement = (element: HTMLDivElement | null) => {
@@ -131,19 +174,14 @@ export class ElementSelect extends React.Component<Props> {
         viewMode,
       });
 
-      for (const reference of this.getStoredReferences()) {
-        const element = instance.createNewElement(reference);
-        instance.appendElement(element);
-        instance.addElements(element);
-      }
+      this.instance = instance;
+      this.createReferences();
 
       instance.on('selectElements', this.handleAdd);
       instance.on('removeElements', this.handleChange);
       if (instance.elementSort) {
         instance.elementSort.on('sortChange', this.handleChange);
       }
-
-      this.instance = instance;
     }
   };
 
