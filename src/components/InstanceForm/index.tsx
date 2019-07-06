@@ -9,6 +9,11 @@ import { AnyPathSegment } from '../../store/utils/parsePath';
 import { Model, RootState, Schema } from '../../store/models';
 import { updateValue } from '../../store/actions';
 
+import {
+  Context,
+  ResponsiveState,
+} from '../../contexts/ResponsiveStateProvider';
+
 import './index.styl';
 
 export interface ExternalProps {
@@ -40,11 +45,13 @@ export function InstanceForm({
   path,
   schema,
 }: Props) {
+  const responsiveState = React.useContext(Context);
   if (!schema) {
     return <div>{`Could not resolve schema for "${model.__type}"`}</div>;
   }
 
   const groups: Array<Group> = [];
+  const useLayout = responsiveState == ResponsiveState.Large;
   let currentGroup: Group | undefined = undefined;
 
   for (const name of Object.keys(schema.fields)) {
@@ -54,7 +61,7 @@ export function InstanceForm({
 
     if (!currentGroup || field.group) {
       const label = field.group ? field.group.label : undefined;
-      const style = field.group ? field.group.style : undefined;
+      const style = field.group && useLayout ? field.group.style : undefined;
       currentGroup = {
         index: label === toolbarGroup ? -1 : groups.length,
         label: label,
@@ -73,7 +80,7 @@ export function InstanceForm({
         isRequired={field.isRequired}
         key={field.name}
         label={field.label}
-        width={field.width}
+        width={useLayout ? field.width : undefined}
       >
         <Field
           data={model[field.name]}
@@ -92,14 +99,14 @@ export function InstanceForm({
       isBorderless={isBorderless}
       key={group.index}
       label={group.label}
-      style={group.style}
+      style={useLayout ? group.style : undefined}
     >
       {group.fields}
     </FieldGroup>
   ));
 
   const { grid } = schema;
-  if (grid) {
+  if (grid && useLayout) {
     return (
       <div className="tcfInstanceForm" style={{ grid }}>
         {children}

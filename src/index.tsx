@@ -11,12 +11,13 @@ import loadRootState from './store/utils/loadRootState';
 import findByUuid from './store/utils/findByUuid';
 import Root from './components/Root';
 import store from './store';
+import { AnyAction } from './store/actions';
 import { Validator, ValidatorMap, RootState } from './store/models';
 
 import './fields/includes';
 import './cp.styl';
 
-const stores: Array<Store<RootState>> = [];
+const stores: Array<Store<RootState, AnyAction>> = [];
 const validators: ValidatorMap = {};
 
 const api = {

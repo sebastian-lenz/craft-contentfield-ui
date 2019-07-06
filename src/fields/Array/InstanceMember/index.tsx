@@ -37,6 +37,7 @@ class InstanceMember extends React.Component<Props> {
   render() {
     const {
       child,
+      depth,
       dragPreview,
       dragSource,
       field,
@@ -65,15 +66,17 @@ class InstanceMember extends React.Component<Props> {
 
     if (isActualExpanded) {
       content = (
-        <Instance
-          canChangeType={false}
-          isBorderless={isBorderless}
-          model={child}
-          path={path}
-          schemaNames={field.schemas}
-        />
+        <div className="tcfArrayWidgetMember--body">
+          <Instance
+            canChangeType={false}
+            isBorderless={isBorderless}
+            model={child}
+            path={path}
+            schemaNames={field.schemas}
+          />
+        </div>
       );
-    } else {
+    } else if (depth !== 2) {
       content = (
         <InstancePreview
           className="tcfArrayWidgetMember--preview"
@@ -86,7 +89,7 @@ class InstanceMember extends React.Component<Props> {
 
     return (
       <div
-        className={cx('tcfArrayWidgetMember', {
+        className={cx(`tcfArrayWidgetMember depth-${depth}`, {
           hasDropTarget,
           isCompact,
           isDragging,
@@ -107,10 +110,7 @@ class InstanceMember extends React.Component<Props> {
               onToggleExpanded={this.handleToggleExpanded}
               schema={schema}
             />
-            <DetailsPanel
-              itemClassName="tcfArrayWidgetMember--body"
-              uri={isExpanded ? 'details' : 'summary'}
-            >
+            <DetailsPanel uri={isExpanded ? 'details' : 'summary'}>
               {content}
             </DetailsPanel>
           </div>

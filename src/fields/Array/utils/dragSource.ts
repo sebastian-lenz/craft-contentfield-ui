@@ -19,6 +19,7 @@ export interface DragProps {
 
 export interface ExternalProps<TChild, TField extends Field> {
   child: TChild;
+  depth: number;
   field: TField;
   index: number;
   isCollapsible: boolean;

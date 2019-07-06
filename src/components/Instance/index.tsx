@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import FieldPanel from '../FieldPanel';
+import InstanceDepthProvider from '../../contexts/InstanceDepthProvider';
 import InstanceForm from '../InstanceForm';
 import isModel from '../../store/utils/isModel';
 import Select, { sortOptions } from '../Select';
@@ -59,12 +60,12 @@ export function Instance({
   }
 
   return (
-    <>
+    <InstanceDepthProvider>
       {schemaSelect}
       {isValidModel ? (
         <InstanceForm model={model} isBorderless={isBorderless} path={path} />
       ) : null}
-    </>
+    </InstanceDepthProvider>
   );
 }
 

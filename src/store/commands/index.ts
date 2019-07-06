@@ -1,5 +1,6 @@
 import { Dispatch } from 'redux';
 
+import { AnyAction } from '../actions';
 import { OwnerInfo } from '../utils/findOwner';
 import { RootState } from '../models';
 import { UuidLocation } from '../utils/findByUuid';
@@ -44,6 +45,6 @@ export interface Command {
   group: CommandGroup;
   icon: string;
   id: string;
-  invoke: (dispatch: Dispatch) => void;
+  invoke: (dispatch: Dispatch<AnyAction>) => void;
   label: string;
 }

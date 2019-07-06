@@ -4,9 +4,12 @@ import { connect } from 'react-redux';
 import { DragDropContext } from 'react-dnd';
 
 import Button from '../Button';
+import createOverlay from '../../overlays';
+import ExpandedStateProvider from '../../contexts/ExpandedStateProvider';
 import Icon from '../Icon';
 import Instance from '../Instance';
 import Overlay from '../Overlay';
+import ResponsiveStateProvider from '../../contexts/ResponsiveStateProvider';
 import Synchronize from '../Synchronize';
 import Text from '../Text';
 import { Model, RootState, SyncState } from '../../store/models';
@@ -14,8 +17,6 @@ import { OverlayState } from '../../store/models/overlay';
 import { updateSync, setOverlay } from '../../store/actions';
 
 import './index.styl';
-import createOverlay from '../../overlays';
-import ExpandedStateProvider from '../../contexts/ExpandedStateProvider';
 
 export interface Props {
   canSynchronize: boolean;
@@ -60,28 +61,30 @@ export class Root extends React.Component<Props, State> {
 
     return (
       <ExpandedStateProvider>
-        <Instance model={model} path={[]} schemaNames={schemas} />
+        <ResponsiveStateProvider>
+          <Instance model={model} path={[]} schemaNames={schemas} />
 
-        {canSynchronize ? (
-          <div className="tcfRoot--options">
-            <Button onClick={this.handleSyncStart}>
-              <Icon name="material:sync" />
-              <Text value="Synchronize" />
-            </Button>
-          </div>
-        ) : null}
+          {canSynchronize ? (
+            <div className="tcfRoot--options">
+              <Button onClick={this.handleSyncStart}>
+                <Icon name="material:sync" />
+                <Text value="Synchronize" />
+              </Button>
+            </div>
+          ) : null}
 
-        {isSynchronizing || sync.status !== 'idle' ? (
-          <Overlay onClick={this.handleSyncClose}>
-            <Synchronize onClose={this.handleSyncClose} sync={sync} />
-          </Overlay>
-        ) : null}
+          {isSynchronizing || sync.status !== 'idle' ? (
+            <Overlay onClick={this.handleSyncClose}>
+              <Synchronize onClose={this.handleSyncClose} sync={sync} />
+            </Overlay>
+          ) : null}
 
-        {overlay ? (
-          <Overlay onClick={this.handleOverlayClose}>
-            {createOverlay(overlay)}
-          </Overlay>
-        ) : null}
+          {overlay ? (
+            <Overlay onClick={this.handleOverlayClose}>
+              {createOverlay(overlay)}
+            </Overlay>
+          ) : null}
+        </ResponsiveStateProvider>
       </ExpandedStateProvider>
     );
   }

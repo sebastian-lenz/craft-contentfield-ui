@@ -1,8 +1,9 @@
 import resolveCommands from './resolveCommands';
+import { AnyAction } from '../actions';
+import { Command } from '../commands';
 import { RootState } from '../models';
 import { Store, Unsubscribe } from 'redux';
 import { UuidLocation } from './findByUuid';
-import { Command } from '../commands';
 
 export interface InstanceApi {
   getCommands: () => Array<Command>;
@@ -11,7 +12,7 @@ export interface InstanceApi {
 }
 
 export default function createInstanceApi(
-  store: Store<RootState>,
+  store: Store<RootState, AnyAction>,
   { uuid }: UuidLocation
 ): InstanceApi {
   let unsubscribe: Unsubscribe | null = null;

@@ -10,6 +10,7 @@ import InstanceMember from '../InstanceMember';
 import isModel from '../../../store/utils/isModel';
 import { AnyField } from '../../index';
 import { AnyPathSegment } from '../../../store/utils/parsePath';
+import { Context } from '../../../contexts/InstanceDepthProvider';
 import { RootState, Schemas, Model } from '../../../store/models';
 
 import './index.styl';
@@ -57,11 +58,14 @@ export interface State {
 }
 
 export class List extends React.PureComponent<Props, State> {
+  context!: React.ContextType<typeof Context>;
   element: HTMLElement | null = null;
   state: State = {
     dropIndex: -1,
     placeholderHeight: 0,
   };
+
+  static contextType = Context;
 
   getDropIndex(monitor: DropTargetMonitor): number {
     const offset = monitor.getClientOffset();
@@ -161,6 +165,8 @@ export class List extends React.PureComponent<Props, State> {
       schemas,
     } = this.props;
 
+    const depth = this.context;
+
     return data.map((child, index) => {
       const path: Array<AnyPathSegment> = [
         ...parentPath,
@@ -182,6 +188,7 @@ export class List extends React.PureComponent<Props, State> {
           <InstanceMember
             {...props}
             child={child}
+            depth={depth}
             field={field}
             isCompact={isCompact}
             schema={schemas[child.__type]}
@@ -192,6 +199,7 @@ export class List extends React.PureComponent<Props, State> {
           <DefaultMember
             {...props}
             child={child}
+            depth={depth}
             field={field}
             isCompact={isCompact}
           />
