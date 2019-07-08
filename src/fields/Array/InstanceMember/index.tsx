@@ -76,7 +76,7 @@ class InstanceMember extends React.Component<Props> {
           />
         </div>
       );
-    } else if (depth !== 2) {
+    } else {
       content = (
         <InstancePreview
           className="tcfArrayWidgetMember--preview"

@@ -14,7 +14,7 @@ export default function TextWidget({ data, errors, onUpdate }: Props) {
         error: errors && errors.length,
       })}
       onChange={event => onUpdate(event.target.value)}
-      value={`${data}`}
+      value={data ? `${data}` : ''}
     />
   );
 }
