@@ -10,6 +10,7 @@ export interface SelectOption<T = any> {
 
 export interface Props<Option extends SelectOption> {
   allowUndecided?: boolean;
+  disabled?: boolean;
   options: Array<Option>;
   value: Option['key'] | null;
   onChange: (value: Option['key']) => void;
@@ -21,6 +22,7 @@ export function sortOptions(left: SelectOption, right: SelectOption): number {
 
 export default function Select<Option extends SelectOption>({
   allowUndecided,
+  disabled = false,
   options,
   value,
   onChange,
@@ -28,22 +30,26 @@ export default function Select<Option extends SelectOption>({
   const selectedIndex = options.findIndex(option => option.key === value);
   const hasUndecied = allowUndecided || selectedIndex === -1;
 
+  function handleChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    let index = event.target.selectedIndex;
+    let value: Option['key'] | null = null;
+    if (hasUndecied) index -= 1;
+    if (index >= 0 && index < options.length) {
+      value = options[index].key;
+    }
+
+    if (value !== null || allowUndecided) {
+      onChange(value);
+    }
+  }
+
   return (
     <div className="tcfSelect">
       <select
         className="tcfSelect--select"
+        disabled={disabled}
         value={selectedIndex == -1 ? undefined : selectedIndex}
-        onChange={event => {
-          let index = event.target.selectedIndex;
-          let value: Option['key'] | null = null;
-          if (hasUndecied) index -= 1;
-          if (index >= 0 && index < options.length) {
-            value = options[index].key;
-          }
-          if (value !== null || allowUndecided) {
-            onChange(value);
-          }
-        }}
+        onChange={disabled ? undefined : handleChange}
       >
         {hasUndecied ? <option>(None)</option> : null}
         {options.map((option, index) => (

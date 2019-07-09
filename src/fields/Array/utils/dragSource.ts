@@ -20,6 +20,7 @@ export interface DragProps {
 export interface ExternalProps<TChild, TField extends Field> {
   child: TChild;
   depth: number;
+  disabled?: boolean;
   field: TField;
   index: number;
   isCollapsible: boolean;
@@ -52,6 +53,9 @@ export default function<TChild, TField extends Field>(
         };
 
         return item;
+      },
+      canDrag(props) {
+        return !props.disabled;
       },
     },
     (connect, monitor): DragProps => ({

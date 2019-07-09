@@ -70,6 +70,7 @@ export class OEmbedWidget extends React.Component<Props, State> {
 
   render() {
     const oembed = this.getOEmbed();
+    const { disabled } = this.props;
     const { mode } = this.state;
     let info: React.ReactNode;
 
@@ -105,7 +106,8 @@ export class OEmbedWidget extends React.Component<Props, State> {
           <input
             autoComplete="off"
             className="text fullwidth"
-            onChange={this.handleChange}
+            disabled={disabled}
+            onChange={disabled ? undefined : this.handleChange}
             value={oembed.url}
           />
         </div>

@@ -43,6 +43,13 @@ export default class LocationWidget extends React.Component<Props, State> {
 
   static instanceStash: Array<MapInstance> = [];
 
+  componentDidUpdate(prevProps: Props) {
+    const { marker } = this;
+    if (prevProps.disabled !== this.props.disabled && marker) {
+      marker.setOptions({ draggable: !this.props.disabled });
+    }
+  }
+
   componentWillMount() {
     try {
       requireGoogleMaps().then(() => {
@@ -87,15 +94,17 @@ export default class LocationWidget extends React.Component<Props, State> {
     if (!marker) return;
 
     const position = marker.getPosition();
-    this.props.onUpdate({
-      latitude: position.lat(),
-      longitude: position.lng(),
-    });
+    if (position) {
+      this.props.onUpdate({
+        latitude: position.lat(),
+        longitude: position.lng(),
+      });
+    }
   };
 
   render() {
     const { loadState, instance } = this.state;
-    const { model } = this.props;
+    const { disabled, model } = this.props;
     const { marker } = this;
     if (marker) {
       marker.setPosition(this.getLatLng());
@@ -109,11 +118,13 @@ export default class LocationWidget extends React.Component<Props, State> {
     } else {
       content = (
         <>
-          <Search
-            model={model}
-            onLocation={this.handleLocation}
-            places={instance ? instance.places : null}
-          />
+          {disabled ? null : (
+            <Search
+              model={model}
+              onLocation={this.handleLocation}
+              places={instance ? instance.places : null}
+            />
+          )}
           <div className="tcfLocation--map" ref={this.setElement} />
         </>
       );
@@ -123,6 +134,7 @@ export default class LocationWidget extends React.Component<Props, State> {
   }
 
   setElement = (element: HTMLDivElement | null) => {
+    const { disabled } = this.props;
     let { instance } = this.state;
     let { marker } = this;
 
@@ -146,7 +158,7 @@ export default class LocationWidget extends React.Component<Props, State> {
       map.setCenter(this.getLatLng());
 
       marker = new google.maps.Marker({
-        draggable: true,
+        draggable: !disabled,
         position: this.getLatLng(),
         map,
       });

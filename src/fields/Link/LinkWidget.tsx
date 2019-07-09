@@ -13,7 +13,7 @@ import './LinkWidget.styl';
 
 export interface Props extends WidgetProps<LinkField> {}
 
-export default function LinkWidget({ data, field, onUpdate }: Props) {
+export default function LinkWidget({ data, disabled, field, onUpdate }: Props) {
   let link: Link;
   if (isLink(data)) {
     link = data;
@@ -26,6 +26,7 @@ export default function LinkWidget({ data, field, onUpdate }: Props) {
   if (linkType && linkType.type === 'input') {
     editor = (
       <InputEditor
+        disabled={disabled}
         key={link.type}
         link={link}
         linkType={linkType}
@@ -35,6 +36,7 @@ export default function LinkWidget({ data, field, onUpdate }: Props) {
   } else if (linkType && linkType.type === 'element') {
     editor = (
       <ElementEditor
+        disabled={disabled}
         key={link.type}
         link={link}
         linkType={linkType}
@@ -48,6 +50,7 @@ export default function LinkWidget({ data, field, onUpdate }: Props) {
     <div className="tcfLinkWidget">
       <div className="tcfLinkWidget--type">
         <Select
+          disabled={disabled}
           options={Object.keys(field.linkTypes).map(key => ({
             key,
             label: field.linkTypes[key].label,
@@ -59,6 +62,7 @@ export default function LinkWidget({ data, field, onUpdate }: Props) {
       <div className="tcfLinkWidget--editor">{editor}</div>
       {allowNewWindow ? (
         <Checkbox
+          disabled={disabled}
           onChange={openInNewWindow => onUpdate({ ...link, openInNewWindow })}
           value={link.openInNewWindow}
         >

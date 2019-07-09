@@ -20,6 +20,7 @@ import './index.styl';
 
 export interface Props {
   canSynchronize: boolean;
+  disabled: boolean;
   model: Model;
   onSetOverlay: (state: OverlayState) => void;
   onUpdateSync: (sync: SyncState) => void;
@@ -56,15 +57,27 @@ export class Root extends React.Component<Props, State> {
   };
 
   render() {
-    const { canSynchronize, model, overlay, schemas, sync } = this.props;
     const { isSynchronizing } = this.state;
+    const {
+      canSynchronize,
+      disabled,
+      model,
+      overlay,
+      schemas,
+      sync,
+    } = this.props;
 
     return (
       <ExpandedStateProvider>
         <ResponsiveStateProvider>
-          <Instance model={model} path={[]} schemaNames={schemas} />
+          <Instance
+            disabled={disabled}
+            model={model}
+            path={[]}
+            schemaNames={schemas}
+          />
 
-          {canSynchronize ? (
+          {canSynchronize && !disabled ? (
             <div className="tcfRoot--options">
               <Button onClick={this.handleSyncStart}>
                 <Icon name="material:sync" />
@@ -94,6 +107,7 @@ export default DragDropContext(HTML5Backend)(
   connect(
     (state: RootState) => ({
       canSynchronize: state.config.supportedSites.length > 1,
+      disabled: state.config.disabled,
       model: state.model,
       overlay: state.overlay,
       schemas: state.config.rootSchemas,

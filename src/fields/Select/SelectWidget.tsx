@@ -6,6 +6,18 @@ import { WidgetProps } from '../FieldDefinition';
 
 export type Props = WidgetProps<SelectField>;
 
-export default function SelectWidget({ data, onUpdate, field }: Props) {
-  return <Select onChange={onUpdate} options={field.options} value={data} />;
+export default function SelectWidget({
+  data,
+  disabled,
+  onUpdate,
+  field,
+}: Props) {
+  return (
+    <Select
+      disabled={disabled}
+      onChange={onUpdate}
+      options={field.options}
+      value={data}
+    />
+  );
 }

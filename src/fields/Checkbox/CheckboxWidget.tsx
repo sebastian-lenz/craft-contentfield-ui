@@ -6,9 +6,14 @@ import { WidgetProps } from '../FieldDefinition';
 
 export interface Props extends WidgetProps<CheckboxField> {}
 
-export default function CheckboxWidget({ data, field, onUpdate }: Props) {
+export default function CheckboxWidget({
+  data,
+  disabled,
+  field,
+  onUpdate,
+}: Props) {
   return (
-    <Checkbox onChange={onUpdate} value={!!data}>
+    <Checkbox disabled={disabled} onChange={onUpdate} value={!!data}>
       {field.label}
     </Checkbox>
   );

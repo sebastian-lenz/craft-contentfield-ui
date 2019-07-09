@@ -24,6 +24,7 @@ class DefaultMember extends React.Component<Props> {
   render() {
     const {
       child,
+      disabled,
       dragPreview,
       dragSource,
       field,
@@ -51,16 +52,19 @@ class DefaultMember extends React.Component<Props> {
                   <span>{`Member #${index + 1}`}</span>
                 </div>
               )}
-              <div className="tcfArrayWidgetMember--headerActions">
-                <Button onClick={this.handleDelete}>
-                  <Icon name="remove" />
-                  <Text value="Delete" />
-                </Button>
-              </div>
+              {!disabled ? (
+                <div className="tcfArrayWidgetMember--headerActions">
+                  <Button onClick={this.handleDelete}>
+                    <Icon name="remove" />
+                    <Text value="Delete" />
+                  </Button>
+                </div>
+              ) : null}
             </div>
             <div className="tcfArrayWidgetMember--body">
               <Field
                 data={child}
+                disabled={disabled}
                 errors={[]}
                 field={field}
                 model={model}

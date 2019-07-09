@@ -2,7 +2,6 @@ import * as React from 'react';
 import cx from 'classnames';
 
 export interface Props {
-  children: React.ReactNode;
   className?: string;
   disabled?: boolean;
   onChange: (value: boolean) => void;
@@ -24,16 +23,16 @@ export default class Lightswitch extends React.Component<Props> {
   }
 
   handleChange = () => {
-    const { onChange } = this.props;
+    const { disabled, onChange } = this.props;
     const { lightswitch } = this;
 
-    if (lightswitch) {
+    if (!disabled && lightswitch) {
       onChange(lightswitch.on);
     }
   };
 
   render() {
-    const { children, className, disabled, small, value } = this.props;
+    const { className, disabled, small, value } = this.props;
     return (
       <div>
         <div

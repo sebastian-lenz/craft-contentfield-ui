@@ -14,6 +14,7 @@ import './index.styl';
 
 export type ExternalProps = {
   canChangeType?: boolean;
+  disabled?: boolean;
   isBorderless?: boolean;
   model: Model;
   path: Array<AnyPathSegment>;
@@ -27,6 +28,7 @@ export type Props = ExternalProps & {
 
 export function Instance({
   canChangeType = true,
+  disabled = false,
   isBorderless,
   model,
   onChangeType,
@@ -51,6 +53,7 @@ export function Instance({
     schemaSelect = (
       <FieldPanel className="tcfInstance--typeSelect" label="Type">
         <Select
+          disabled={disabled}
           onChange={onChangeType}
           options={options}
           value={isValidModel ? model.__type : null}
@@ -63,7 +66,12 @@ export function Instance({
     <InstanceDepthProvider>
       {schemaSelect}
       {isValidModel ? (
-        <InstanceForm model={model} isBorderless={isBorderless} path={path} />
+        <InstanceForm
+          disabled={disabled}
+          model={model}
+          isBorderless={isBorderless}
+          path={path}
+        />
       ) : null}
     </InstanceDepthProvider>
   );

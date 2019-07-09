@@ -8,6 +8,7 @@ export type Props = WidgetProps<ReferenceField>;
 
 export default function ReferenceWidget({
   data,
+  disabled,
   field,
   model,
   onUpdate,
@@ -15,6 +16,7 @@ export default function ReferenceWidget({
   return (
     <ElementSelect
       criteria={field.criteria}
+      disabled={disabled}
       data={data}
       elementType={field.elementType}
       limit={field.limit}

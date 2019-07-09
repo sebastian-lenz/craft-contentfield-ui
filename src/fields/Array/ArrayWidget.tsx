@@ -15,7 +15,9 @@ export default class ArrayWidget extends React.Component<Props> {
 
   handleAdd = (value: any) => {
     const { context } = this;
-    const { data, onUpdate } = this.props;
+    const { data, disabled, onUpdate } = this.props;
+    if (disabled) return;
+
     const newValue = Array.isArray(data) ? data.slice() : [];
     newValue.push(value);
 
@@ -27,8 +29,8 @@ export default class ArrayWidget extends React.Component<Props> {
   };
 
   handleDelete = (index: number) => {
-    const { data, onUpdate } = this.props;
-    if (!Array.isArray(data)) return;
+    const { data, disabled, onUpdate } = this.props;
+    if (disabled || !Array.isArray(data)) return;
 
     const newValue = data.slice();
     newValue.splice(index, 1);
@@ -36,8 +38,8 @@ export default class ArrayWidget extends React.Component<Props> {
   };
 
   handleUpdate = (index: number, value: any) => {
-    const { data, onUpdate } = this.props;
-    if (!Array.isArray(data)) return;
+    const { data, disabled, onUpdate } = this.props;
+    if (disabled || !Array.isArray(data)) return;
 
     const newValue = data.slice();
     newValue[index] = value;
@@ -45,7 +47,7 @@ export default class ArrayWidget extends React.Component<Props> {
   };
 
   render() {
-    const { field, data, model, path } = this.props;
+    const { data, disabled, field, model, path } = this.props;
     const { limit } = field;
     if (!field.member) {
       return null;
@@ -56,7 +58,7 @@ export default class ArrayWidget extends React.Component<Props> {
     const memberDefinition = fields.getDefinition(field.member);
 
     let factory: React.ReactNode;
-    if (memberDefinition && !hasReachedLimit) {
+    if (!disabled && (memberDefinition && !hasReachedLimit)) {
       factory = React.createElement(memberDefinition.factory, {
         field: field.member,
         onCreate: this.handleAdd,
@@ -66,6 +68,7 @@ export default class ArrayWidget extends React.Component<Props> {
     return (
       <List
         data={arrayData}
+        disabled={disabled}
         field={field.member}
         isCollapsible={field.collapsible}
         isCompact={field.compact}

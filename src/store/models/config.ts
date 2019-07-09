@@ -23,6 +23,7 @@ export interface Config {
     translate: string;
   };
   googleMapsApiKey?: string;
+  disabled: boolean;
   elementId: number | null;
   elementSiteId: number | null;
   fieldHandle: string;

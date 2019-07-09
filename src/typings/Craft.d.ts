@@ -372,4 +372,13 @@ declare namespace Craft {
     _onSettle(): void;
     _getOffMargin(): number;
   }
+
+  export class ElementThumbLoader {
+    load($elements: JQuery): void;
+  }
+
+  export function setElementSize(
+    element: HTMLElement | JQuery,
+    size: 'large' | 'small'
+  ): void;
 }

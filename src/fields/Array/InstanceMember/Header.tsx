@@ -7,7 +7,28 @@ import More from './More';
 import Text from '../../../components/Text';
 import { Schema, Model } from '../../../store/models';
 
+function toggleIcon(isExpanded: boolean, disabled?: boolean): string {
+  if (disabled) {
+    return isExpanded ? 'minus' : 'plus';
+  } else {
+    return isExpanded ? 'done' : 'edit';
+  }
+}
+
+function toggleText(isExpanded: boolean, disabled?: boolean): string {
+  if (disabled) {
+    return isExpanded
+      ? 'ARRAY_MEMBER_DISABLED_COLLAPSE'
+      : 'ARRAY_MEMBER_DISABLED_EXPAND';
+  } else {
+    return isExpanded
+      ? 'ARRAY_MEMBER_ENABLED_COLLAPSE'
+      : 'ARRAY_MEMBER_ENABLED_EXPAND';
+  }
+}
+
 export interface Props {
+  disabled?: boolean;
   dragSource: DragElementWrapper<DragSourceOptions>;
   isCollapsible: boolean;
   isExpanded: boolean;
@@ -19,6 +40,7 @@ export interface Props {
 }
 
 export default function Header({
+  disabled,
   dragSource,
   isCollapsible,
   isExpanded,
@@ -48,16 +70,12 @@ export default function Header({
       )}
       <div className="tcfArrayWidgetMember--headerActions">
         {isCollapsible ? (
-          <Button onClick={onToggleExpanded} primary>
-            <Icon name={isExpanded ? 'done' : 'edit'} />
-            <Text
-              value={
-                isExpanded ? 'ARRAY_MEMBER_COLLAPSE' : 'ARRAY_MEMBER_EXPAND'
-              }
-            />
+          <Button onClick={onToggleExpanded} primary={!disabled}>
+            <Icon name={toggleIcon(isExpanded, disabled)} />
+            <Text value={toggleText(isExpanded, disabled)} />
           </Button>
         ) : null}
-        <More uuid={model.__uuid} />
+        {!disabled ? <More uuid={model.__uuid} /> : null}
       </div>
     </div>
   );

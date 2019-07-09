@@ -12,6 +12,7 @@ import './index.styl';
 export interface Props {
   color: RgbColor;
   disableAlpha?: boolean;
+  disabled?: boolean;
   onChange: (color: RgbColor) => void;
   presetColors?: Array<string> | null;
 }
@@ -39,16 +40,23 @@ export default class ColorInput extends React.Component<Props, State> {
 
   render() {
     const { hasColorPicker } = this.state;
-    const { color, disableAlpha, onChange, presetColors } = this.props;
+    const {
+      color,
+      disableAlpha,
+      disabled,
+      onChange,
+      presetColors,
+    } = this.props;
 
     return (
       <ColorContext color={color} onChange={onChange}>
         <div className="tcfColorInput">
           <Swatch
             className="tcfColorInput--swatch"
+            disabled={disabled}
             onClick={this.handleSwatchClick}
           >
-            {hasColorPicker ? (
+            {hasColorPicker && !disabled ? (
               <Flyout onClick={this.handleOverlayClick}>
                 <Picker
                   disableAlpha={disableAlpha}

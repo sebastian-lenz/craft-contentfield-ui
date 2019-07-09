@@ -12,12 +12,14 @@ export interface Props extends WidgetProps<InstanceField> {}
 export default function InstanceWidget({
   className,
   data,
+  disabled,
   field,
   path,
 }: Props) {
   return (
     <div className={cx('tcfInstanceWidget', className)}>
       <Instance
+        disabled={disabled}
         model={data}
         path={[...path, { type: 'property', name: field.name }]}
         schemaNames={field.schemas}

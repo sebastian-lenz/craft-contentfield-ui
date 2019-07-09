@@ -63,6 +63,7 @@ export type FactoryComponent<T extends BaseField> = React.ComponentType<
 export interface WidgetProps<T extends BaseField> {
   className?: string;
   data: any;
+  disabled?: boolean;
   errors: Array<string> | null;
   model: Model;
   field: T;

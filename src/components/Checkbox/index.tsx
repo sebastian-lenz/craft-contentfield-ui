@@ -8,6 +8,7 @@ import './index.styl';
 export interface Props {
   children: React.ReactNode;
   className?: string;
+  disabled?: boolean;
   onChange: (value: boolean) => void;
   value: boolean;
 }
@@ -17,15 +18,16 @@ export default class Checkbox extends React.Component<Props> {
 
   render() {
     const { id } = this;
-    const { className, children, onChange, value } = this.props;
+    const { className, children, disabled, onChange, value } = this.props;
 
     return (
       <dl className={cx('tcfCheckbox', className)}>
         <dd className="tcfCheckbox--input">
           <input
             checked={value}
+            disabled={disabled}
             id={id}
-            onChange={() => onChange(!value)}
+            onChange={disabled ? undefined : () => onChange(!value)}
             type="checkbox"
           />
         </dd>

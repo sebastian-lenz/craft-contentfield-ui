@@ -38,6 +38,7 @@ class InstanceMember extends React.Component<Props> {
     const {
       child,
       depth,
+      disabled,
       dragPreview,
       dragSource,
       field,
@@ -69,6 +70,7 @@ class InstanceMember extends React.Component<Props> {
         <div className="tcfArrayWidgetMember--body">
           <Instance
             canChangeType={false}
+            disabled={disabled}
             isBorderless={isBorderless}
             model={child}
             path={path}
@@ -102,6 +104,7 @@ class InstanceMember extends React.Component<Props> {
             })}
           >
             <Header
+              disabled={disabled}
               dragSource={dragSource}
               isCollapsible={isCollapsible}
               isExpanded={isActualExpanded}

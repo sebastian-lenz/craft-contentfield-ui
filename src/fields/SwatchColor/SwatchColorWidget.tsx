@@ -44,17 +44,17 @@ export default class SwatchColorWidget extends React.Component<Props, State> {
   };
 
   render() {
-    const { data, field } = this.props;
+    const { data, disabled, field } = this.props;
     const { isExpanded } = this.state;
     const selected = field.options.find(option => option.key === data);
 
     return (
       <div
         className={cx('tcfSwatchColorWidget', { isUndecided: !selected })}
-        onClick={this.handleSwatchClick}
+        onClick={disabled ? undefined : this.handleSwatchClick}
         style={{ background: selected ? getColor(selected) : undefined }}
       >
-        {isExpanded ? this.renderFlyout(selected) : null}
+        {isExpanded && !disabled ? this.renderFlyout(selected) : null}
       </div>
     );
   }

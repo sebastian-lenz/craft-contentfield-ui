@@ -10,6 +10,7 @@ export type Props = InjectedColorProps & {
   children?: React.ReactNode;
   color?: string;
   className?: string;
+  disabled?: boolean;
   onClick?: () => void;
 };
 
@@ -18,6 +19,7 @@ export function Swatch({
   className,
   color,
   css,
+  disabled,
   onClick,
   onRgbColor,
 }: Props) {
@@ -31,7 +33,10 @@ export function Swatch({
   }
 
   return (
-    <div className={cx('tcfColorInputSwatch', className)} onClick={onClick}>
+    <div
+      className={cx('tcfColorInputSwatch', className)}
+      onClick={disabled ? undefined : onClick}
+    >
       <div
         className="tcfColorInputSwatch--color"
         style={{ background: color ? color : css }}

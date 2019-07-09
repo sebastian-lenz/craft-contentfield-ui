@@ -94,8 +94,12 @@ export default class Search extends React.Component<Props, State> {
     }
   };
 
-  handleResultsSelect = (result: google.maps.places.PlaceResult) => {
-    const { location } = result.geometry;
+  handleResultsSelect = ({ geometry }: google.maps.places.PlaceResult) => {
+    if (!geometry) {
+      return;
+    }
+
+    const { location } = geometry;
     this.props.onLocation({
       latitude: location.lat(),
       longitude: location.lng(),

@@ -17,6 +17,7 @@ import {
 import './index.styl';
 
 export interface ExternalProps {
+  disabled?: boolean;
   isBorderless?: boolean;
   model: Model;
   path: Array<AnyPathSegment>;
@@ -39,6 +40,7 @@ function getGroupSort(a: Group, b: Group) {
 }
 
 export function InstanceForm({
+  disabled = false,
   isBorderless,
   model,
   onUpdate,
@@ -84,6 +86,7 @@ export function InstanceForm({
       >
         <Field
           data={model[field.name]}
+          disabled={disabled}
           errors={errors}
           field={field}
           model={model}

@@ -6,13 +6,19 @@ import { WidgetProps } from '../FieldDefinition';
 
 export interface Props extends WidgetProps<TextField> {}
 
-export default function TextWidget({ data, errors, onUpdate }: Props) {
+export default function TextWidget({
+  data,
+  disabled,
+  errors,
+  onUpdate,
+}: Props) {
   return (
     <input
       autoComplete="off"
       className={cx('tcfTextWidget text fullwidth', {
         error: errors && errors.length,
       })}
+      disabled={disabled}
       onChange={event => onUpdate(event.target.value)}
       value={data ? `${data}` : ''}
     />

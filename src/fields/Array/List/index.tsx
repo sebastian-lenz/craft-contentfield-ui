@@ -30,6 +30,7 @@ function getElementIndex(element: Element): number {
 
 export interface ExternalProps {
   data: Array<any>;
+  disabled?: boolean;
   field: AnyField;
   isCollapsible: boolean;
   isCompact: boolean;
@@ -155,6 +156,7 @@ export class List extends React.PureComponent<Props, State> {
   renderMembers(): Array<React.ReactElement<any>> {
     const {
       data,
+      disabled,
       field,
       isCollapsible,
       isCompact,
@@ -174,6 +176,7 @@ export class List extends React.PureComponent<Props, State> {
       ];
 
       const props = {
+        disabled,
         index,
         isCollapsible,
         key: isModel(child) ? child.__uuid : index,
