@@ -9,6 +9,7 @@ export function createRootState(): RootState {
         oembed: '',
         translate: '',
       },
+      disabled: false,
       elementId: null,
       elementSiteId: 0,
       fieldHandle: '',

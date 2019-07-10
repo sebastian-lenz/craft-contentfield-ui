@@ -38,6 +38,7 @@ export default class Input extends React.Component<Props> {
       <div className="tcfRedactorWidget">
         <textarea
           defaultValue={typeof value === 'string' ? value : ''}
+          disabled
           id={this.uuid}
           ref={this.setElement}
         />

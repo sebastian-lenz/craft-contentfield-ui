@@ -312,7 +312,7 @@ declare namespace Craft {
 
     getElements(): JQuery;
     getSelectedElementIds(): Array<number>;
-    createNewElement(element: any): any;
+    createNewElement(element: any): JQuery;
     appendElement(element: any): void;
     addElements(element: any): void;
     resetElements(): void;

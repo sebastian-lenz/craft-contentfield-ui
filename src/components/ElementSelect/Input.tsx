@@ -40,6 +40,7 @@ export default class Input extends React.Component<Props> {
 
     for (const reference of this.getStoredReferences()) {
       const element = instance.createNewElement(reference);
+      element.find('input').prop('disabled', true);
       instance.appendElement(element);
       renderedIds.push(reference.id);
     }

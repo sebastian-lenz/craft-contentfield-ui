@@ -46,7 +46,10 @@ const api = {
 
       stores.push(redux);
       redux.subscribe(() => {
-        field.value = JSON.stringify(redux.getState().model);
+        const newValue = JSON.stringify(redux.getState().model);
+        if (field.value !== newValue) {
+          field.value = newValue;
+        }
       });
 
       ReactDOM.render(
