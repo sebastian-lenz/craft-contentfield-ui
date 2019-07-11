@@ -1,4 +1,5 @@
 import { AnyField, FieldType } from '../../fields';
+import { StyleGroup } from '../utils/pickStyle';
 
 export type FieldRule = {
   options?: any;
@@ -11,9 +12,9 @@ export interface Field {
   isRequired?: boolean;
   label: string;
   name: string;
+  style?: StyleGroup | null;
   type: FieldType;
   validatorId?: string;
-  width: number;
 }
 
 export interface FieldMap {
@@ -22,17 +23,17 @@ export interface FieldMap {
 
 export interface FieldGroup {
   label?: string;
-  style?: React.CSSProperties;
+  style?: StyleGroup | null;
 }
 
 export interface Schema {
   fields: FieldMap;
-  grid?: string;
   icon: string;
   label: string;
   preview: string | null;
   previewTemplate: Handlebars.TemplateDelegate | null;
   qualifier: string;
+  style?: StyleGroup | null;
 }
 
 export interface Schemas {

@@ -11,6 +11,7 @@ import { changeType } from '../../store/actions';
 import { Model, RootState, Schema } from '../../store/models';
 
 import './index.styl';
+import ResponsiveStateProvider from '../../contexts/ResponsiveStateProvider';
 
 export type ExternalProps = {
   canChangeType?: boolean;
@@ -64,15 +65,17 @@ export function Instance({
 
   return (
     <InstanceDepthProvider>
-      {schemaSelect}
-      {isValidModel ? (
-        <InstanceForm
-          disabled={disabled}
-          model={model}
-          isBorderless={isBorderless}
-          path={path}
-        />
-      ) : null}
+      <ResponsiveStateProvider>
+        {schemaSelect}
+        {isValidModel ? (
+          <InstanceForm
+            disabled={disabled}
+            model={model}
+            isBorderless={isBorderless}
+            path={path}
+          />
+        ) : null}
+      </ResponsiveStateProvider>
     </InstanceDepthProvider>
   );
 }

@@ -2,6 +2,7 @@ import * as React from 'react';
 
 export const enum ResponsiveState {
   Small,
+  Medium,
   Large,
 }
 
@@ -29,7 +30,14 @@ export default function ResponsiveStateProvider({ children, ...props }: Props) {
       const currentWidth = current.offsetWidth;
       if (currentWidth !== width) {
         width = currentWidth;
-        setState(width > 920 ? ResponsiveState.Large : ResponsiveState.Small);
+
+        if (width > 920) {
+          setState(ResponsiveState.Large);
+        } else if (width > 580) {
+          setState(ResponsiveState.Medium);
+        } else {
+          setState(ResponsiveState.Small);
+        }
       }
     };
 

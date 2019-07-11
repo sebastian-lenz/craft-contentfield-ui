@@ -11,7 +11,7 @@ export interface Props {
   isPlainField?: boolean;
   isRequired?: boolean;
   label: string;
-  width?: number | string;
+  style?: React.CSSProperties;
 }
 
 export default function FieldPanel({
@@ -22,13 +22,8 @@ export default function FieldPanel({
   isPlainField,
   isRequired,
   label,
-  width,
+  style,
 }: Props) {
-  let style: React.CSSProperties | undefined;
-  if (width && width !== 100) {
-    style = { width: typeof width === 'string' ? width : `${width}%` };
-  }
-
   if (isPlainField) {
     return <>{children}</>;
   }

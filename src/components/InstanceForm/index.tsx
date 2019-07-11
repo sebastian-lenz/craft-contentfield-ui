@@ -5,14 +5,11 @@ import Field from '../Field';
 import FieldGroup, { toolbarGroup } from '../FieldGroup';
 import FieldPanel from '../FieldPanel';
 import fields from '../../fields';
+import pickStyle from '../../store/utils/pickStyle';
 import { AnyPathSegment } from '../../store/utils/parsePath';
+import { Context } from '../../contexts/ResponsiveStateProvider';
 import { Model, RootState, Schema } from '../../store/models';
 import { updateValue } from '../../store/actions';
-
-import {
-  Context,
-  ResponsiveState,
-} from '../../contexts/ResponsiveStateProvider';
 
 import './index.styl';
 
@@ -53,7 +50,6 @@ export function InstanceForm({
   }
 
   const groups: Array<Group> = [];
-  const useLayout = responsiveState == ResponsiveState.Large;
   let currentGroup: Group | undefined = undefined;
 
   for (const name of Object.keys(schema.fields)) {
@@ -63,7 +59,10 @@ export function InstanceForm({
 
     if (!currentGroup || field.group) {
       const label = field.group ? field.group.label : undefined;
-      const style = field.group && useLayout ? field.group.style : undefined;
+      const style = field.group
+        ? pickStyle(responsiveState, field.group.style)
+        : undefined;
+
       currentGroup = {
         index: label === toolbarGroup ? -1 : groups.length,
         label: label,
@@ -82,7 +81,7 @@ export function InstanceForm({
         isRequired={field.isRequired}
         key={field.name}
         label={field.label}
-        width={useLayout ? field.width : undefined}
+        style={pickStyle(responsiveState, field.style)}
       >
         <Field
           data={model[field.name]}
@@ -102,16 +101,16 @@ export function InstanceForm({
       isBorderless={isBorderless}
       key={group.index}
       label={group.label}
-      style={useLayout ? group.style : undefined}
+      style={group.style}
     >
       {group.fields}
     </FieldGroup>
   ));
 
-  const { grid } = schema;
-  if (grid && useLayout) {
+  const style = pickStyle(responsiveState, schema.style);
+  if (style) {
     return (
-      <div className="tcfInstanceForm" style={{ grid }}>
+      <div className="tcfInstanceForm" style={style}>
         {children}
       </div>
     );

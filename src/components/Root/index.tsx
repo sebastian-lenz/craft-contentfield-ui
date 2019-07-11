@@ -9,7 +9,6 @@ import ExpandedStateProvider from '../../contexts/ExpandedStateProvider';
 import Icon from '../Icon';
 import Instance from '../Instance';
 import Overlay from '../Overlay';
-import ResponsiveStateProvider from '../../contexts/ResponsiveStateProvider';
 import Synchronize from '../Synchronize';
 import Text from '../Text';
 import { Model, RootState, SyncState } from '../../store/models';
@@ -69,35 +68,33 @@ export class Root extends React.Component<Props, State> {
 
     return (
       <ExpandedStateProvider>
-        <ResponsiveStateProvider>
-          <Instance
-            disabled={disabled}
-            model={model}
-            path={[]}
-            schemaNames={schemas}
-          />
+        <Instance
+          disabled={disabled}
+          model={model}
+          path={[]}
+          schemaNames={schemas}
+        />
 
-          {canSynchronize && !disabled ? (
-            <div className="tcfRoot--options">
-              <Button onClick={this.handleSyncStart}>
-                <Icon name="material:sync" />
-                <Text value="Synchronize" />
-              </Button>
-            </div>
-          ) : null}
+        {canSynchronize && !disabled ? (
+          <div className="tcfRoot--options">
+            <Button onClick={this.handleSyncStart}>
+              <Icon name="material:sync" />
+              <Text value="Synchronize" />
+            </Button>
+          </div>
+        ) : null}
 
-          {isSynchronizing || sync.status !== 'idle' ? (
-            <Overlay onClick={this.handleSyncClose}>
-              <Synchronize onClose={this.handleSyncClose} sync={sync} />
-            </Overlay>
-          ) : null}
+        {isSynchronizing || sync.status !== 'idle' ? (
+          <Overlay onClick={this.handleSyncClose}>
+            <Synchronize onClose={this.handleSyncClose} sync={sync} />
+          </Overlay>
+        ) : null}
 
-          {overlay ? (
-            <Overlay onClick={this.handleOverlayClose}>
-              {createOverlay(overlay)}
-            </Overlay>
-          ) : null}
-        </ResponsiveStateProvider>
+        {overlay ? (
+          <Overlay onClick={this.handleOverlayClose}>
+            {createOverlay(overlay)}
+          </Overlay>
+        ) : null}
       </ExpandedStateProvider>
     );
   }
