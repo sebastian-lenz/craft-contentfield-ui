@@ -6,6 +6,7 @@ import FieldGroup, { toolbarGroup } from '../FieldGroup';
 import FieldPanel from '../FieldPanel';
 import fields from '../../fields';
 import pickStyle from '../../store/utils/pickStyle';
+import Text from '../Text';
 import { AnyPathSegment } from '../../store/utils/parsePath';
 import { Context } from '../../contexts/ResponsiveStateProvider';
 import { Model, RootState, Schema } from '../../store/models';
@@ -50,9 +51,18 @@ export function InstanceForm({
   }
 
   const groups: Array<Group> = [];
+  const names = Object.keys(schema.fields);
   let currentGroup: Group | undefined = undefined;
 
-  for (const name of Object.keys(schema.fields)) {
+  if (names.length === 0) {
+    return (
+      <div className="tcfInstanceForm--empty">
+        <Text value="FIELD_INSTANCE_FORM_EMPTY" />
+      </div>
+    );
+  }
+
+  for (const name of names) {
     const field = schema.fields[name];
     const errors = model.__errors[name] || null;
     const { isAlwaysPlainField: isAlwaysCompact } = fields.getDefinition(field);

@@ -50,19 +50,18 @@ class InstanceMember extends React.Component<Props> {
       schema,
     } = this.props;
 
+    let canExpand = true;
     let isBorderless = false;
     if (schema) {
       const fieldNames = Object.keys(schema.fields);
-      if (
+      canExpand = fieldNames.length > 0;
+      isBorderless =
         fieldNames.length === 1 &&
-        schema.fields[fieldNames[0]].type === 'redactor'
-      ) {
-        isBorderless = true;
-      }
+        schema.fields[fieldNames[0]].type === 'redactor';
     }
 
     const isExpanded = this.context.isExpanded(child.__uuid);
-    const isActualExpanded = !isCollapsible || isExpanded;
+    const isActualExpanded = canExpand && (!isCollapsible || isExpanded);
     let content: React.ReactNode;
 
     if (isActualExpanded) {
@@ -84,7 +83,7 @@ class InstanceMember extends React.Component<Props> {
           className="tcfArrayWidgetMember--preview"
           field={field}
           model={child}
-          onClick={this.handleToggleExpanded}
+          onClick={canExpand ? this.handleToggleExpanded : undefined}
         />
       );
     }
@@ -106,7 +105,7 @@ class InstanceMember extends React.Component<Props> {
             <Header
               disabled={disabled}
               dragSource={dragSource}
-              isCollapsible={isCollapsible}
+              isCollapsible={canExpand && isCollapsible}
               isExpanded={isActualExpanded}
               model={child}
               onDelete={this.handleDelete}

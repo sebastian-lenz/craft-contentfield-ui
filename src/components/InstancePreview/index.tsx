@@ -53,7 +53,9 @@ export class InstancePreview extends React.Component<Props> {
 
       return (
         <div
-          className={cx('tcfInstancePreview', className)}
+          className={cx('tcfInstancePreview', className, {
+            isClickable: !!onClick,
+          })}
           dangerouslySetInnerHTML={innerHTML}
           onClick={onClick}
         />
