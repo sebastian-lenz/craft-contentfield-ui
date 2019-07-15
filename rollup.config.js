@@ -20,7 +20,10 @@ function vendors(options, definitions) {
     name: 'vendors',
     onwrite: function() {
       const chunks = keys.map(function(key) {
-        const importedFile = require.resolve(key);
+        const importedFile = require.resolve(
+          definitions[key].package ? definitions[key].package : key
+        );
+
         let splitAt = importedFile.lastIndexOf('node_modules');
         splitAt = importedFile.indexOf(path.sep, splitAt + 13);
 
@@ -97,11 +100,13 @@ export default vendors(
       varName: 'React',
     },
     'react-dnd': {
+      package: 'react-dnd-umd-builds/dist/ReactDnD.js',
       development: 'dist/ReactDnD.js',
       production: 'dist/ReactDnD.min.js',
       varName: 'ReactDnD',
     },
     'react-dnd-html5-backend': {
+      package: 'react-dnd-umd-builds/dist/ReactDnDHTML5Backend.js',
       development: 'dist/ReactDnDHTML5Backend.js',
       production: 'dist/ReactDnDHTML5Backend.min.js',
       varName: 'ReactDnDHTML5Backend',
