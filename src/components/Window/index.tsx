@@ -4,10 +4,15 @@ import './index.styl';
 
 export interface Props {
   children: React.ReactNode;
+  width?: number;
 }
 
-function Window({ children }: Props) {
-  return <div className="tcfWindow">{children}</div>;
+function Window({ children, width }: Props) {
+  return (
+    <div className="tcfWindow" style={{ width }}>
+      {children}
+    </div>
+  );
 }
 
 namespace Window {

@@ -11,8 +11,14 @@ export function applyUpdateSync(
   state: RootState,
   { sync }: UpdateSyncAction
 ): RootState {
+  let { overlay } = state;
+  if (overlay && overlay.type === 'synchronize') {
+    overlay = { ...overlay, preventClose: sync.status === 'working' };
+  }
+
   return {
     ...state,
+    overlay,
     sync,
   };
 }

@@ -1,16 +1,17 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import Button from '../Button';
-import Checkbox from '../Checkbox';
-import FieldGroup from '../FieldGroup';
-import FieldPanel from '../FieldPanel';
-import Select from '../Select';
-import Text from '../Text';
+import Button from '../../components/Button';
+import Checkbox from '../../components/Checkbox';
+import FieldGroup from '../../components/FieldGroup';
+import FieldPanel from '../../components/FieldPanel';
+import Select from '../../components/Select';
+import Text from '../../components/Text';
 import { Site, RootState } from '../../store/models';
 import { synchronize } from '../../store/actions';
 import { SynchronizeOptions } from '../../store/actions/synchronize';
 import { TranslateOptions } from '../../store/utils/fetchTranslation';
+import Window from '../../components/Window';
 
 export type ExternalProps = {
   onClose: () => void;
@@ -79,38 +80,39 @@ export class Options extends React.Component<Props, State> {
     }));
 
     return (
-      <div>
-        <div className="tcfSynchronize--title">
-          <Text value="Synchronize sites" />
-        </div>
+      <>
+        <Window.Content>
+          <div className="tcfSynchronize--title">
+            <Text value="Synchronize translations" />
+          </div>
 
-        <FieldGroup>
-          <FieldPanel label="Source site">
-            <Select
-              onChange={this.handleSiteChange}
-              options={siteOptions}
-              value={site}
-            />
-          </FieldPanel>
-          {site && currentSite && site.language !== currentSite.language ? (
-            <Checkbox
-              onChange={this.handleToggleTranslator}
-              value={useTranslator}
-            >
-              <Text value="Use machine translation for all texts" />
-            </Checkbox>
-          ) : null}
-        </FieldGroup>
-
-        <div className="tcfSynchronize--actions">
+          <FieldGroup>
+            <FieldPanel label="Source site">
+              <Select
+                onChange={this.handleSiteChange}
+                options={siteOptions}
+                value={site}
+              />
+            </FieldPanel>
+            {site && currentSite && site.language !== currentSite.language ? (
+              <Checkbox
+                onChange={this.handleToggleTranslator}
+                value={useTranslator}
+              >
+                <Text value="Use machine translation for all texts" />
+              </Checkbox>
+            ) : null}
+          </FieldGroup>
+        </Window.Content>
+        <Window.Footer>
           <Button onClick={this.handleApply}>
             <Text value="Apply" />
           </Button>
           <Button onClick={onClose} secondary>
             <Text value="Cancel" />
           </Button>
-        </div>
-      </div>
+        </Window.Footer>
+      </>
     );
   }
 }

@@ -1,19 +1,21 @@
 import * as React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Error from './Error';
 import Finished from './Finished';
 import Options from './Options';
+import Window from '../../components/Window';
 import Working from './Working';
-import { SyncState } from '../../store/models';
+import { RootState } from '../../store/models';
+import { setOverlay } from '../../store/actions';
 
 import './index.styl';
 
-export interface Props {
-  onClose: () => void;
-  sync: SyncState;
-}
+export default function Synchronize() {
+  const sync = useSelector((state: RootState) => state.sync);
+  const dispatch = useDispatch();
+  const onClose = () => dispatch(setOverlay(null));
 
-export default function Synchronize({ onClose, sync }: Props) {
   let content: React.ReactNode;
   if (sync.status === 'working') {
     content = <Working />;
@@ -25,5 +27,5 @@ export default function Synchronize({ onClose, sync }: Props) {
     content = <Options onClose={onClose} />;
   }
 
-  return <div className="tcfSynchronize">{content}</div>;
+  return <Window width={800}>{content}</Window>;
 }

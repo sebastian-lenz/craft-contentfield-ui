@@ -64,11 +64,13 @@ async function applySynchronize(
 
   dispatch(addReferences(references));
   dispatch(updateValue([], undefined, syncedModel));
-  dispatch(
-    updateSync({
-      status: 'finished',
-    })
-  );
+  setTimeout(() => {
+    dispatch(
+      updateSync({
+        status: 'finished',
+      })
+    );
+  }, 2000);
 }
 
 export default function synchronize(options: SynchronizeOptions): AnyAction {

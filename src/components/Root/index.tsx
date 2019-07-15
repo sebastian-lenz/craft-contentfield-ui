@@ -1,7 +1,7 @@
 import * as React from 'react';
 import HTML5Backend from 'react-dnd-html5-backend';
-import { connect } from 'react-redux';
-import { DragDropContext } from 'react-dnd';
+import { useDispatch, useSelector } from 'react-redux';
+import { DndProvider } from 'react-dnd';
 
 import Button from '../Button';
 import createOverlay from '../../overlays';
@@ -9,110 +9,58 @@ import ExpandedStateProvider from '../../contexts/ExpandedStateProvider';
 import Icon from '../Icon';
 import Instance from '../Instance';
 import Overlay from '../Overlay';
-import Synchronize from '../Synchronize';
 import Text from '../Text';
-import { Model, RootState, SyncState } from '../../store/models';
-import { OverlayState } from '../../store/models/overlay';
-import { updateSync, setOverlay } from '../../store/actions';
+import { RootState } from '../../store/models';
+import { setOverlay, updateSync } from '../../store/actions';
 
 import './index.styl';
 
-export interface Props {
-  canSynchronize: boolean;
-  disabled: boolean;
-  model: Model;
-  onSetOverlay: (state: OverlayState) => void;
-  onUpdateSync: (sync: SyncState) => void;
-  overlay: OverlayState;
-  schemas: Array<string>;
-  sync: SyncState;
-}
+export default function Root() {
+  const dispatch = useDispatch();
+  const model = useSelector((state: RootState) => state.model);
+  const overlay = useSelector((state: RootState) => state.overlay);
+  const { disabled, rootSchemas, supportedSites } = useSelector(
+    (state: RootState) => state.config
+  );
 
-export interface State {
-  isSynchronizing: boolean;
-}
+  const canSynchronize = supportedSites.length > 1;
 
-export class Root extends React.Component<Props, State> {
-  state: State = {
-    isSynchronizing: false,
-  };
-
-  handleOverlayClose = () => {
-    this.props.onSetOverlay(null);
-  };
-
-  handleSyncClose = () => {
-    const { onUpdateSync, sync } = this.props;
-    if (sync.status === 'working') {
-      return;
+  const handleOverlayClose = () => {
+    if (overlay && !overlay.preventClose) {
+      dispatch(setOverlay(null));
     }
-
-    onUpdateSync({ status: 'idle' });
-    this.setState({ isSynchronizing: false });
   };
 
-  handleSyncStart = () => {
-    this.setState({ isSynchronizing: true });
+  const handleShowSynchronize = () => {
+    dispatch(updateSync({ status: 'idle' }));
+    dispatch(setOverlay({ type: 'synchronize' }));
   };
 
-  render() {
-    const { isSynchronizing } = this.state;
-    const {
-      canSynchronize,
-      disabled,
-      model,
-      overlay,
-      schemas,
-      sync,
-    } = this.props;
-
-    return (
+  return (
+    <DndProvider backend={HTML5Backend}>
       <ExpandedStateProvider>
         <Instance
           disabled={disabled}
           model={model}
           path={[]}
-          schemaNames={schemas}
+          schemaNames={rootSchemas}
         />
 
         {canSynchronize && !disabled ? (
           <div className="tcfRoot--options">
-            <Button onClick={this.handleSyncStart}>
+            <Button onClick={handleShowSynchronize}>
               <Icon name="material:sync" />
               <Text value="Synchronize" />
             </Button>
           </div>
         ) : null}
 
-        {isSynchronizing || sync.status !== 'idle' ? (
-          <Overlay onClick={this.handleSyncClose}>
-            <Synchronize onClose={this.handleSyncClose} sync={sync} />
-          </Overlay>
-        ) : null}
-
         {overlay ? (
-          <Overlay onClick={this.handleOverlayClose}>
+          <Overlay onClick={handleOverlayClose}>
             {createOverlay(overlay)}
           </Overlay>
         ) : null}
       </ExpandedStateProvider>
-    );
-  }
+    </DndProvider>
+  );
 }
-
-export default DragDropContext(HTML5Backend)(
-  connect(
-    (state: RootState) => ({
-      canSynchronize: state.config.supportedSites.length > 1,
-      disabled: state.config.disabled,
-      model: state.model,
-      overlay: state.overlay,
-      schemas: state.config.rootSchemas,
-      sync: state.sync,
-    }),
-    dispatch => ({
-      onSetOverlay: (state: OverlayState) => dispatch(setOverlay(state)),
-      onUpdateSync: (sync: SyncState) => dispatch(updateSync(sync)),
-    })
-  )(Root)
-);

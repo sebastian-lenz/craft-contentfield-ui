@@ -22,11 +22,12 @@ export interface Config {
     oembed: string;
     translate: string;
   };
-  googleMapsApiKey?: string;
   disabled: boolean;
   elementId: number | null;
   elementSiteId: number | null;
   fieldHandle: string;
+  googleMapsApiKey?: string;
+  hasTranslator: boolean;
   i18nCategory: string;
   references: Array<Reference>;
   rootSchemas: Array<string>;
