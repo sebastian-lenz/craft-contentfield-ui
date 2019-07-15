@@ -6,29 +6,35 @@ import { Props } from './index';
 import './Input.styl';
 
 export default class Input extends React.Component<Props> {
-  didRender: boolean = false;
   element: HTMLTextAreaElement | null = null;
+  hasFocus: boolean = false;
   instance: Craft.RedactorInput | null = null;
   renderedValue: string = '';
   uuid: string = `element-${uuid()}`;
 
   componentDidUpdate() {
-    const { instance, props, renderedValue } = this;
-    if (instance && props.value != renderedValue) {
-      this.didRender = true;
+    const { hasFocus, instance, props, renderedValue } = this;
+    if (instance && !hasFocus && props.value != renderedValue) {
       this.renderedValue = props.value;
       instance.redactor.source.setCode(props.value);
     }
   }
 
-  handleChange = (value: string) => {
-    if (this.didRender) {
-      this.didRender = false;
+  handleBlur = () => {
+    this.hasFocus = false;
+  };
+
+  handleChange = (value: string, ...args: any) => {
+    if (!this.hasFocus) {
       return;
     }
 
     this.renderedValue = value;
     this.props.onUpdate(value);
+  };
+
+  handleFocus = () => {
+    this.hasFocus = true;
   };
 
   render() {
@@ -55,7 +61,9 @@ export default class Input extends React.Component<Props> {
 
     if (instance) {
       if (instance.redactor) {
+        instance.redactor.off('blur', this.handleBlur);
         instance.redactor.off('changed', this.handleChange);
+        instance.redactor.off('focus', this.handleFocus);
       }
 
       instance.destroy();
@@ -73,7 +81,9 @@ export default class Input extends React.Component<Props> {
       });
 
       if (instance.redactor) {
+        instance.redactor.on('blur', this.handleBlur);
         instance.redactor.on('changed', this.handleChange);
+        instance.redactor.on('focus', this.handleFocus);
       }
     }
 
