@@ -13,6 +13,7 @@ import { Site, RootState } from '../../store/models';
 import { synchronize } from '../../store/actions';
 import { SynchronizeOptions } from '../../store/actions/synchronize';
 import { TranslateOptions } from '../../store/utils/fetchTranslation';
+import Lightswitch from '../../components/Lightswitch';
 
 export type ExternalProps = {
   onClose: () => void;
@@ -22,6 +23,7 @@ export type Props = ExternalProps & {
   availableSites: Array<Site>;
   currentSite?: Site;
   endpoint: string;
+  hasTranslator: boolean;
   onSynchronize: (options: SynchronizeOptions) => void;
 };
 
@@ -73,7 +75,7 @@ export class Options extends React.Component<Props, State> {
   };
 
   render() {
-    const { availableSites, currentSite, onClose } = this.props;
+    const { availableSites, currentSite, hasTranslator, onClose } = this.props;
     const { site, useTranslator } = this.state;
     const siteOptions = availableSites.map(site => ({
       label: site.label,
@@ -86,9 +88,13 @@ export class Options extends React.Component<Props, State> {
           <div className="tcfSynchronize--title">
             <Text value="Synchronize translations" />
           </div>
-
           <FieldGroup>
-            <FieldPanel label={translate('Site')}>
+            <FieldPanel
+              instructions={translate(
+                'Select the site the content should be copied from.'
+              )}
+              label={translate('Site')}
+            >
               <Select
                 onChange={this.handleSiteChange}
                 options={siteOptions}
@@ -96,21 +102,30 @@ export class Options extends React.Component<Props, State> {
               />
             </FieldPanel>
             {site && currentSite && site.language !== currentSite.language ? (
-              <Checkbox
-                onChange={this.handleToggleTranslator}
-                value={useTranslator}
+              <FieldPanel
+                instructions={translate(
+                  hasTranslator
+                    ? 'Uses a webservice to automatically translate texts.'
+                    : 'A matching webservice must be configured in the options of this field in order to use this feature.'
+                )}
+                label={translate('Translate texts automatically')}
               >
-                <Text value="Translate texts automatically" />
-              </Checkbox>
+                <Lightswitch
+                  disabled={!hasTranslator}
+                  onChange={this.handleToggleTranslator}
+                  value={useTranslator}
+                />
+              </FieldPanel>
             ) : null}
           </FieldGroup>
         </Window.Content>
         <Window.Footer>
-          <Button onClick={this.handleApply}>
-            <Text value="Apply" />
-          </Button>
           <Button onClick={onClose} secondary>
             <Text value="Cancel" />
+          </Button>
+          <div className="spacer" />
+          <Button onClick={this.handleApply} primary>
+            <Text value="Apply" />
           </Button>
         </Window.Footer>
       </>
@@ -120,12 +135,18 @@ export class Options extends React.Component<Props, State> {
 
 export default connect(
   (state: RootState) => {
-    const { elementSiteId, apiEndpoints, supportedSites } = state.config;
+    const {
+      apiEndpoints,
+      elementSiteId,
+      hasTranslator,
+      supportedSites,
+    } = state.config;
 
     return {
       availableSites: supportedSites.filter(site => site.id !== elementSiteId),
       currentSite: supportedSites.find(site => site.id === elementSiteId),
       endpoint: apiEndpoints.translate,
+      hasTranslator,
     };
   },
   dispatch => ({

@@ -39,21 +39,21 @@ export default function Root() {
   return (
     <DndProvider backend={HTML5Backend}>
       <ExpandedStateProvider>
+        {canSynchronize && !disabled ? (
+          <div className="tcfRoot--options">
+            <Button onClick={handleShowSynchronize}>
+              <Icon name="material:sync" />
+              <Text value="Synchronize translations" />
+            </Button>
+          </div>
+        ) : null}
+
         <Instance
           disabled={disabled}
           model={model}
           path={[]}
           schemaNames={rootSchemas}
         />
-
-        {canSynchronize && !disabled ? (
-          <div className="tcfRoot--options">
-            <Button onClick={handleShowSynchronize}>
-              <Icon name="material:sync" />
-              <Text value="Synchronize" />
-            </Button>
-          </div>
-        ) : null}
 
         {overlay ? (
           <Overlay onClick={handleOverlayClose}>
