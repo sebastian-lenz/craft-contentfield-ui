@@ -12,6 +12,6 @@ export default function editCommand({
     invoke: dispatch => {
       dispatch(setOverlay({ type: 'edit', uuid }));
     },
-    label: translate('COMMAND_EDIT_LABEL'),
+    label: translate('Edit'),
   };
 }

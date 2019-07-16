@@ -17,6 +17,6 @@ export default function deleteCommand({
     invoke: dispatch => {
       dispatch(uuidRemove(uuid));
     },
-    label: translate('COMMAND_DELETE_LABEL'),
+    label: translate('Delete'),
   };
 }

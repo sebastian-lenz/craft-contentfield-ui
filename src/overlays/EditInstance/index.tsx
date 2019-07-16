@@ -49,7 +49,7 @@ class EditInstance extends React.Component<Props> {
           </Window.Content>
           <Window.Footer>
             <Button onClick={this.handleApply}>
-              <Text value="OVERLAY_EDIT_INSTANCE_APPLY" />
+              <Text value="Apply" />
             </Button>
           </Window.Footer>
         </Window>

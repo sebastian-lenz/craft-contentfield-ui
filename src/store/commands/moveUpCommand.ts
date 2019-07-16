@@ -20,6 +20,6 @@ export default function moveUpCommand({
     icon: 'material:arrow_upward',
     id: 'moveUp',
     invoke: dispatch => dispatch(uuidOrder(uuid, 'up')),
-    label: translate('COMMAND_MOVE_UP_LABEL'),
+    label: translate('Move up'),
   };
 }

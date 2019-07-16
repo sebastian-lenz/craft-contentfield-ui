@@ -66,7 +66,7 @@ export default function LinkWidget({ data, disabled, field, onUpdate }: Props) {
           onChange={openInNewWindow => onUpdate({ ...link, openInNewWindow })}
           value={link.openInNewWindow}
         >
-          <Text value="FIELD_LINK_NEW_WINDOW" />
+          <Text value="Open in new window" />
         </Checkbox>
       ) : null}
     </div>

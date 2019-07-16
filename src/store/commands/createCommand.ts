@@ -15,6 +15,6 @@ export default function createCommand({
     icon: 'material:add',
     id: 'create',
     invoke: () => {},
-    label: translate('COMMAND_CREATE_LABEL'),
+    label: translate('Insert new'),
   };
 }

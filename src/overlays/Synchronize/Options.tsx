@@ -7,11 +7,12 @@ import FieldGroup from '../../components/FieldGroup';
 import FieldPanel from '../../components/FieldPanel';
 import Select from '../../components/Select';
 import Text from '../../components/Text';
+import translate from '../../store/utils/translate';
+import Window from '../../components/Window';
 import { Site, RootState } from '../../store/models';
 import { synchronize } from '../../store/actions';
 import { SynchronizeOptions } from '../../store/actions/synchronize';
 import { TranslateOptions } from '../../store/utils/fetchTranslation';
-import Window from '../../components/Window';
 
 export type ExternalProps = {
   onClose: () => void;
@@ -87,7 +88,7 @@ export class Options extends React.Component<Props, State> {
           </div>
 
           <FieldGroup>
-            <FieldPanel label="Source site">
+            <FieldPanel label={translate('Site')}>
               <Select
                 onChange={this.handleSiteChange}
                 options={siteOptions}
@@ -99,7 +100,7 @@ export class Options extends React.Component<Props, State> {
                 onChange={this.handleToggleTranslator}
                 value={useTranslator}
               >
-                <Text value="Use machine translation for all texts" />
+                <Text value="Translate texts automatically" />
               </Checkbox>
             ) : null}
           </FieldGroup>

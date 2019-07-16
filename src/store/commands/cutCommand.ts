@@ -15,6 +15,6 @@ export default function cutCommand({
     icon: 'material:content_cut',
     id: 'cut',
     invoke: () => {},
-    label: translate('COMMAND_CUT_LABEL'),
+    label: translate('Cut'),
   };
 }

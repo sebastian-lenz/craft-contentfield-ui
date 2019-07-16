@@ -57,7 +57,7 @@ export function InstanceForm({
   if (names.length === 0) {
     return (
       <div className="tcfInstanceForm--empty">
-        <Text value="FIELD_INSTANCE_FORM_EMPTY" />
+        <Text value="This element has no properties." />
       </div>
     );
   }

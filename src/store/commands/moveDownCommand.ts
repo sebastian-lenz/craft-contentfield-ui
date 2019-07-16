@@ -24,6 +24,6 @@ export default function moveDownCommand({
     icon: 'material:arrow_downward',
     id: 'moveDown',
     invoke: dispatch => dispatch(uuidOrder(uuid, 'down')),
-    label: translate('COMMAND_MOVE_DOWN_LABEL'),
+    label: translate('Move down'),
   };
 }

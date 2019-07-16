@@ -27,5 +27,5 @@ export default function Synchronize() {
     content = <Options onClose={onClose} />;
   }
 
-  return <Window width={800}>{content}</Window>;
+  return <Window width={600}>{content}</Window>;
 }

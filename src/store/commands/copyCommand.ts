@@ -9,6 +9,6 @@ export default function copyCommand(): Command | null {
     icon: 'material:content_copy',
     id: 'copy',
     invoke: () => {},
-    label: translate('COMMAND_COPY_LABEL'),
+    label: translate('Copy'),
   };
 }

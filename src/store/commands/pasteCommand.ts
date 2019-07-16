@@ -20,6 +20,6 @@ export default function pasteCommand({
     icon: 'material:content_paste',
     id: 'paste',
     invoke: () => {},
-    label: translate('COMMAND_PASTE_LABEL'),
+    label: translate('Paste'),
   };
 }

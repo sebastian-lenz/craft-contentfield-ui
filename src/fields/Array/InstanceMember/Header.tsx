@@ -17,13 +17,9 @@ function toggleIcon(isExpanded: boolean, disabled?: boolean): string {
 
 function toggleText(isExpanded: boolean, disabled?: boolean): string {
   if (disabled) {
-    return isExpanded
-      ? 'ARRAY_MEMBER_DISABLED_COLLAPSE'
-      : 'ARRAY_MEMBER_DISABLED_EXPAND';
+    return isExpanded ? 'Collapse' : 'Expand';
   } else {
-    return isExpanded
-      ? 'ARRAY_MEMBER_ENABLED_COLLAPSE'
-      : 'ARRAY_MEMBER_ENABLED_EXPAND';
+    return isExpanded ? 'Apply' : 'Edit';
   }
 }
 
