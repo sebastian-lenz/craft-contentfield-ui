@@ -1,0 +1,48 @@
+@require '../../includes'
+
+.tcfButtonFlat
+  position: relative
+  display: inline-flex
+  flex-flow: row nowrap
+  align-items: center
+  justify-content: center
+  padding: 8px 10px
+
+  background: $gray-darker
+
+  color: $white
+  font-weight: bold
+  white-space: nowrap
+  
+  cursor: pointer
+  transition: background 100ms
+
+  &:hover
+    background: darken($gray-darker, 25%)
+
+  &.secondary
+    background: mix($gray-darker, $gray-dark, 75%)
+
+  &.secondary:hover
+    background: $gray-darker
+
+  &.outline
+    padding: 6px 10px
+
+    background: $white
+    border: 1px solid $gray-dark
+
+    color: $gray-darker
+
+    &:hover
+      border-color: $gray-darker
+
+  > .tcfIcon
+    margin-right: 5px
+    margin-left: 5px
+
+  > .tcfIcon:first-child
+    margin-left: 0
+  
+  > .tcfIcon:last-child
+    margin-right: 0

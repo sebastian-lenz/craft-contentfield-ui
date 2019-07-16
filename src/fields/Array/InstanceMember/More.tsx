@@ -23,7 +23,7 @@ export default class More extends React.Component<Props, State> {
     this.setState({ isExpanded: false });
   };
 
-  handleClick = () => {
+  handleMouseDown = () => {
     this.setState({ isExpanded: true });
   };
 
@@ -35,7 +35,7 @@ export default class More extends React.Component<Props, State> {
       <div className="tcfArrayWidgetMember--headerMore">
         <div
           className="tcfArrayWidgetMember--headerMoreButton"
-          onClick={this.handleClick}
+          onMouseDown={this.handleMouseDown}
         >
           <Icon name="material:more_vert" />
         </div>

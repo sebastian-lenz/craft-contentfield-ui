@@ -10,7 +10,7 @@ export interface Props {
 
 export default function MoreItem({ command, onClick }: Props) {
   return (
-    <div className="tcfArrayWidgetMember--headerMoreItem" onClick={onClick}>
+    <div className="tcfArrayWidgetMember--headerMoreItem" onMouseUp={onClick}>
       <Icon
         className="tcfArrayWidgetMember--headerMoreItemIcon"
         name={command.icon}

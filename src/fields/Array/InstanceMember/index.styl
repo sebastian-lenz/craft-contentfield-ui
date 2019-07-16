@@ -11,7 +11,7 @@
 
   &.hasDropTarget
     display: none
-  
+
 .tcfArrayWidgetMember--panel
   position: relative
   overflow: hidden
@@ -19,18 +19,26 @@
   background: #f1f5f8
   border: 1px solid #DEDEE1
 
-  &.isExpanded
+  *:not(.depth-1):not(.isCompact) > &
+    border: none
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2)
+  
+  *:not(.depth-1) > &.isExpanded
     background: #fff
 
-  &.isExpanded:before
+  &.isExpanded:after
     content: ''
     display: block
     position: absolute
     top: 0
-    bottom: 0
     left: 0
+    height: 36px 
     
     border-left: 3px solid $primary-color
+
+  .depth-1 > &.isExpanded:after
+    height: auto
+    bottom: 0
 
   .isCompact > &
     border-top: none
@@ -63,6 +71,9 @@
 
   > .tcfIcon
     margin-right: 8px
+
+  .isExpanded > * > & > .tcfIcon
+    color: $primary-color
 
 .tcfArrayWidgetMember--headerHandleIcon
   color: rgba(0, 0, 0, 0.25)

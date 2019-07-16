@@ -1,36 +1,33 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import Button from '../Button';
+import ButtonFlat from '../ButtonFlat';
 import fields, { AnyField } from '../../fields';
 import Icon from '../Icon';
 import Text from '../Text';
 import { FactoryProps } from '../../fields/FieldDefinition';
-import { Field, RootState, Schemas } from '../../store/models';
+import { RootState, Schemas } from '../../store/models';
 
 import './index.styl';
 
-export type Props = FactoryProps<AnyField> & {
-  schemas: Schemas;
-};
+export type Props = FactoryProps<AnyField>;
 
-export function Factory({ field, label, onCreate, schemas }: Props) {
+export default function Factory({ field, onCreate }: Props) {
+  const schemas = useSelector((state: RootState) => state.schemas);
+
   return (
     <div className="tcfFactory">
-      <Button
+      <ButtonFlat
+        className="tcfFactory--primaryButton"
         onClick={() => {
           const value = fields.createValue({ field, schemas });
           onCreate(value);
         }}
         secondary
       >
-        <Text value={label || 'Create'} />
         <Icon name="plus" />
-      </Button>
+        <Text value="Create" />
+      </ButtonFlat>
     </div>
   );
 }
-
-export default connect((state: RootState, props: FactoryProps<AnyField>) => ({
-  schemas: state.schemas,
-}))(Factory);

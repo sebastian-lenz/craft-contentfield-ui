@@ -13,6 +13,7 @@ export function createRootState(): RootState {
       elementId: null,
       elementSiteId: 0,
       fieldHandle: '',
+      hasTranslator: false,
       i18nCategory: 'site',
       references: [],
       rootSchemas: [],
@@ -27,6 +28,9 @@ export function createRootState(): RootState {
     schemas: {},
     sync: {
       status: 'idle',
+    },
+    user: {
+      favoriteSchemas: {},
     },
   };
 }

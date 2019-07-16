@@ -3,6 +3,7 @@ import { Model } from './model';
 import { OverlayState } from './overlay';
 import { Schemas } from './schema';
 import { SyncState } from './sync';
+import { UserState } from './user';
 
 export interface RootState {
   config: Config;
@@ -10,4 +11,5 @@ export interface RootState {
   overlay: OverlayState;
   schemas: Schemas;
   sync: SyncState;
+  user: UserState;
 }

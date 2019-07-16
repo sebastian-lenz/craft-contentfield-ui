@@ -51,9 +51,9 @@ export interface FieldDefinitionOptions<T extends BaseField> {
 }
 
 export interface FactoryProps<T extends BaseField> {
-  label?: string;
   field: T;
   onCreate: (value: any) => void;
+  scope?: string;
 }
 
 export type FactoryComponent<T extends BaseField> = React.ComponentType<

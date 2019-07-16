@@ -3,7 +3,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { useDispatch, useSelector } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 
-import Button from '../Button';
+import ButtonFlat from '../ButtonFlat';
 import createOverlay from '../../overlays';
 import ExpandedStateProvider from '../../contexts/ExpandedStateProvider';
 import Icon from '../Icon';
@@ -41,10 +41,10 @@ export default function Root() {
       <ExpandedStateProvider>
         {canSynchronize && !disabled ? (
           <div className="tcfRoot--options">
-            <Button onClick={handleShowSynchronize}>
+            <ButtonFlat onClick={handleShowSynchronize} outline>
               <Icon name="material:sync" />
               <Text value="Synchronize translations" />
-            </Button>
+            </ButtonFlat>
           </div>
         ) : null}
 

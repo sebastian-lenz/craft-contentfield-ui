@@ -49,7 +49,7 @@ export default class Flyout extends React.Component<Props> {
               ref={this.setHandle}
               style={{ ...this.handleStyle }}
             />
-            {children}
+            <div className="tcfFlyout--body">{children}</div>
           </div>
         </Overlay>
       </div>

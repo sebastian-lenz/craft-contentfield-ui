@@ -2,9 +2,37 @@ import $ from 'jquery';
 import Handlebars from 'handlebars';
 
 import isModel from './isModel';
-import { RootState, Schema } from '../models';
 import createModel from './createModel';
+import { FavoriteSchemas, UserState } from '../models/user';
+import { RootState, Schema } from '../models';
 import { setGoogleMapsApiKey } from '../../fields/Location/utils/requireGoogleMaps';
+import { userSettingStorageKey } from '../actions/setUser';
+
+function validateFavorites(favorites: FavoriteSchemas): FavoriteSchemas {
+  return Object.keys(favorites).reduce(
+    (memo, key) =>
+      Array.isArray(favorites[key]) ? { ...memo, [key]: favorites[key] } : memo,
+    {} as FavoriteSchemas
+  );
+}
+
+function loadUserState(): UserState {
+  try {
+    const rawUserState = window.localStorage.getItem(userSettingStorageKey);
+    if (rawUserState === null) {
+      throw new Error('User state missing');
+    }
+
+    const { favoriteSchemas = {} } = JSON.parse(rawUserState) as UserState;
+    return {
+      favoriteSchemas: validateFavorites(favoriteSchemas),
+    };
+  } catch (error) {}
+
+  return {
+    favoriteSchemas: {},
+  };
+}
 
 export default function loadRootState(
   script: Element,
@@ -12,11 +40,10 @@ export default function loadRootState(
 ): RootState {
   const payload = JSON.parse(script.innerHTML) as RootState;
 
+  payload.user = loadUserState();
   payload.sync = {
     status: 'idle',
   };
-
-  payload.config.expanded = [];
 
   payload.config.references = payload.config.references.map(reference => {
     const $element = $(reference.element);

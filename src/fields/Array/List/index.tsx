@@ -8,6 +8,7 @@ import dropTarget from '../utils/dropTarget';
 import moveModel, { MoveModelOptions } from '../../../store/actions/moveModel';
 import InstanceMember from '../InstanceMember';
 import isModel from '../../../store/utils/isModel';
+import Text from '../../../components/Text';
 import { AnyField } from '../../index';
 import { AnyPathSegment } from '../../../store/utils/parsePath';
 import { Context } from '../../../contexts/InstanceDepthProvider';
@@ -130,15 +131,12 @@ export class List extends React.PureComponent<Props, State> {
       }
     }
 
-    let footer: React.ReactNode;
     if (members.length === 0) {
       members.push(
         <div className="tcfArrayWidgetList--empty" key="empty">
-          {children}
+          <Text value="Drop elements here" />
         </div>
       );
-    } else {
-      footer = <div className="tcfArrayWidgetList--footer">{children}</div>;
     }
 
     return (
@@ -148,7 +146,7 @@ export class List extends React.PureComponent<Props, State> {
             {members}
           </div>
         )}
-        {footer}
+        <div className="tcfArrayWidgetList--footer">{children}</div>
       </>
     );
   }

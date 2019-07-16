@@ -62,6 +62,7 @@ export default class ArrayWidget extends React.Component<Props> {
       factory = React.createElement(memberDefinition.factory, {
         field: field.member,
         onCreate: this.handleAdd,
+        scope: model.__type,
       });
     }
 

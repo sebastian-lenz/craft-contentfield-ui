@@ -1,14 +1,29 @@
+@require '../../../includes'
+
 .tcfArrayWidgetList
   min-height: 100px;
+  margin: -5px 0;
 
 .tcfArrayWidgetList--empty
+  position: relative
   display: flex
   align-items: center
   justify-content: center
-  min-height: 75px
+  height: 90px
+  padding: 5px 0
 
-  background: #f1f5f8
-  border-radius: 5px
+  color: $gray-dark
+
+  &:after
+    content: ''
+    display: block
+    position: absolute
+    top: 5px
+    right: 0
+    bottom: 5px
+    left: 0
+
+    border: 1px dashed $border-color
 
 .tcfArrayWidgetList--placeholder
   position: relative
@@ -23,13 +38,12 @@
     bottom: 5px
     left: 0
 
-    background: #f1f5f8
-    border-radius: 5px
+    background: $gray-dark
 
   &.isCompact:after
     top: 0
     bottom: 0
 
 .tcfArrayWidgetList--footer
-  padding: 5px 0
+  padding: 15px 0 0
 

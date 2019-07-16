@@ -1,0 +1,48 @@
+@require '../../includes'
+
+.tcfSchemaList
+  position: relative
+  overflow: auto
+  width: 250px
+  max-height: 60vh
+
+.tcfSchemaList--row
+  display: flex
+  flex-flow: row nowrap
+  align-items: center
+
+  &:hover
+    background: $primary-color
+
+    color: $white
+
+.tcfSchemaList--schema
+  display: flex
+  flex-flow: row nowrap
+  align-items: center
+  flex: 1
+  padding: 0 12px
+
+  line-height: 30px
+
+  cursor: pointer
+
+.tcfSchemaList--schemaIcon
+  margin-right: 8px
+
+.tcfSchemaList--schemaLabel
+  flex: 1
+
+.tcfSchemaList-favorite
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 30px
+  height: 30px
+
+  opacity: 0.5
+
+  cursor: pointer
+  
+  &:hover
+    opacity: 1
