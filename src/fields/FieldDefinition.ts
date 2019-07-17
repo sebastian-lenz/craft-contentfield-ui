@@ -26,9 +26,10 @@ export interface CreateOptions<Field extends BaseField> {
 }
 
 export interface PreviewOptions<Field extends BaseField, Value> {
-  field?: Field;
-  value: Value;
   context: PreviewContext;
+  field?: Field;
+  mode?: 'default' | 'label';
+  value: Value;
 }
 
 export interface PreviewContext {
@@ -79,10 +80,9 @@ export default abstract class FieldDefinition<
   Field extends BaseField = BaseField,
   Value = any
 > {
-  field?: Field;
+  factory: FactoryComponent<Field>;
   isAlwaysPlainField?: boolean;
   widget: WidgetComponent<Field>;
-  factory: FactoryComponent<Field>;
 
   constructor({ factory, widget }: FieldDefinitionOptions<Field>) {
     this.factory = factory || (Factory as any);

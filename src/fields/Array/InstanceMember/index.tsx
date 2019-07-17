@@ -60,6 +60,7 @@ class InstanceMember extends React.Component<Props> {
         schema.fields[fieldNames[0]].type === 'redactor';
     }
 
+    const hasPreview = schema && schema.preview && depth !== 2;
     const isExpanded = this.context.isExpanded(child.__uuid);
     const isActualExpanded = canExpand && (!isCollapsible || isExpanded);
     let content: React.ReactNode;
@@ -77,7 +78,7 @@ class InstanceMember extends React.Component<Props> {
           />
         </div>
       );
-    } else {
+    } else if (hasPreview) {
       content = (
         <InstancePreview
           className="tcfArrayWidgetMember--preview"
@@ -105,6 +106,8 @@ class InstanceMember extends React.Component<Props> {
             <Header
               disabled={disabled}
               dragSource={dragSource}
+              field={field}
+              hasPreview={!isActualExpanded && !hasPreview}
               isCollapsible={canExpand && isCollapsible}
               isExpanded={isActualExpanded}
               model={child}

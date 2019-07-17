@@ -58,6 +58,8 @@
 
   background: $gray-light
 
+  white-space: nowrap
+
 .tcfArrayWidgetMember--headerHandle
   display: flex
   flex-flow: row nowrap
@@ -65,15 +67,23 @@
 
   flex: 1
   padding: 0 10px
+  min-width: 0
 
-  font-weight: bold
   cursor: move
 
-  > .tcfIcon
+  > *
     margin-right: 8px
 
   .isExpanded > * > & > .tcfIcon
     color: $primary-color
+
+.tcfArrayWidgetMember--headerPreview
+  position: relative
+  overflow: hidden
+  text-overflow: ellipsis
+  margin: 0 20px 0 5px
+
+  opacity: 0.5
 
 .tcfArrayWidgetMember--headerHandleIcon
   color: rgba(0, 0, 0, 0.25)

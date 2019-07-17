@@ -8,6 +8,12 @@ import { RootState, Schema } from '../models';
 import { setGoogleMapsApiKey } from '../../fields/Location/utils/requireGoogleMaps';
 import { userSettingStorageKey } from '../actions/setUser';
 
+function toTemplate(value?: string | null) {
+  return typeof value === 'string' && value.trim() !== ''
+    ? Handlebars.compile(value)
+    : null;
+}
+
 function validateFavorites(favorites: FavoriteSchemas): FavoriteSchemas {
   return Object.keys(favorites).reduce(
     (memo, key) =>
@@ -56,11 +62,8 @@ export default function loadRootState(
 
   for (const name of Object.keys(payload.schemas)) {
     const schema = payload.schemas[name];
-    if (typeof schema.preview === 'string') {
-      schema.previewTemplate = Handlebars.compile(schema.preview);
-    } else {
-      schema.previewTemplate = null;
-    }
+    schema.previewLabelTemplate = toTemplate(schema.previewLabel);
+    schema.previewTemplate = toTemplate(schema.preview);
   }
 
   setGoogleMapsApiKey(payload.config.googleMapsApiKey);

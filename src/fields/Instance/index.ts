@@ -64,6 +64,7 @@ export default class InstanceFieldType extends FieldDefinition<
 
   preview({
     context,
+    mode = 'default',
     value,
   }: PreviewOptions<InstanceField, Model>): PreviewResult {
     if (!isModel(value)) {
@@ -75,14 +76,16 @@ export default class InstanceFieldType extends FieldDefinition<
       return '';
     }
 
-    const { previewTemplate } = schema;
-    if (previewTemplate === null) {
+    const template =
+      mode === 'label' ? schema.previewLabelTemplate : schema.previewTemplate;
+
+    if (template === null) {
       return Craft.t(context.i18nCategory, schema.label);
     }
 
     const data: PreviewObject = {
-      toHTML: () => new SafeString(previewTemplate(data)),
-      toString: () => previewTemplate(data),
+      toHTML: () => new SafeString(template(data)),
+      toString: () => template(data),
     };
 
     data.depth = context.depth;

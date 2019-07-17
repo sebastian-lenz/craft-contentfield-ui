@@ -3,8 +3,11 @@ import { DragElementWrapper, DragSourceOptions } from 'react-dnd';
 
 import Button from './Button';
 import Icon from '../../../components/Icon';
+import InstancePreviewImage from '../../../components/InstancePreviewImage';
+import InstancePreviewLabel from '../../../components/InstancePreviewLabel';
 import More from './More';
 import Text from '../../../components/Text';
+import { InstanceField } from '../../Instance';
 import { Schema, Model } from '../../../store/models';
 
 function toggleIcon(isExpanded: boolean, disabled?: boolean): string {
@@ -26,6 +29,8 @@ function toggleText(isExpanded: boolean, disabled?: boolean): string {
 export interface Props {
   disabled?: boolean;
   dragSource: DragElementWrapper<DragSourceOptions>;
+  field: InstanceField;
+  hasPreview?: boolean;
   isCollapsible: boolean;
   isExpanded: boolean;
   model: Model;
@@ -38,6 +43,8 @@ export interface Props {
 export default function Header({
   disabled,
   dragSource,
+  field,
+  hasPreview,
   isCollapsible,
   isExpanded,
   model,
@@ -47,8 +54,26 @@ export default function Header({
   const handleItems = [];
 
   if (schema) {
-    handleItems.push(<Icon key="schemaIcon" name={schema.icon} />);
-    handleItems.push(<span key="schemaLabel">{schema.label}</span>);
+    handleItems.push(<Icon key="icon" name={schema.icon} />);
+
+    if (schema.previewImage) {
+      handleItems.push(
+        <InstancePreviewImage key="image" model={model} schema={schema} />
+      );
+    }
+
+    handleItems.push(<strong key="label">{schema.label}</strong>);
+
+    if (hasPreview && schema.previewLabelTemplate) {
+      handleItems.push(
+        <InstancePreviewLabel
+          className="tcfArrayWidgetMember--headerPreview"
+          field={field}
+          key="label"
+          model={model}
+        />
+      );
+    }
   } else {
     handleItems.push(
       <Icon

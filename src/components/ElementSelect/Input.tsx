@@ -93,8 +93,9 @@ export default class Input extends React.Component<Props> {
   }
 
   handleAdd = ({ elements }: AddOptions) => {
-    if (this.isRendering) return;
     const { elementType, onAddReferences } = this.props;
+
+    this.handleChange();
 
     onAddReferences(
       elements.map(reference => ({
@@ -104,8 +105,6 @@ export default class Input extends React.Component<Props> {
         type: elementType,
       }))
     );
-
-    this.handleChange();
   };
 
   handleChange = () => {
