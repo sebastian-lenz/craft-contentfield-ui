@@ -17,24 +17,23 @@ export interface MoveModelOptions {
   targetIndex: number;
 }
 
-export interface MoveModelAction extends Action, MoveModelOptions {
+export interface MoveModelAction extends Action {
+  source: Array<AnyPathSegment>;
+  target: Array<AnyPathSegment>;
   type: 'moveModel';
 }
 
 export function applyMoveModel(
   state: RootState,
-  { source, target, targetField, targetIndex }: MoveModelAction
+  { source, target }: MoveModelAction
 ): RootState {
-  const sourcePath = Array.isArray(source) ? source.slice() : parsePath(source);
-  const targetPath = Array.isArray(target) ? target.slice() : parsePath(target);
   let { model } = state;
-  let childToMove: any = findByPath(model, sourcePath);
-
+  let childToMove: any = findByPath(model, source);
   const clonedChildToMove = isObject(childToMove)
     ? { ...childToMove }
     : childToMove;
 
-  const sourceSegment = sourcePath.pop();
+  const sourceSegment = source.pop();
   if (!sourceSegment || sourceSegment.type !== 'index') {
     throw new Error('Unsupported operation');
   }
@@ -42,14 +41,15 @@ export function applyMoveModel(
   // If the target path is within the source path, we must adjust
   // its index
   if (
-    targetPath.length > sourcePath.length &&
-    sourcePath.every((segment, index) =>
-      isSegmentEqual(segment, targetPath[index])
-    )
+    target.length > source.length &&
+    source.every((segment, index) => isSegmentEqual(segment, target[index]))
   ) {
-    const targetSegment = targetPath[sourcePath.length];
+    const targetSegment = target[source.length];
+    if (targetSegment.type != 'index') {
+      throw new Error('Path segment type mismatch');
+    }
+
     if (
-      targetSegment.type == 'index' &&
       targetSegment.name == sourceSegment.name &&
       targetSegment.index > sourceSegment.index
     ) {
@@ -57,41 +57,46 @@ export function applyMoveModel(
     }
   }
 
+  const targetSegment = target.pop();
+  if (!targetSegment || targetSegment.type !== 'index') {
+    throw new Error('Unsupported operation');
+  }
+
   // Remove the element from the source array
-  model = modifyPath(model, sourcePath, source => {
-    if (!source) {
+  model = modifyPath(model, source, sourceModel => {
+    if (!sourceModel) {
       throw new Error('Invalid operation');
     }
 
-    let value = source[sourceSegment.name];
+    let value = sourceModel[sourceSegment.name];
     if (!Array.isArray(value)) {
       throw new Error('Invalid operation');
     }
 
     value = value.slice();
     value.splice(sourceSegment.index, 1);
-    return { ...source, [sourceSegment.name]: value };
+    return { ...sourceModel, [sourceSegment.name]: value };
   });
 
   // Copy to target
-  model = modifyPath(model, targetPath, target => {
-    if (!target) {
+  model = modifyPath(model, target, targetModel => {
+    if (!targetModel) {
       throw new Error('Could not find target');
     }
 
-    let children = target[targetField];
+    let children = targetModel[targetSegment.name];
     if (!Array.isArray(children)) {
       throw new Error('Unsupported operation');
     }
 
     children = children.slice();
-    if (targetIndex >= children.length) {
+    if (targetSegment.index >= children.length) {
       children.push(clonedChildToMove);
     } else {
-      children.splice(targetIndex, 0, clonedChildToMove);
+      children.splice(targetSegment.index, 0, clonedChildToMove);
     }
 
-    return { ...target, [targetField]: children };
+    return { ...targetModel, [targetSegment.name]: children };
   });
 
   return {
@@ -100,9 +105,18 @@ export function applyMoveModel(
   };
 }
 
-export default function moveModel(options: MoveModelOptions): MoveModelAction {
+export default function moveModel({
+  source,
+  target,
+  targetField,
+  targetIndex,
+}: MoveModelOptions): MoveModelAction {
   return {
-    ...options,
+    source: Array.isArray(source) ? source.slice() : parsePath(source),
+    target: [
+      ...(Array.isArray(target) ? target.slice() : parsePath(target)),
+      { index: targetIndex, name: targetField, type: 'index' },
+    ],
     type: 'moveModel',
   };
 }
