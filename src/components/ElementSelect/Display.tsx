@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import getThumbLoader from '../../utils/getThumbLoader';
 import { Props } from './index';
 import { Reference } from '../../store/models';
 
@@ -29,7 +30,7 @@ export default function Display(props: Props) {
     const { current } = element;
     if (!current) return;
 
-    const loader = new Craft.ElementThumbLoader();
+    const loader = getThumbLoader();
 
     for (const reference of toReferences(props)) {
       const $element = reference.$element.clone(false, true);
