@@ -61,7 +61,10 @@ export default function<TChild, TField extends Field>(
     (connect, monitor): DragProps => ({
       dragPreview: connect.dragPreview(),
       dragSource: connect.dragSource(),
-      hasDropTarget: monitor.isDragging() && monitor.getTargetIds().length > 0,
+      // @todo Remove cast to any once the declaration is up to date
+      // @see https://github.com/react-dnd/react-dnd/pull/1478
+      hasDropTarget:
+        monitor.isDragging() && (monitor as any).getTargetIds().length > 0,
       isDragging: monitor.isDragging(),
     })
   )(component);
