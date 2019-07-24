@@ -28,14 +28,28 @@ export default class ArrayPreview extends Array<PreviewResult> {
     super(...createItems(options));
   }
 
+  get asColumn(): SafeString {
+    return this.toList('flexColumn');
+  }
+
   get asList(): SafeString {
-    return new SafeString(
-      `<ul>${this.map(item => `<li>${toHTML(item)}</li>`).join('')}</ul>`
-    );
+    return this.toList('');
+  }
+
+  get asRow(): SafeString {
+    return this.toList('flexRow');
   }
 
   toHTML(): SafeString {
     return new SafeString(this.toString());
+  }
+
+  toList(className: string): SafeString {
+    return new SafeString(
+      `<ul class="${className}">${this.map(
+        item => `<li>${toHTML(item)}</li>`
+      ).join('')}</ul>`
+    );
   }
 
   toString(): string {

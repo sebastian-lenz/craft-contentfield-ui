@@ -69,7 +69,7 @@ export default function Header({
         <InstancePreviewLabel
           className="tcfArrayWidgetMember--headerPreview"
           field={field}
-          key="label"
+          key="preview"
           model={model}
         />
       );

@@ -3,6 +3,11 @@
 .tcfArrayWidgetMember
   padding: 5px 0
 
+  // Prevent Chrome from showing wrong drag previews
+  // @see https://github.com/react-dnd/react-dnd/issues/832
+  &.isCollapsed
+    transform: translate3d(0, 0, 0)
+
   &.isDragging
     opacity: 0.5
 
@@ -23,10 +28,10 @@
     border: none
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2)
   
-  *:not(.depth-1) > &.isExpanded
+  .isExpanded:not(.depth-1) > &
     background: #fff
 
-  &.isExpanded:after
+  .isExpanded > &:after
     content: ''
     display: block
     position: absolute
@@ -36,7 +41,7 @@
     
     border-left: 3px solid $primary-color
 
-  .depth-1 > &.isExpanded:after
+  .isExpanded.depth-1 > &:after
     height: auto
     bottom: 0
 
@@ -129,6 +134,4 @@
   border-top: 1px solid $border-color
 
 .tcfArrayWidgetMember--preview
-  padding: 16px
-
   border-top: 1px solid $border-color

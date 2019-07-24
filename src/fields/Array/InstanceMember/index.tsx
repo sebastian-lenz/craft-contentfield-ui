@@ -91,18 +91,18 @@ class InstanceMember extends React.Component<Props> {
 
     return (
       <div
-        className={cx(`tcfArrayWidgetMember depth-${depth}`, {
-          hasDropTarget,
-          isCompact,
-          isDragging,
-        })}
+        className={cx(
+          `tcfArrayWidgetMember depth-${depth}`,
+          isActualExpanded ? 'isExpanded' : 'isCollapsed',
+          {
+            hasDropTarget,
+            isCompact,
+            isDragging,
+          }
+        )}
       >
         {dragPreview(
-          <div
-            className={cx('tcfArrayWidgetMember--panel', {
-              isExpanded: isActualExpanded,
-            })}
-          >
+          <div className="tcfArrayWidgetMember--panel">
             <Header
               disabled={disabled}
               dragSource={dragSource}
