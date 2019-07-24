@@ -10,11 +10,13 @@ import FieldDefinition, {
   CloneOptions,
 } from '../FieldDefinition';
 
+export type PreviewMode = 'always' | 'never' | 'root';
+
 export interface ArrayField extends Field {
   collapsible: boolean;
-  compact: boolean;
   limit: number;
   member: AnyField;
+  previewMode: PreviewMode;
   type: 'array';
 }
 

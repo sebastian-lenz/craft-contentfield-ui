@@ -11,8 +11,20 @@ import { InstanceField } from '../../Instance';
 import { Model } from '../../../store/models';
 
 import './index.styl';
+import { PreviewMode } from '..';
 
 export type Props = BaseProps<Model, InstanceField>;
+
+function usePreview(mode: PreviewMode, depth: number) {
+  switch (mode) {
+    case 'always':
+      return true;
+    case 'root':
+      return depth === 1;
+    default:
+      false;
+  }
+}
 
 class InstanceMember extends React.Component<Props> {
   context!: React.ContextType<typeof Context>;
@@ -44,9 +56,9 @@ class InstanceMember extends React.Component<Props> {
       field,
       hasDropTarget,
       isCollapsible,
-      isCompact,
       isDragging,
       path,
+      previewMode,
       schema,
     } = this.props;
 
@@ -60,9 +72,11 @@ class InstanceMember extends React.Component<Props> {
         schema.fields[fieldNames[0]].type === 'redactor';
     }
 
-    const hasPreview = schema && schema.preview && depth !== 2;
     const isExpanded = this.context.isExpanded(child.__uuid);
     const isActualExpanded = canExpand && (!isCollapsible || isExpanded);
+    const hasPreview =
+      schema && schema.preview && usePreview(previewMode, depth);
+
     let content: React.ReactNode;
 
     if (isActualExpanded) {
@@ -94,11 +108,7 @@ class InstanceMember extends React.Component<Props> {
         className={cx(
           `tcfArrayWidgetMember depth-${depth}`,
           isActualExpanded ? 'isExpanded' : 'isCollapsed',
-          {
-            hasDropTarget,
-            isCompact,
-            isDragging,
-          }
+          { hasDropTarget, isDragging }
         )}
       >
         {dragPreview(

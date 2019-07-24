@@ -12,6 +12,7 @@ import Text from '../../../components/Text';
 import { AnyField } from '../../index';
 import { AnyPathSegment } from '../../../store/utils/parsePath';
 import { Context } from '../../../contexts/InstanceDepthProvider';
+import { PreviewMode } from '../index';
 import { RootState, Schemas, Model } from '../../../store/models';
 
 import './index.styl';
@@ -34,12 +35,12 @@ export interface ExternalProps {
   disabled?: boolean;
   field: AnyField;
   isCollapsible: boolean;
-  isCompact: boolean;
   limit: number;
   model: Model;
   onDelete: (index: number) => void;
   onUpdate: (index: number, value: any) => void;
   path: Array<AnyPathSegment>;
+  previewMode: PreviewMode;
 }
 
 export interface DropProps {
@@ -110,13 +111,13 @@ export class List extends React.PureComponent<Props, State> {
 
   render() {
     const { dropIndex, placeholderHeight } = this.state;
-    const { children, connectDropTarget, isCompact, isOver } = this.props;
+    const { children, connectDropTarget, isOver } = this.props;
     const members = this.renderMembers();
 
     if (isOver) {
       const placeholder = (
         <div
-          className={cx('tcfArrayWidgetList--placeholder', { isCompact })}
+          className={cx('tcfArrayWidgetList--placeholder')}
           key="placeholder"
           style={{ height: placeholderHeight }}
         />
@@ -157,11 +158,11 @@ export class List extends React.PureComponent<Props, State> {
       disabled,
       field,
       isCollapsible,
-      isCompact,
       model,
       onDelete,
       onUpdate,
       path: parentPath,
+      previewMode,
       schemas,
     } = this.props;
 
@@ -191,7 +192,7 @@ export class List extends React.PureComponent<Props, State> {
             child={child}
             depth={depth}
             field={field}
-            isCompact={isCompact}
+            previewMode={previewMode}
             schema={schemas[child.__type]}
           />
         );
@@ -202,7 +203,7 @@ export class List extends React.PureComponent<Props, State> {
             child={child}
             depth={depth}
             field={field}
-            isCompact={isCompact}
+            previewMode={previewMode}
           />
         );
       }

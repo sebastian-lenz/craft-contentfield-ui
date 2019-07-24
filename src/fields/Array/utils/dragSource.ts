@@ -3,6 +3,7 @@ import { findDOMNode } from 'react-dom';
 
 import { AnyPathSegment } from '../../../store/utils/parsePath';
 import { Field, Model, Schema } from '../../../store/models';
+import { PreviewMode } from '../index';
 
 export interface DragItem {
   data: any;
@@ -24,11 +25,11 @@ export interface ExternalProps<TChild, TField extends Field> {
   field: TField;
   index: number;
   isCollapsible: boolean;
-  isCompact: boolean;
   model: Model;
   onDelete: (index: number) => void;
   onUpdate: (index: number, value: any) => void;
   path: Array<AnyPathSegment>;
+  previewMode: PreviewMode;
   schema?: Schema;
 }
 

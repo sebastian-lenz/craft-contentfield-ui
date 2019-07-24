@@ -72,12 +72,12 @@ export default class ArrayWidget extends React.Component<Props> {
         disabled={disabled}
         field={field.member}
         isCollapsible={field.collapsible}
-        isCompact={field.compact}
         limit={limit}
         model={model}
         onDelete={this.handleDelete}
         onUpdate={this.handleUpdate}
         path={path}
+        previewMode={field.previewMode}
       >
         {factory}
       </List>
