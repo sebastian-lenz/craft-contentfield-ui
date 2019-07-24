@@ -62,8 +62,9 @@ export default function loadRootState(
 
   for (const name of Object.keys(payload.schemas)) {
     const schema = payload.schemas[name];
-    schema.previewLabelTemplate = toTemplate(schema.previewLabel);
     schema.previewTemplate = toTemplate(schema.preview);
+    schema.previewLabelTemplate =
+      toTemplate(schema.previewLabel) || schema.previewTemplate;
   }
 
   setGoogleMapsApiKey(payload.config.googleMapsApiKey);
