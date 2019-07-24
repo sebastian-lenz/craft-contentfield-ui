@@ -37,6 +37,8 @@ export default function InstancePreviewLabel({
 
   const content = toHTML(preview)
     .replace(/<[^>]*>?/gm, '')
+    .replace(/[\n\t\r]+/g, '')
+    .trim()
     .substr(0, 256);
 
   return <div {...props}>{content}</div>;
