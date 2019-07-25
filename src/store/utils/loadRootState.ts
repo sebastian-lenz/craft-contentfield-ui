@@ -6,6 +6,7 @@ import createModel from './createModel';
 import { FavoriteSchemas, UserState } from '../models/user';
 import { RootState, Schema } from '../models';
 import { setGoogleMapsApiKey } from '../../fields/Location/utils/requireGoogleMaps';
+import { toUuidObjects } from './uuidObject';
 import { userSettingStorageKey } from '../actions/setUser';
 
 function toTemplate(value?: string | null) {
@@ -75,7 +76,7 @@ export default function loadRootState(
   }
 
   try {
-    payload.model = JSON.parse(field.value);
+    payload.model = toUuidObjects(JSON.parse(field.value), payload.schemas);
   } catch (error) {}
 
   if (

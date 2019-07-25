@@ -47,7 +47,6 @@ export function applyUuidOrder(
       const newValue = [...orignalArray];
       const fieldValue = newValue.splice(index, 1);
       newValue.splice(newIndex, 0, ...fieldValue);
-      console.log(index, newIndex, fieldValue);
 
       const newModel = {
         ...model,

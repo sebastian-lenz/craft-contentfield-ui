@@ -1,0 +1,33 @@
+@require '../../../includes'
+
+.tcfArrayWidgetMember--single
+  display: flex
+  flex-flow: row nowrap
+
+.tcfArrayWidgetMember--singleHandle
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 38px
+  flex: 0 0 auto
+
+  &.enabled
+    cursor: move
+
+  &.enabled:hover
+    color: $primary-color
+
+.tcfArrayWidgetMember--singleBody
+  flex: 1
+  padding: 8px
+
+.tcfArrayWidgetMember--singleActions
+  width: 38px
+  flex: 0 0 auto
+
+.tcfArrayWidgetMember--singleActionsButton
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 100%
+  height: 100%

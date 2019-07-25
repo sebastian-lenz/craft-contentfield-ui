@@ -1,49 +1,48 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import FieldPanel from '../FieldPanel';
 import InstanceDepthProvider from '../../contexts/InstanceDepthProvider';
 import InstanceForm from '../InstanceForm';
 import isModel from '../../store/utils/isModel';
+import ResponsiveStateProvider from '../../contexts/ResponsiveStateProvider';
 import Select, { sortOptions } from '../Select';
 import { AnyPathSegment } from '../../store/utils/parsePath';
 import { changeType } from '../../store/actions';
-import { Model, RootState, Schema } from '../../store/models';
+import { Model, RootState } from '../../store/models';
 
 import './index.styl';
-import ResponsiveStateProvider from '../../contexts/ResponsiveStateProvider';
 
-export type ExternalProps = {
+export interface Props {
   canChangeType?: boolean;
   disabled?: boolean;
   isBorderless?: boolean;
   model: Model;
   path: Array<AnyPathSegment>;
   schemaNames: Array<string>;
-};
+}
 
-export type Props = ExternalProps & {
-  onChangeType: (type: string) => void;
-  schemas: Array<Schema>;
-};
-
-export function Instance({
+export default React.memo(function Instance({
   canChangeType = true,
   disabled = false,
   isBorderless,
   model,
-  onChangeType,
   path,
-  schemas,
+  schemaNames,
 }: Props) {
-  let schemaSelect: React.ReactNode;
+  const dispatch = useDispatch();
+  const schemas = useSelector((state: RootState) =>
+    schemaNames.map(name => state.schemas[name])
+  );
 
+  let schemaSelect: React.ReactNode;
   let isValidModel = false;
   if (isModel(model)) {
     isValidModel = schemas.some(schema => schema.qualifier === model.__type);
   }
 
   if (canChangeType && schemas.length > 1) {
+    const handleChange = (type: string) => dispatch(changeType(path, type));
     const options = schemas.map(({ qualifier, label }) => ({
       key: qualifier,
       label,
@@ -55,7 +54,7 @@ export function Instance({
       <FieldPanel className="tcfInstance--typeSelect" label="Type">
         <Select
           disabled={disabled}
-          onChange={onChangeType}
+          onChange={handleChange}
           options={options}
           value={isValidModel ? model.__type : null}
         />
@@ -78,13 +77,4 @@ export function Instance({
       </ResponsiveStateProvider>
     </InstanceDepthProvider>
   );
-}
-
-export default connect(
-  (state: RootState, props: ExternalProps) => ({
-    schemas: props.schemaNames.map(name => state.schemas[name]),
-  }),
-  (dispatch, props: ExternalProps) => ({
-    onChangeType: (type: string) => dispatch(changeType(props.path, type)),
-  })
-)(Instance);
+});

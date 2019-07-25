@@ -27,7 +27,8 @@ export default function Select<Option extends SelectOption>({
   value,
   onChange,
 }: Props<Option>) {
-  const selectedIndex = options.findIndex(option => option.key === value);
+  // Don't use a strict equal here, the value might be boxed.
+  const selectedIndex = options.findIndex(option => option.key == value);
   const hasUndecied = allowUndecided || selectedIndex === -1;
 
   function handleChange(event: React.ChangeEvent<HTMLSelectElement>) {

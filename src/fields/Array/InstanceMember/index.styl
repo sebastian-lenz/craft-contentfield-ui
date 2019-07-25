@@ -1,6 +1,7 @@
 @require '../../../includes'
 
 .tcfArrayWidgetMember
+  position: relative
   padding: 5px 0
 
   // Prevent Chrome from showing wrong drag previews
@@ -9,10 +10,20 @@
     transform: translate3d(0, 0, 0)
 
   &.isDragging
-    opacity: 0.5
+    visibility: hidden
 
-  &.hasDropTarget
-    display: none
+  &.isDragging:after
+    content: ''
+    display: block
+    position: absolute
+    top: 5px
+    right: 0
+    bottom: 5px
+    left: 0
+
+    background: $gray-darker
+
+    visibility: visible
 
 .tcfArrayWidgetMember--panel
   position: relative
@@ -66,7 +77,11 @@
   padding: 0 10px
   min-width: 0
 
-  cursor: move
+  &.enabled
+    cursor: move
+
+  &.enabled:hover
+    color: $primary-color
 
   > *
     margin-right: 8px

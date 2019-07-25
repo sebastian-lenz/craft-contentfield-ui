@@ -2,3 +2,32 @@
   padding: 15px
 
   border: 1px solid rgba(0, 0, 20, 0.1)
+
+.tcfInstanceWidget--collapsiblePanel
+  position: relative
+  overflow: hidden
+
+  background: #f1f5f8
+  
+  &.depth-1
+    border: 1px solid #DEDEE1
+
+  &:not(.depth-1)
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2)
+  
+  &.isExpanded:not(.depth-1)
+    background: #fff
+
+  &.isExpanded:after
+    content: ''
+    display: block
+    position: absolute
+    top: 0
+    left: 0
+    height: 36px 
+    
+    border-left: 3px solid $primary-color
+
+  &.isExpanded.depth-1:after
+    height: auto
+    bottom: 0

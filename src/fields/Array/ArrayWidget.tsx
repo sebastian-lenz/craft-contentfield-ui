@@ -5,6 +5,7 @@ import isModel from '../../store/utils/isModel';
 import List from './List';
 import { ArrayField } from './index';
 import { Context } from '../../contexts/ExpandedStateProvider';
+import { toUuidObject } from '../../store/utils/uuidObject';
 import { WidgetProps } from '../FieldDefinition';
 
 export type Props = WidgetProps<ArrayField>;
@@ -19,7 +20,7 @@ export default class ArrayWidget extends React.Component<Props> {
     if (disabled) return;
 
     const newValue = Array.isArray(data) ? data.slice() : [];
-    newValue.push(value);
+    newValue.push(toUuidObject(value));
 
     onUpdate(newValue);
 
@@ -42,7 +43,7 @@ export default class ArrayWidget extends React.Component<Props> {
     if (disabled || !Array.isArray(data)) return;
 
     const newValue = data.slice();
-    newValue[index] = value;
+    newValue[index] = toUuidObject(value, newValue[index]);
     onUpdate(newValue);
   };
 
@@ -70,14 +71,12 @@ export default class ArrayWidget extends React.Component<Props> {
       <List
         data={arrayData}
         disabled={disabled}
-        field={field.member}
-        isCollapsible={field.collapsible}
+        field={field}
         limit={limit}
         model={model}
         onDelete={this.handleDelete}
         onUpdate={this.handleUpdate}
         path={path}
-        previewMode={field.previewMode}
       >
         {factory}
       </List>

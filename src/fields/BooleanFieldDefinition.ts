@@ -17,7 +17,7 @@ export default abstract class BooleanFieldDefinition<
   }
 
   isValue(field: Field, value: any): value is boolean {
-    return typeof value === 'boolean';
+    return typeof value === 'boolean' || value instanceof Boolean;
   }
 
   preview({ value }: PreviewOptions<Field, boolean>): any {

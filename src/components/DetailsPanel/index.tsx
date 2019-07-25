@@ -27,6 +27,7 @@ export default class DetailsPanel extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
+
     this.state = {
       currentChildren: props.children,
       currentUri: props.uri,

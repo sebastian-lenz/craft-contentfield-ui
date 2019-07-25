@@ -1,4 +1,5 @@
 import * as React from 'react';
+import cx from 'classnames';
 import { DragElementWrapper, DragSourceOptions } from 'react-dnd';
 
 import Button from './Button';
@@ -9,6 +10,10 @@ import More from './More';
 import Text from '../../../components/Text';
 import { InstanceField } from '../../Instance';
 import { Schema, Model } from '../../../store/models';
+
+function passThrought(value: any) {
+  return value;
+}
 
 function toggleIcon(isExpanded: boolean, disabled?: boolean): string {
   if (disabled) {
@@ -28,22 +33,22 @@ function toggleText(isExpanded: boolean, disabled?: boolean): string {
 
 export interface Props {
   disabled?: boolean;
-  dragSource: DragElementWrapper<DragSourceOptions>;
+  dragSource?: DragElementWrapper<DragSourceOptions>;
   field: InstanceField;
+  hasMenu?: boolean;
   hasPreview?: boolean;
   isCollapsible: boolean;
   isExpanded: boolean;
   model: Model;
-  onDelete: () => void;
   onToggleExpanded: () => void;
   schema?: Schema;
-  uuid?: string;
 }
 
 export default function Header({
   disabled,
-  dragSource,
+  dragSource = passThrought,
   field,
+  hasMenu = true,
   hasPreview,
   isCollapsible,
   isExpanded,
@@ -87,7 +92,13 @@ export default function Header({
   return (
     <div className="tcfArrayWidgetMember--header">
       {dragSource(
-        <div className="tcfArrayWidgetMember--headerHandle">{handleItems}</div>
+        <div
+          className={cx('tcfArrayWidgetMember--headerHandle', {
+            enabled: !disabled && hasMenu,
+          })}
+        >
+          {handleItems}
+        </div>
       )}
       <div className="tcfArrayWidgetMember--headerActions">
         {isCollapsible ? (
@@ -96,7 +107,7 @@ export default function Header({
             <Text value={toggleText(isExpanded, disabled)} />
           </Button>
         ) : null}
-        {!disabled ? <More uuid={model.__uuid} /> : null}
+        {!disabled && hasMenu ? <More uuid={model.__uuid} /> : null}
       </div>
     </div>
   );

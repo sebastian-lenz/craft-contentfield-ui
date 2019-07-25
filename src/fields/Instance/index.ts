@@ -17,6 +17,7 @@ import FieldDefinition, {
 } from '../FieldDefinition';
 
 export interface InstanceField extends Field {
+  collapsible?: boolean;
   schemas: Array<string>;
   type: 'instance';
 }
@@ -59,7 +60,7 @@ export default class InstanceFieldType extends FieldDefinition<
   }
 
   isValue(field: InstanceField, value: any): value is Model {
-    return isModel(value);
+    return isModel(value) && field.schemas.indexOf(value.__type) !== -1;
   }
 
   preview({
@@ -80,7 +81,7 @@ export default class InstanceFieldType extends FieldDefinition<
       mode === 'label' ? schema.previewLabelTemplate : schema.previewTemplate;
 
     if (template === null) {
-      return Craft.t(context.i18nCategory, schema.label);
+      return schema.label;
     }
 
     const data: PreviewObject = {

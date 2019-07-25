@@ -28,7 +28,6 @@ export interface Config {
   fieldHandle: string;
   googleMapsApiKey?: string;
   hasTranslator: boolean;
-  i18nCategory: string;
   references: Array<Reference>;
   rootSchemas: Array<string>;
   supportedSites: Array<Site>;

@@ -10,9 +10,10 @@ export interface PropertyPathSegment {
 }
 
 export type AnyPathSegment = IndexPathSegment | PropertyPathSegment;
+export type Path = Array<AnyPathSegment>;
 
-export default function parsePath(path: string): Array<AnyPathSegment> {
-  const result: Array<AnyPathSegment> = [];
+export default function parsePath(path: string): Path {
+  const result: Path = [];
   let remaining = path;
 
   while (remaining.length) {

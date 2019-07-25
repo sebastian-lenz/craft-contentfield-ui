@@ -30,7 +30,8 @@ export default abstract class EnumFieldDefinition<
   }
 
   isValue(field: Field, value: any): value is EnumKey {
-    return field.options.some(option => option.key === value);
+    // Don't use a strict equal here, the value might be boxed.
+    return field.options.some(option => option.key == value);
   }
 
   preview({ field, value }: PreviewOptions<Field, EnumKey>): PreviewResult {

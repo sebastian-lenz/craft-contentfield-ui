@@ -25,16 +25,17 @@ export interface CreateOptions<Field extends BaseField> {
   schemas: Schemas;
 }
 
+export type PreviewMode = 'default' | 'label';
+
 export interface PreviewOptions<Field extends BaseField, Value> {
   context: PreviewContext;
   field?: Field;
-  mode?: 'default' | 'label';
+  mode?: PreviewMode;
   value: Value;
 }
 
 export interface PreviewContext {
   depth: number;
-  i18nCategory: string;
   references: Array<Reference>;
   schemas: Schemas;
 }

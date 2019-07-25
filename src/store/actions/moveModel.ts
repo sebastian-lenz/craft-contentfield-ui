@@ -1,69 +1,43 @@
 import { Action } from 'redux';
 
-import modifyPath from '../utils/modifyPath';
-import parsePath, { AnyPathSegment } from '../utils/parsePath';
+import applyMoveShift from '../utils/applyMoveShift';
+import canMove, { MoveInfo } from '../utils/canMove';
 import findByPath from '../utils/findByPath';
+import modifyPath from '../utils/modifyPath';
 import { RootState } from '../models';
-import isSegmentEqual from '../utils/isSegmentEqual';
+
+import parsePath, { AnyPathSegment, Path } from '../utils/parsePath';
 
 function isObject(value: any): value is Object {
   return value !== null && typeof value === 'object';
 }
 
-export interface MoveModelOptions {
-  source: string | Array<AnyPathSegment>;
-  target: string | Array<AnyPathSegment>;
-  targetField: string;
-  targetIndex: number;
-}
+export interface MoveModelOptions extends MoveInfo {}
 
-export interface MoveModelAction extends Action {
-  source: Array<AnyPathSegment>;
-  target: Array<AnyPathSegment>;
+export interface MoveModelAction extends Action, MoveInfo {
   type: 'moveModel';
 }
 
 export function applyMoveModel(
   state: RootState,
-  { source, target }: MoveModelAction
+  action: MoveModelAction
 ): RootState {
   let { model } = state;
-  let childToMove: any = findByPath(model, source);
-  const clonedChildToMove = isObject(childToMove)
-    ? { ...childToMove }
-    : childToMove;
-
-  const sourceSegment = source.pop();
-  if (!sourceSegment || sourceSegment.type !== 'index') {
-    throw new Error('Unsupported operation');
+  if (!canMove(state, action)) {
+    throw new Error('Invalid operation');
   }
 
-  // If the target path is within the source path, we must adjust
-  // its index
-  if (
-    target.length > source.length &&
-    source.every((segment, index) => isSegmentEqual(segment, target[index]))
-  ) {
-    const targetSegment = target[source.length];
-    if (targetSegment.type != 'index') {
-      throw new Error('Path segment type mismatch');
-    }
+  const {
+    sourcePath,
+    sourceSegment,
+    targetPath,
+    targetSegment,
+  } = applyMoveShift(action);
 
-    if (
-      targetSegment.name == sourceSegment.name &&
-      targetSegment.index > sourceSegment.index
-    ) {
-      targetSegment.index -= 1;
-    }
-  }
-
-  const targetSegment = target.pop();
-  if (!targetSegment || targetSegment.type !== 'index') {
-    throw new Error('Unsupported operation');
-  }
+  const childToMove: any = findByPath(model, [...sourcePath, sourceSegment]);
 
   // Remove the element from the source array
-  model = modifyPath(model, source, sourceModel => {
+  model = modifyPath(model, sourcePath, sourceModel => {
     if (!sourceModel) {
       throw new Error('Invalid operation');
     }
@@ -79,7 +53,7 @@ export function applyMoveModel(
   });
 
   // Copy to target
-  model = modifyPath(model, target, targetModel => {
+  model = modifyPath(model, targetPath, targetModel => {
     if (!targetModel) {
       throw new Error('Could not find target');
     }
@@ -91,9 +65,9 @@ export function applyMoveModel(
 
     children = children.slice();
     if (targetSegment.index >= children.length) {
-      children.push(clonedChildToMove);
+      children.push(childToMove);
     } else {
-      children.splice(targetSegment.index, 0, clonedChildToMove);
+      children.splice(targetSegment.index, 0, childToMove);
     }
 
     return { ...targetModel, [targetSegment.name]: children };
@@ -105,18 +79,9 @@ export function applyMoveModel(
   };
 }
 
-export default function moveModel({
-  source,
-  target,
-  targetField,
-  targetIndex,
-}: MoveModelOptions): MoveModelAction {
+export default function moveModel(options: MoveModelOptions): MoveModelAction {
   return {
-    source: Array.isArray(source) ? source.slice() : parsePath(source),
-    target: [
-      ...(Array.isArray(target) ? target.slice() : parsePath(target)),
-      { index: targetIndex, name: targetField, type: 'index' },
-    ],
+    ...options,
     type: 'moveModel',
   };
 }
