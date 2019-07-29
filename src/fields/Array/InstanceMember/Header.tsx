@@ -67,16 +67,17 @@ export default function Header({
       );
     }
 
-    handleItems.push(<strong key="label">{schema.label}</strong>);
+    handleItems.push(
+      <div className="tcfArrayWidgetMember--headerLabel" key="label">
+        {schema.label}
+      </div>
+    );
 
     if (hasPreview && schema.previewLabelTemplate) {
       handleItems.push(
-        <InstancePreviewLabel
-          className="tcfArrayWidgetMember--headerPreview"
-          field={field}
-          key="preview"
-          model={model}
-        />
+        <div className="tcfArrayWidgetMember--headerPreview">
+          <InstancePreviewLabel field={field} key="preview" model={model} />
+        </div>
       );
     }
   } else {
