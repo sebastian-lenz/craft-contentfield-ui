@@ -10,6 +10,7 @@ export default function TextWidget({
   data,
   disabled,
   errors,
+  field: { placeholder, inputType },
   onUpdate,
 }: Props) {
   return (
@@ -20,6 +21,8 @@ export default function TextWidget({
       })}
       disabled={disabled}
       onChange={event => onUpdate(event.target.value)}
+      placeholder={placeholder}
+      type={inputType}
       value={data ? `${data}` : ''}
     />
   );
