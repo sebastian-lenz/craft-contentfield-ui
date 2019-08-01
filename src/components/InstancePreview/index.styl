@@ -61,16 +61,24 @@
 
   .flexRow
     display: flex
-    flex-flow: row nowrap
+    flex-flow: row wrap
     align-items: stretch
-    margin: 0 -10px
+    margin: -5px
 
     > *
-      margin: 0 10px 0 0
-      padding-left: 10px
-      min-width: 100px
+      margin: 5px
       max-width: 300px
 
+  .flexRow.noWrap
+    flex-wrap: nowrap
+
+  .flexRow.withMinWidth
+    > *
+      min-width: 100px
+
+  .flexRow.withSeparator
+    > *
+      padding-left: 10px
       border-left: 1px solid $border-color
 
     > *:first-child
@@ -79,16 +87,10 @@
   .flexColumn
     display: flex
     flex-flow column nowrap
+    margin: -5px
     
     > * 
-      margin-top: 10px
-      margin-bottom: 10px
-
-    > *:first-child
-      margin-top: 0
-
-    > *:last-child
-      margin-bottom: 0
+      margin: 5px
 
 .tcfInstancePreview--elements
   display: flex
