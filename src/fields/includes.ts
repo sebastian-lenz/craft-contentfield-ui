@@ -8,6 +8,7 @@ import InstanceFieldDefinition, { InstanceField } from './Instance';
 import LightswitchFieldDefinition, { LightswitchField } from './Lightswitch';
 import LinkFieldType, { LinkField } from './Link';
 import LocationFieldType, { LocationField } from './Location';
+import NumberFieldDefinition, { NumberField } from './Number';
 import RedactorFieldDefinition, { RedactorField } from './Redactor';
 import ReferenceFieldDefinition, { ReferenceField } from './Reference';
 import SelectFieldDefinition, { SelectField } from './Select';
@@ -23,6 +24,7 @@ export type FieldTypeMap = {
   lightswitch: LightswitchField;
   link: LinkField;
   location: LocationField;
+  number: NumberField;
   oembed: OEmbedField;
   redactor: RedactorField;
   reference: ReferenceField;
@@ -40,6 +42,7 @@ fields.initialize({
   lightswitch: new LightswitchFieldDefinition(),
   link: new LinkFieldType(),
   location: new LocationFieldType(),
+  number: new NumberFieldDefinition(),
   oembed: new OEmbedFieldDefinition(),
   redactor: new RedactorFieldDefinition(),
   reference: new ReferenceFieldDefinition(),

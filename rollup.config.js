@@ -71,7 +71,15 @@ export default vendors(
         extract: true,
         plugins: [],
       }),
-      ...(process.env.NODE_ENV === 'production' ? [uglify()] : []),
+      ...(process.env.NODE_ENV === 'production'
+        ? [
+            uglify({
+              output: {
+                semicolons: false,
+              },
+            }),
+          ]
+        : []),
     ],
     watch: {
       exclude: '',
