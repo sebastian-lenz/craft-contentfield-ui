@@ -4,13 +4,27 @@ import cx from 'classnames';
 import { NumberField } from './index';
 import { WidgetProps } from '../FieldDefinition';
 
+import './NumberWidget.styl';
+
 function parseNumber(
-  { dataType, defaultValue }: NumberField,
+  { dataType, defaultValue, max, min, optional }: NumberField,
   value: string
-): number {
+): number | null {
   let result = dataType === 'integer' ? parseInt(value) : parseFloat(value);
   if (!isFinite(result)) {
-    result = defaultValue;
+    if (optional) {
+      return null;
+    } else {
+      result = defaultValue;
+    }
+  } else {
+    if (typeof max === 'number' && result > max) {
+      result = max;
+    }
+
+    if (typeof min === 'number' && result < min) {
+      result = min;
+    }
   }
 
   return result;
@@ -25,21 +39,51 @@ export default function TextWidget({
   field,
   onUpdate,
 }: Props) {
-  const { defaultValue, max, min, placeholder } = field;
+  const [hasFocus, setFocus] = React.useState(false);
+  const [userValue, setUserValue] = React.useState(data);
 
-  return (
+  const { max, min, placeholder, unit } = field;
+  const value = hasFocus ? userValue : data;
+
+  function handleBlur() {
+    setFocus(false);
+    setUserValue(data);
+  }
+
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const { value } = event.target;
+    setUserValue(value);
+    onUpdate(parseNumber(field, value));
+  }
+
+  function handleFocus() {
+    setFocus(true);
+  }
+
+  const input = (
     <input
       autoComplete="off"
-      className={cx('tcfTextWidget text fullwidth', {
+      className={cx('tcfNumberWidget--input text fullwidth', {
         error: errors && errors.length,
       })}
       disabled={disabled}
       max={max}
       min={min}
-      onChange={event => onUpdate(parseNumber(field, event.target.value))}
+      onBlur={handleBlur}
+      onChange={handleChange}
+      onFocus={handleFocus}
       placeholder={placeholder}
       type="number"
-      value={typeof data ? data : defaultValue}
+      value={value}
     />
+  );
+
+  return unit ? (
+    <div className="tcfNumberWidget">
+      {input}
+      <div className="tcfNumberWidget--unit">{unit}</div>
+    </div>
+  ) : (
+    input
   );
 }

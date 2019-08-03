@@ -1,0 +1,22 @@
+.tcfNumberWidget
+  display: flex
+  flex-flow: row nowrap
+
+.tcfNumberWidget--input
+  .tcfNumberWidget > &
+    border-radius: 2px 0 0 2px
+
+.tcfNumberWidget--unit
+  padding: 5px 14px
+
+  background: rgba(0, 0, 20, 0.05)
+  border: 1px solid rgba(0, 0, 20, 0.1)
+  border-left: none
+  border-radius: 0 2px 2px 0
+
+  line-height: 20px
+  
+  transition: border linear 50ms
+
+  *:focus + &
+    border-color: #0D99F2
