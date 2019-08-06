@@ -10,7 +10,7 @@ export default function TextWidget({
   data,
   disabled,
   errors,
-  field: { placeholder, inputType },
+  field: { maxLength, minLength, placeholder, inputType },
   onUpdate,
 }: Props) {
   return (
@@ -20,6 +20,8 @@ export default function TextWidget({
         error: errors && errors.length,
       })}
       disabled={disabled}
+      maxLength={maxLength}
+      minLength={minLength}
       onChange={event => onUpdate(event.target.value)}
       placeholder={placeholder}
       type={inputType}

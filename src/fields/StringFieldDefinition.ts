@@ -8,6 +8,8 @@ import FieldDefinition, {
 } from './FieldDefinition';
 
 export interface BaseTextField extends BaseField {
+  maxLength?: number;
+  minLength?: number;
   translatable?: boolean;
 }
 
