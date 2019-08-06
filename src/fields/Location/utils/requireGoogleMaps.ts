@@ -21,10 +21,6 @@ export function getGoogleMapsState(): GoogleMapsState {
 }
 
 export default function requireGoogleMaps(): Promise<typeof google.maps> {
-  if (!apiKey) {
-    throw new Error('Api key missing.');
-  }
-
   if (promise) {
     return promise;
   }
