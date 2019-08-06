@@ -17,10 +17,10 @@ export default function ColorWidget({
   return (
     <ColorInput
       color={color}
-      disableAlpha={field.disableAlpha}
+      disableAlpha={!field.alpha}
       disabled={disabled}
       onChange={onUpdate}
-      presetColors={field.presetColors}
+      presetColors={field.swatches}
     />
   );
 }

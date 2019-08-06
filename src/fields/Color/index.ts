@@ -14,8 +14,8 @@ import FieldDefinition, {
 } from '../FieldDefinition';
 
 export interface ColorField extends Field {
-  disableAlpha: boolean;
-  presetColors: string[] | null;
+  alpha: boolean;
+  swatches: string[] | null;
   type: 'color';
 }
 
