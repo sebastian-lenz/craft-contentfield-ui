@@ -44,7 +44,6 @@ export default class Input extends React.Component<Props> {
       <div className="tcfRedactorWidget">
         <textarea
           defaultValue={typeof value === 'string' ? value : ''}
-          disabled
           id={this.uuid}
           ref={this.setElement}
         />
@@ -79,6 +78,8 @@ export default class Input extends React.Component<Props> {
           ...options.redactorConfig,
         },
       });
+
+      element.removeAttribute('name');
 
       if (instance.redactor) {
         instance.redactor.on('blur', this.handleBlur);
