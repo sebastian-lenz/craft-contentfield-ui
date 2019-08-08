@@ -382,3 +382,9 @@ declare namespace Craft {
     size: 'large' | 'small'
   ): void;
 }
+
+interface Window {
+  draftEditor?: {
+    checkForm(): void;
+  };
+}

@@ -23,6 +23,7 @@ const validators: ValidatorMap = {};
 const api = {
   create: (id: string) => {
     try {
+      let timeout: number | null = null;
       const element = document.getElementById(id);
       if (!element) {
         throw new Error('Root element not found.');
@@ -46,10 +47,21 @@ const api = {
 
       stores.push(redux);
       redux.subscribe(() => {
+        const { draftEditor } = window;
         const newValue = JSON.stringify(redux.getState().model);
-        if (field.value !== newValue) {
-          field.value = newValue;
+
+        if (field.value !== newValue && draftEditor) {
+          if (timeout) {
+            window.clearTimeout(timeout);
+          }
+
+          timeout = window.setTimeout(() => {
+            draftEditor.checkForm();
+            timeout = null;
+          }, 500);
         }
+
+        field.value = newValue;
       });
 
       ReactDOM.render(
