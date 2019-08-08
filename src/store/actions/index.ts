@@ -5,6 +5,7 @@ import setOverlay, { applySetOverlay, SetOverlayAction } from './setOverlay';
 import setUser, { applySetUser, SetUserAction } from './setUser';
 import uuidOrder, {applyUuidOrder, UuidOrderAction} from './uuidOrder';
 import uuidRemove, {applyUuidRemove, UuidRemoveAction} from './uuidRemove';
+import uuidVisibility, {applyUuidVisibility, UuidVisibilityAction} from './uuidVisibility';
 import updateValue, { applyUpdateValue, UpdateValueAction } from './updateValue';
 import updateSync, { applyUpdateSync, UpdateSyncAction } from './updateSync';
 
@@ -19,6 +20,7 @@ export type AnyAction =
   | SetUserAction
   | UuidOrderAction
   | UuidRemoveAction
+  | UuidVisibilityAction
   | UpdateSyncAction
   | UpdateValueAction;
 
@@ -30,6 +32,7 @@ export const handlers = {
   setUser: applySetUser,
   uuidOrder: applyUuidOrder,
   uuidRemove: applyUuidRemove,
+  uuidVisibility: applyUuidVisibility,
   updateSync: applyUpdateSync,
   updateValue: applyUpdateValue,
 };
@@ -42,6 +45,7 @@ export {
   setUser,
   uuidOrder,
   uuidRemove,
+  uuidVisibility,
   updateSync,
   updateValue,
 

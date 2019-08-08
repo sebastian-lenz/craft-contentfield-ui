@@ -35,7 +35,6 @@ export interface Props {
   disabled?: boolean;
   dragSource?: DragElementWrapper<DragSourceOptions>;
   field: InstanceField;
-  hasMenu?: boolean;
   hasPreview?: boolean;
   isCollapsible: boolean;
   isExpanded: boolean;
@@ -48,7 +47,6 @@ export default function Header({
   disabled,
   dragSource = passThrought,
   field,
-  hasMenu = true,
   hasPreview,
   isCollapsible,
   isExpanded,
@@ -68,7 +66,12 @@ export default function Header({
     }
 
     handleItems.push(
-      <div className="tcfArrayWidgetMember--headerLabel" key="label">
+      <div
+        className={cx('tcfArrayWidgetMember--headerLabel', {
+          isHidden: !model.__visible,
+        })}
+        key="label"
+      >
         {schema.label}
       </div>
     );
@@ -95,20 +98,26 @@ export default function Header({
       {dragSource(
         <div
           className={cx('tcfArrayWidgetMember--headerHandle', {
-            enabled: !disabled && hasMenu,
+            enabled: !disabled,
           })}
         >
           {handleItems}
         </div>
       )}
+      {!model.__visible ? (
+        <Icon
+          className="tcfArrayWidgetMember--headerVisibility"
+          name="material:visibility_off"
+        />
+      ) : null}
       <div className="tcfArrayWidgetMember--headerActions">
         {isCollapsible ? (
           <Button onClick={onToggleExpanded} primary={!disabled}>
             <Icon name={toggleIcon(isExpanded, disabled)} />
-            <Text value={toggleText(isExpanded, disabled)} />
+            {/* <Text value={toggleText(isExpanded, disabled)} /> */}
           </Button>
         ) : null}
-        {!disabled && hasMenu ? <More uuid={model.__uuid} /> : null}
+        {!disabled ? <More uuid={model.__uuid} /> : null}
       </div>
     </div>
   );

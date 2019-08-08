@@ -17,6 +17,7 @@ export default function createModel({
     __errors: {},
     __type: schema.qualifier,
     __uuid: uuid(),
+    __visible: true,
   };
 
   for (const name of Object.keys(schema.fields)) {

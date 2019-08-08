@@ -87,9 +87,19 @@
   .isExpanded > * > & > .tcfIcon
     color: $primary-color
 
+.tcfArrayWidgetMember--headerVisibility
+  padding: 0 0 0 10px
+  align-self: center
+
+  color: $red
+
 .tcfArrayWidgetMember--headerLabel
   font-weight: bold
   line-height: 36px
+
+  &.isHidden
+    color: $red
+    text-decoration: line-through
 
 .tcfArrayWidgetMember--headerPreview
   position: relative

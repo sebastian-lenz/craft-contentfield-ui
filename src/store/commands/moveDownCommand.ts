@@ -1,6 +1,6 @@
 import translate from '../utils/translate';
-import { CommandFactoryOptions, Command, CommandGroup } from './index';
 import uuidOrder from '../actions/uuidOrder';
+import { CommandFactoryOptions, Command, CommandGroup } from './index';
 
 export default function moveDownCommand({
   location: { uuid },

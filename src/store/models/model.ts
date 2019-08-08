@@ -9,9 +9,10 @@ export type Validator = (
 export type ValidatorMap = { [id: string]: Validator };
 
 export interface Model {
+  __errors: ErrorMap;
+  __originalUuid?: string;
   __type: string;
   __uuid: string;
-  __originalUuid?: string;
-  __errors: ErrorMap;
+  __visible: boolean;
   [name: string]: any;
 }

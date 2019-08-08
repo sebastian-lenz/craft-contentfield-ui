@@ -13,11 +13,13 @@ import editCommand from './editCommand';
 import moveDownCommand from './moveDownCommand';
 import moveUpCommand from './moveUpCommand';
 import pasteCommand from './pasteCommand';
+import visibilityCommand from './visibilityCommand';
 
 export const commandFactories: Array<CommandFactory> = [
   editCommand,
   deleteCommand,
   createCommand,
+  visibilityCommand,
   moveUpCommand,
   moveDownCommand,
   copyCommand,
@@ -37,6 +39,7 @@ export interface CommandFactory {
 
 export enum CommandGroup {
   Manipulation,
+  Visibility,
   Movement,
   Clipboard,
 }

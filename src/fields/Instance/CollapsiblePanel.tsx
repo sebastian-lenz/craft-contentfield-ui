@@ -43,7 +43,6 @@ export default function CollapsiblePanel({
       <Header
         disabled={disabled}
         field={field}
-        hasMenu={false}
         hasPreview={!isActualExpanded && !hasPreview}
         isCollapsible
         isExpanded={isActualExpanded}
