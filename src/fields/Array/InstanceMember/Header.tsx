@@ -100,6 +100,7 @@ export default function Header({
           className={cx('tcfArrayWidgetMember--headerHandle', {
             enabled: !disabled,
           })}
+          onClick={onToggleExpanded}
         >
           {handleItems}
         </div>
@@ -114,7 +115,6 @@ export default function Header({
         {isCollapsible ? (
           <Button onClick={onToggleExpanded} primary={!disabled}>
             <Icon name={toggleIcon(isExpanded, disabled)} />
-            {/* <Text value={toggleText(isExpanded, disabled)} /> */}
           </Button>
         ) : null}
         {!disabled ? <More uuid={model.__uuid} /> : null}

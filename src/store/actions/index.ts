@@ -3,6 +3,7 @@ import changeType, { applyChangeType, ChangeTypeAction } from './changeType';
 import moveModel, { applyMoveModel, MoveModelAction } from './moveModel';
 import setOverlay, { applySetOverlay, SetOverlayAction } from './setOverlay';
 import setUser, { applySetUser, SetUserAction } from './setUser';
+import uuidInsert, {applyUuidInsert, UuidInsertAction} from './uuidInsert';
 import uuidOrder, {applyUuidOrder, UuidOrderAction} from './uuidOrder';
 import uuidRemove, {applyUuidRemove, UuidRemoveAction} from './uuidRemove';
 import uuidVisibility, {applyUuidVisibility, UuidVisibilityAction} from './uuidVisibility';
@@ -18,6 +19,7 @@ export type AnyAction =
   | MoveModelAction
   | SetOverlayAction
   | SetUserAction
+  | UuidInsertAction
   | UuidOrderAction
   | UuidRemoveAction
   | UuidVisibilityAction
@@ -30,6 +32,7 @@ export const handlers = {
   moveModel: applyMoveModel,
   setOverlay: applySetOverlay,
   setUser: applySetUser,
+  uuidInsert: applyUuidInsert,
   uuidOrder: applyUuidOrder,
   uuidRemove: applyUuidRemove,
   uuidVisibility: applyUuidVisibility,
@@ -43,6 +46,7 @@ export {
   moveModel,
   setOverlay,
   setUser,
+  uuidInsert,
   uuidOrder,
   uuidRemove,
   uuidVisibility,

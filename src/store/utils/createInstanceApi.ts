@@ -21,7 +21,7 @@ export default function createInstanceApi(
     getCommands: () => {
       return resolveCommands(store.getState(), uuid).map(command => ({
         ...command,
-        invoke: () => command.invoke(store.dispatch),
+        invoke: () => command.invoke(store.dispatch, true),
       }));
     },
     subscribe: (listener: () => void) => {

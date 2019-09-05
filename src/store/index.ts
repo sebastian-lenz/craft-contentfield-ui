@@ -22,6 +22,7 @@ export function createRootState(): RootState {
       __errors: {},
       __type: 'unknown',
       __uuid: '0',
+      __visible: true,
     },
     overlay: null,
     schemas: {},

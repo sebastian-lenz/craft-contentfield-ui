@@ -16,9 +16,9 @@ import pasteCommand from './pasteCommand';
 import visibilityCommand from './visibilityCommand';
 
 export const commandFactories: Array<CommandFactory> = [
+  createCommand,
   editCommand,
   deleteCommand,
-  createCommand,
   visibilityCommand,
   moveUpCommand,
   moveDownCommand,
@@ -48,6 +48,6 @@ export interface Command {
   group: CommandGroup;
   icon: string;
   id: string;
-  invoke: (dispatch: Dispatch<AnyAction>) => void;
+  invoke: (dispatch: Dispatch<AnyAction>, isPreview?: boolean) => void;
   label: string;
 }
