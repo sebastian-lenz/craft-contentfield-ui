@@ -1,5 +1,6 @@
 import isModel from './isModel';
 import cloneModel from './cloneModel';
+import createLogger from './createLogger';
 import synchronizeModels, { SynchronizeOptions } from './synchronizeModels';
 import { ArrayField } from '../../fields/Array';
 import { Model } from '../models';
@@ -20,11 +21,14 @@ function toModelList(value: any): Array<Model> {
 }
 
 function isUuidMatch(left: Model, right: Model): boolean {
+  const leftOrigin = left.__originalUuid !== null;
+  const rightOrigin = right.__originalUuid !== null;
+
   return (
     left.__uuid === right.__uuid ||
-    left.__uuid === right.__originalUuid ||
-    left.__originalUuid === right.__uuid ||
-    left.__originalUuid === right.__originalUuid
+    (rightOrigin && left.__uuid === right.__originalUuid) ||
+    (leftOrigin && left.__originalUuid === right.__uuid) ||
+    (leftOrigin && rightOrigin && left.__originalUuid === right.__originalUuid)
   );
 }
 
@@ -46,6 +50,7 @@ export default async function synchronizeArrays({
 
   const sourceModels = toModelList(source);
   const existingModels = toModelList(target);
+  const l = createLogger(options);
   const result: Array<Model> = [];
 
   for (const sourceModel of sourceModels) {
@@ -55,21 +60,32 @@ export default async function synchronizeArrays({
 
     let model: Model | undefined;
     if (existingIndex === -1) {
+      l.info(`No array match for ${l.model(sourceModel)}`);
       model = await cloneModel({
         ...options,
         source: sourceModel,
       });
     } else {
+      const existingModel = existingModels[existingIndex];
+      l.info(
+        `Array match for ${l.model(sourceModel)} is ${l.model(existingModel)}`
+      );
+
+      existingModels.splice(existingIndex, 1);
       model = await synchronizeModels({
         ...options,
         source: sourceModel,
-        target: existingModels[existingIndex],
+        target: existingModel,
       });
     }
 
     if (model) {
       result.push(model);
     }
+  }
+
+  for (const existingModel of existingModels) {
+    result.push({ ...existingModel, __visible: false });
   }
 
   return result;

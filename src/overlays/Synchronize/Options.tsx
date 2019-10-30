@@ -2,9 +2,9 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import Button from '../../components/Button';
-import Checkbox from '../../components/Checkbox';
 import FieldGroup from '../../components/FieldGroup';
 import FieldPanel from '../../components/FieldPanel';
+import Lightswitch from '../../components/Lightswitch';
 import Select from '../../components/Select';
 import Text from '../../components/Text';
 import translate from '../../store/utils/translate';
@@ -13,7 +13,6 @@ import { Site, RootState } from '../../store/models';
 import { synchronize } from '../../store/actions';
 import { SynchronizeOptions } from '../../store/actions/synchronize';
 import { TranslateOptions } from '../../store/utils/fetchTranslation';
-import Lightswitch from '../../components/Lightswitch';
 
 export type ExternalProps = {
   onClose: () => void;
@@ -42,7 +41,7 @@ export class Options extends React.Component<Props, State> {
     };
   }
 
-  handleApply = () => {
+  handleApply = (event: React.SyntheticEvent) => {
     const { currentSite, endpoint } = this.props;
     const { site, useTranslator } = this.state;
     if (!site) return;
@@ -63,6 +62,7 @@ export class Options extends React.Component<Props, State> {
     this.props.onSynchronize({
       siteId: site.id,
       translate,
+      verbose: 'altKey' in event && (event as any).altKey,
     });
   };
 

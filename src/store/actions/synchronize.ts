@@ -14,10 +14,11 @@ import { TranslateOptions } from '../utils/fetchTranslation';
 export interface SynchronizeOptions {
   siteId: number;
   translate?: TranslateOptions;
+  verbose?: boolean;
 }
 
 async function applySynchronize(
-  { siteId, translate }: SynchronizeOptions,
+  { siteId, translate, verbose }: SynchronizeOptions,
   dispatch: Dispatch,
   getState: () => RootState
 ) {
@@ -48,19 +49,21 @@ async function applySynchronize(
   }
 
   // If model types are different, clone the target, otherwise sync
-  const syncedModel =
-    !isModel(model) || model.__type !== data.__type
-      ? await cloneModel({
-          schemas,
-          source: data,
-          translate,
-        })
-      : await synchronizeModels({
-          schemas,
-          source: data,
-          target: model,
-          translate,
-        });
+  const isClone = !isModel(model) || model.__type !== data.__type;
+  const syncedModel = isClone
+    ? await cloneModel({
+        schemas,
+        source: data,
+        translate,
+        verbose,
+      })
+    : await synchronizeModels({
+        schemas,
+        source: data,
+        target: model,
+        translate,
+        verbose,
+      });
 
   dispatch(addReferences(references));
   dispatch(updateValue([], undefined, syncedModel));
