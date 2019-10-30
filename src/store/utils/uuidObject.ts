@@ -5,6 +5,10 @@ export interface UuidObject extends Object {
   __uuid: string;
 }
 
+export interface UuidObjectOptions {
+  uniqueUuids?: Array<string>;
+}
+
 export function isUuidObject(data: any): data is UuidObject {
   return data && typeof data === 'object' && '__uuid' in data;
 }
@@ -35,19 +39,31 @@ export function toUuidObject(value: any, oldValue?: any): UuidObject {
   return object as UuidObject;
 }
 
-export function toUuidObjects(model: Model, schemas: Schemas): Model {
+export function toUuidObjects(
+  model: Model,
+  schemas: Schemas,
+  options?: UuidObjectOptions
+): Model {
   const { fields } = schemas[model.__type];
+  if (options && options.uniqueUuids) {
+    if (options.uniqueUuids.indexOf(model.__uuid) === -1) {
+      options.uniqueUuids.push(model.__uuid);
+    } else {
+      console.error(`Found duplicate uuid "${model.__uuid}".`);
+      model.__uuid = uuid();
+    }
+  }
 
   for (const name of Object.keys(fields)) {
     const field = fields[name];
     if (field.type === 'array') {
       model[name] = model[name].map((value: any) =>
         field.member.type === 'instance'
-          ? toUuidObjects(value, schemas)
+          ? toUuidObjects(value, schemas, options)
           : toUuidObject(value)
       );
     } else if (field.type === 'instance') {
-      model[name] = toUuidObjects(model[name], schemas);
+      model[name] = toUuidObjects(model[name], schemas, options);
     }
   }
 

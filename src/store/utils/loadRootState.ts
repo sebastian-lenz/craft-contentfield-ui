@@ -76,7 +76,9 @@ export default function loadRootState(
   }
 
   try {
-    payload.model = toUuidObjects(JSON.parse(field.value), payload.schemas);
+    payload.model = toUuidObjects(JSON.parse(field.value), payload.schemas, {
+      uniqueUuids: [],
+    });
   } catch (error) {}
 
   if (
