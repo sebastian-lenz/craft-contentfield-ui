@@ -21,6 +21,7 @@ export default async function cloneModel({
     __originalUuid: source.__uuid,
     __type: schema.qualifier,
     __uuid: uuid(),
+    __visible: source.__visible,
   };
 
   for (const name of Object.keys(schema.fields)) {
