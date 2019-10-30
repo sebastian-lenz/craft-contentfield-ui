@@ -13,6 +13,24 @@ import { Site, RootState } from '../../store/models';
 import { synchronize } from '../../store/actions';
 import { SynchronizeOptions } from '../../store/actions/synchronize';
 import { TranslateOptions } from '../../store/utils/fetchTranslation';
+import { ArrayOrphanMode } from '../../store/utils/synchronizeModels';
+
+function arrayOrphanModes() {
+  return [
+    {
+      key: 'hide' as ArrayOrphanMode,
+      label: translate('Hide orphaned elements'),
+    },
+    {
+      key: 'none' as ArrayOrphanMode,
+      label: translate('Do nothing'),
+    },
+    {
+      key: 'remove' as ArrayOrphanMode,
+      label: translate('Remove orphaned elements'),
+    },
+  ];
+}
 
 export type ExternalProps = {
   onClose: () => void;
@@ -27,6 +45,7 @@ export type Props = ExternalProps & {
 };
 
 export interface State {
+  arrayOrphanMode: ArrayOrphanMode;
   site: Site | null;
   useTranslator: boolean;
 }
@@ -36,6 +55,7 @@ export class Options extends React.Component<Props, State> {
     super(props);
 
     this.state = {
+      arrayOrphanMode: 'hide',
       site: props.availableSites[0] || null,
       useTranslator: false,
     };
@@ -43,7 +63,7 @@ export class Options extends React.Component<Props, State> {
 
   handleApply = (event: React.SyntheticEvent) => {
     const { currentSite, endpoint } = this.props;
-    const { site, useTranslator } = this.state;
+    const { arrayOrphanMode, site, useTranslator } = this.state;
     if (!site) return;
 
     let translate: TranslateOptions | undefined;
@@ -60,10 +80,15 @@ export class Options extends React.Component<Props, State> {
     }
 
     this.props.onSynchronize({
+      arrayOrphanMode,
       siteId: site.id,
       translate,
       verbose: 'altKey' in event && (event as any).altKey,
     });
+  };
+
+  handleArrayOrphanModeChange = (arrayOrphanMode: ArrayOrphanMode) => {
+    this.setState({ arrayOrphanMode });
   };
 
   handleSiteChange = (site: Site) => {
@@ -76,7 +101,7 @@ export class Options extends React.Component<Props, State> {
 
   render() {
     const { availableSites, currentSite, hasTranslator, onClose } = this.props;
-    const { site, useTranslator } = this.state;
+    const { arrayOrphanMode, site, useTranslator } = this.state;
     const siteOptions = availableSites.map(site => ({
       label: site.label,
       key: site,
@@ -99,6 +124,18 @@ export class Options extends React.Component<Props, State> {
                 onChange={this.handleSiteChange}
                 options={siteOptions}
                 value={site}
+              />
+            </FieldPanel>
+            <FieldPanel
+              instructions={translate(
+                'Defines what happens to elements that do not exist in the selected language.'
+              )}
+              label={translate('Orphaned elements')}
+            >
+              <Select
+                onChange={this.handleArrayOrphanModeChange}
+                options={arrayOrphanModes()}
+                value={arrayOrphanMode}
               />
             </FieldPanel>
             {site && currentSite && site.language !== currentSite.language ? (

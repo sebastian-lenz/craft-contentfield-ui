@@ -4,7 +4,7 @@ import addReferences from './addReferences';
 import cloneModel from '../utils/cloneModel';
 import fetchSite from '../utils/fetchSite';
 import isModel from '../utils/isModel';
-import synchronizeModels from '../utils/synchronizeModels';
+import synchronizeModels, { ArrayOrphanMode } from '../utils/synchronizeModels';
 import updateSync from './updateSync';
 import updateValue from './updateValue';
 import { RootState } from '../models';
@@ -12,13 +12,14 @@ import { AnyAction } from './index';
 import { TranslateOptions } from '../utils/fetchTranslation';
 
 export interface SynchronizeOptions {
+  arrayOrphanMode?: ArrayOrphanMode;
   siteId: number;
   translate?: TranslateOptions;
   verbose?: boolean;
 }
 
 async function applySynchronize(
-  { siteId, translate, verbose }: SynchronizeOptions,
+  { siteId, ...options }: SynchronizeOptions,
   dispatch: Dispatch,
   getState: () => RootState
 ) {
@@ -52,17 +53,15 @@ async function applySynchronize(
   const isClone = !isModel(model) || model.__type !== data.__type;
   const syncedModel = isClone
     ? await cloneModel({
+        ...options,
         schemas,
         source: data,
-        translate,
-        verbose,
       })
     : await synchronizeModels({
+        ...options,
         schemas,
         source: data,
         target: model,
-        translate,
-        verbose,
       });
 
   dispatch(addReferences(references));

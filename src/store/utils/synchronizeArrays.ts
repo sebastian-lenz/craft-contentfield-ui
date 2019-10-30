@@ -84,8 +84,14 @@ export default async function synchronizeArrays({
     }
   }
 
-  for (const existingModel of existingModels) {
-    result.push({ ...existingModel, __visible: false });
+  if (options.arrayOrphanMode !== 'remove') {
+    for (const existingModel of existingModels) {
+      if (options.arrayOrphanMode === 'hide') {
+        result.push({ ...existingModel, __visible: false });
+      } else {
+        result.push(existingModel);
+      }
+    }
   }
 
   return result;

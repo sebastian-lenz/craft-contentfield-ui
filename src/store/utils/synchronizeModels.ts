@@ -5,7 +5,10 @@ import synchronizeArrays from './synchronizeArrays';
 import { Model, Schemas } from '../models';
 import { TranslateOptions } from './fetchTranslation';
 
+export type ArrayOrphanMode = 'none' | 'hide' | 'remove';
+
 export interface SynchronizeOptions {
+  arrayOrphanMode?: ArrayOrphanMode;
   schemas: Schemas;
   translate?: TranslateOptions;
   verbose?: boolean;
