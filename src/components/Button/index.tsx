@@ -5,7 +5,7 @@ import './index.styl';
 
 export interface Props {
   children: React.ReactNode;
-  onClick: () => void;
+  onClick: (event: React.SyntheticEvent) => void;
   primary?: boolean;
   secondary?: boolean;
 }
@@ -21,7 +21,7 @@ export default function Button({
       className={cx('tcfButton btn', { submit: primary, secondary })}
       onClick={event => {
         event.preventDefault();
-        onClick();
+        onClick(event);
       }}
     >
       {children}
