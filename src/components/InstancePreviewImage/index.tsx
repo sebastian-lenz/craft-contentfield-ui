@@ -47,7 +47,7 @@ export default function InstancePreviewImage({
       Craft.setElementSize($element, size);
       getThumbLoader().load($element);
     }
-  }, [element.current]);
+  }, [element.current, reference]);
 
   if (!reference || !reference.hasThumb) {
     return (
