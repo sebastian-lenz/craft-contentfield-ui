@@ -99,6 +99,10 @@ export class ReferencePreviewItem {
     return this.createSafePreview('small', true);
   }
 
+  get label(): string {
+    return this.reference.label;
+  }
+
   toHTML(): SafeString {
     return new SafeString(this.toString());
   }
@@ -131,6 +135,14 @@ export default class ReferencePreview extends Array<ReferencePreviewItem> {
 
   get asSmallImage(): SafeString | null {
     return this.length ? this[0].asSmallImage : null;
+  }
+
+  get firstLabel(): string {
+    return this.length ? this[0].label : '';
+  }
+
+  get label(): string {
+    return this.map(item => item.label).join(', ');
   }
 
   toHTML(): SafeString {
