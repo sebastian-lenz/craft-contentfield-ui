@@ -18,7 +18,13 @@ export default function LinkWidget({ data, disabled, field, onUpdate }: Props) {
   if (isLink(data)) {
     link = data;
   } else {
-    link = { elementId: 0, openInNewWindow: false, type: '', url: '' };
+    link = {
+      elementId: 0,
+      hash: '',
+      openInNewWindow: false,
+      type: '',
+      url: '',
+    };
   }
 
   const linkType = field.linkTypes[link.type];
@@ -59,14 +65,14 @@ export default function LinkWidget({ data, disabled, field, onUpdate }: Props) {
           onChange={type => onUpdate({ ...link, type })}
         />
       </div>
-      <div className="tcfLinkWidget--editor">{editor}</div>
+      {editor}
       {allowNewWindow ? (
         <Checkbox
           disabled={disabled}
           onChange={openInNewWindow => onUpdate({ ...link, openInNewWindow })}
           value={link.openInNewWindow}
         >
-          <Text value="Open in new window" />
+          <Text value="New window" />
         </Checkbox>
       ) : null}
     </div>

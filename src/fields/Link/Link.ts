@@ -13,6 +13,7 @@ export interface InputLinkType extends LinkType {
 }
 
 export interface ElementLinkType extends LinkType {
+  allowHash?: boolean;
   criteria?: Craft.BaseElementSelectCriteria | null;
   elementType: string;
   sources: Array<string> | null;
@@ -21,6 +22,7 @@ export interface ElementLinkType extends LinkType {
 
 export interface Link {
   elementId: number;
+  hash: string;
   openInNewWindow: boolean;
   type: string;
   url: string;
@@ -30,6 +32,7 @@ export function isLink(value: any): value is Link {
   return (
     typeof value === 'object' &&
     typeof value.elementId === 'number' &&
+    typeof value.hash === 'string' &&
     typeof value.type === 'string' &&
     typeof value.url === 'string'
   );

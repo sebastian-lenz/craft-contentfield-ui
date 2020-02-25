@@ -17,11 +17,15 @@ export default function InputEditor({
   onUpdate,
 }: Props) {
   return (
-    <Input
-      disabled={disabled}
-      type={linkType.inputType}
-      value={link.url}
-      onChange={event => onUpdate({ ...link, url: event.currentTarget.value })}
-    />
+    <div className="tcfLinkWidget--editor">
+      <Input
+        disabled={disabled}
+        type={linkType.inputType}
+        value={link.url}
+        onChange={event =>
+          onUpdate({ ...link, url: event.currentTarget.value })
+        }
+      />
+    </div>
   );
 }

@@ -1,17 +1,56 @@
 .tcfInput
-  box-sizing: border-box;
+  box-sizing: border-box
   width: 100%
-  min-height: 3px;
-  padding: 5px 7px;
+  min-height: 3px
+  padding: 5px 7px
 
-  border: 1px solid rgba(0, 0, 20, 0.1);
-  border-radius: 2px;
-  transition: border linear 50ms;
+  border: 1px solid rgba(0, 0, 20, 0.1)
+  border-radius: 2px
+  transition: border linear 50ms
 
-  color: #29323d;
-  font-size: 14px;
-  line-height: 20px;
+  color: #29323d
+  font-size: 14px
+  line-height: 20px
 
   &:focus
-    border-color: #0D99F2;
-    outline: none;    
+    border-color: #0D99F2
+    outline: none
+
+
+.tcfInput--group
+  display: flex
+  flex-flow: row nowrap
+
+  > .tcfInput
+    border-radius: 0
+
+  > .tcfInput:first-child
+    border-top-left-radius: 2px
+    border-bottom-left-radius: 2px
+
+  > .tcfInput:last-child
+    border-top-right-radius: 2px
+    border-bottom-right-radius: 2px
+
+.tcfInput--groupLabel
+  padding: 5px 9px
+
+  border: 1px solid rgba(0, 0, 20, 0.1)
+  border-radius: 16px
+
+  font-size: 14px
+  line-height: 20px
+
+  &:first-child
+    padding-left: 12px
+
+    border-top-right-radius: 0
+    border-bottom-right-radius: 0
+    border-right: none
+
+  &:last-child
+    padding-right: 12px
+
+    border-top-left-radius: 0
+    border-bottom-left-radius: 0
+    border-left: none
