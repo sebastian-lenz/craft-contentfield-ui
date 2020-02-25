@@ -44,5 +44,10 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "singleQuote": true
   }
 }
