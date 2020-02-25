@@ -160,7 +160,6 @@ export class Options extends React.Component<Props, State> {
           <Button onClick={onClose} secondary>
             <Text value="Cancel" />
           </Button>
-          <div className="spacer" />
           <Button onClick={this.handleApply} primary>
             <Text value="Apply" />
           </Button>
