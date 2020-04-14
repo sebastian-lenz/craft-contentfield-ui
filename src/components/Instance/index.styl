@@ -1,3 +1,29 @@
-.tcfInstance--typeSelect
+@require '../../includes'
+
+.tcfInstance--controls
+  display: flex
+  margin: -10px
+
+  > *
+    padding: 10px
+
+.tcfInstance--controlsSchema
+  flex: 1
+  
   &:not(:last-child)
     margin-bottom: 12px
+
+.tcfInstance--controlsVisibility
+  width: min-content
+
+  white-space: nowrap
+
+.tcfInstance--controlsVisibilityIcon
+  position: relative
+  top: -1px
+  margin-left: 5px
+
+  vertical-align: middle
+
+  &.off
+    color: $red

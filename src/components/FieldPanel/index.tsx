@@ -10,7 +10,7 @@ export interface Props {
   instructions?: string | null;
   isPlainField?: boolean;
   isRequired?: boolean;
-  label: string;
+  label: React.ReactChild;
   style?: React.CSSProperties;
 }
 
