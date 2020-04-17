@@ -41,32 +41,38 @@ export default React.memo(function Instance({
     isValidModel = schemas.some((schema) => schema.qualifier === model.__type);
   }
 
+  const showTypes = canChangeType && schemas.length > 1;
+  const showVisibility =
+    canChangeVisibility && isValidModel && !model.__visible;
+
   return (
     <InstanceDepthProvider>
       <ResponsiveStateProvider>
-        <div className="tcfInstance--controls">
-          {canChangeType && schemas.length > 1 ? (
-            <SchemaSelect
-              disabled={disabled}
-              dispatch={dispatch}
-              model={isValidModel ? model : null}
-              path={path}
-              schemas={schemas}
-            />
-          ) : null}
+        {showTypes || showVisibility ? (
+          <div className="tcfInstance--controls">
+            {showTypes ? (
+              <SchemaSelect
+                disabled={disabled}
+                dispatch={dispatch}
+                model={isValidModel ? model : null}
+                path={path}
+                schemas={schemas}
+              />
+            ) : null}
 
-          {/*
-           * This is a temporal solution, somehow we end up with hidden instances in some
-           * edge cases, this allows editors to reenable those
-           */}
-          {canChangeVisibility && isValidModel && !model.__visible ? (
-            <VisibilityToggle
-              disabled={disabled}
-              dispatch={dispatch}
-              model={model}
-            />
-          ) : null}
-        </div>
+            {/*
+             * This is a temporal solution, somehow we end up with hidden instances in some
+             * edge cases, this allows editors to reenable those
+             */}
+            {showVisibility ? (
+              <VisibilityToggle
+                disabled={disabled}
+                dispatch={dispatch}
+                model={model}
+              />
+            ) : null}
+          </div>
+        ) : null}
 
         {isValidModel ? (
           <InstanceForm
