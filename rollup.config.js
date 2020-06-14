@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import babelCore from '@babel/core';
-import commonJs from 'rollup-plugin-commonjs';
+import commonJs from '@rollup/plugin-commonjs';
 import nodeResolve from 'rollup-plugin-node-resolve';
 import postcss from 'rollup-plugin-postcss';
 import typescript from 'rollup-plugin-typescript';
@@ -11,15 +11,15 @@ import uglify from 'rollup-plugin-uglify-es';
 function vendors(options, definitions) {
   const keys = Object.keys(definitions);
   options.external.push(...keys);
-  options.output.globals = keys.reduce(function(memo, key) {
+  options.output.globals = keys.reduce(function (memo, key) {
     memo[key] = definitions[key].varName;
     return memo;
   }, options.output.globals);
 
   options.plugins.push({
     name: 'vendors',
-    onwrite: function() {
-      const chunks = keys.map(function(key) {
+    onwrite: function () {
+      const chunks = keys.map(function (key) {
         const importedFile = require.resolve(
           definitions[key].package ? definitions[key].package : key
         );
@@ -63,7 +63,7 @@ export default vendors(
       commonJs(),
       {
         name: 'babel',
-        transformBundle: function(code) {
+        transformBundle: function (code) {
           return babelCore.transform(code, { presets: [['@babel/env']] });
         },
       },
