@@ -9,8 +9,8 @@ import FieldDefinition, {
 export interface NumericField extends Field {
   defaultValue: number;
   dataType: 'double' | 'integer';
-  max?: number;
-  min?: number;
+  max: number | null;
+  min: number | null;
   optional: boolean;
 }
 
