@@ -1,4 +1,5 @@
 import toHTML from '../../utils/toHTML';
+import { hbsProperty, hbsMethod } from '../../utils/hbsOptions';
 import { Reference } from '../../store/models';
 import { ReferencePreviewOptions } from './index';
 import { SafeString } from 'handlebars';
@@ -14,7 +15,7 @@ function createPreviewItems({
   const { elementType } = field;
   for (const id of value) {
     const reference = references.find(
-      reference => reference.id === id && reference.type === elementType
+      (reference) => reference.id === id && reference.type === elementType
     );
 
     if (reference) {
@@ -26,12 +27,14 @@ function createPreviewItems({
 }
 
 export class ReferencePreviewItem {
+  @hbsProperty
   reference: Reference;
 
   constructor(reference: Reference) {
     this.reference = reference;
   }
 
+  @hbsMethod
   createPreview(
     size: 'large' | 'small' = 'large',
     onlyThumb: boolean = true
@@ -62,6 +65,7 @@ export class ReferencePreviewItem {
     return $element[0].outerHTML;
   }
 
+  @hbsMethod
   createSafePreview(
     size: 'large' | 'small' = 'large',
     onlyThumb: boolean = true
@@ -69,6 +73,7 @@ export class ReferencePreviewItem {
     return new SafeString(this.createPreview(size, onlyThumb));
   }
 
+  @hbsProperty
   get asBackground(): SafeString | null {
     const { reference } = this;
     const $thumb = reference.$element.find('.elementthumb');
@@ -83,30 +88,37 @@ export class ReferencePreviewItem {
     );
   }
 
+  @hbsProperty
   get asLargeElement(): SafeString {
     return this.createSafePreview('large', false);
   }
 
+  @hbsProperty
   get asLargeImage(): SafeString {
     return this.createSafePreview('large', true);
   }
 
+  @hbsProperty
   get asSmallElement(): SafeString {
     return this.createSafePreview('small', false);
   }
 
+  @hbsProperty
   get asSmallImage(): SafeString {
     return this.createSafePreview('small', true);
   }
 
+  @hbsProperty
   get label(): string {
     return this.reference.label;
   }
 
+  @hbsMethod
   toHTML(): SafeString {
     return new SafeString(this.toString());
   }
 
+  @hbsMethod
   toString(): string {
     return this.createPreview();
   }
@@ -117,40 +129,49 @@ export default class ReferencePreview extends Array<ReferencePreviewItem> {
     super(...createPreviewItems(options));
   }
 
+  @hbsProperty
   get asBackground(): SafeString | null {
     return this.length ? this[0].asBackground : null;
   }
 
+  @hbsProperty
   get asLargeElement(): SafeString | null {
     return this.length ? this[0].asLargeElement : null;
   }
 
+  @hbsProperty
   get asLargeImage(): SafeString | null {
     return this.length ? this[0].asLargeImage : null;
   }
 
+  @hbsProperty
   get asSmallElement(): SafeString | null {
     return this.length ? this[0].asSmallElement : null;
   }
 
+  @hbsProperty
   get asSmallImage(): SafeString | null {
     return this.length ? this[0].asSmallImage : null;
   }
 
+  @hbsProperty
   get firstLabel(): string {
     return this.length ? this[0].label : '';
   }
 
+  @hbsProperty
   get label(): string {
-    return this.map(item => item.label).join(', ');
+    return this.map((item) => item.label).join(', ');
   }
 
+  @hbsMethod
   toHTML(): SafeString {
     return new SafeString(
       `<div class="tcfInstancePreview--elements">${this.toString()}</div>`
     );
   }
 
+  @hbsMethod
   toString(): string {
     const result: Array<string> = [];
     for (let index = 0; index < this.length; index++) {

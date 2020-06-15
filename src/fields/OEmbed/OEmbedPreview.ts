@@ -1,28 +1,33 @@
-import { SafeString } from 'handlebars';
+import { hbsMethod, hbsProperty } from '../../utils/hbsOptions';
 import { OEmbed } from './OEmbed';
-import toHTML from '../../utils/toHTML';
+import { SafeString } from 'handlebars';
 
 export default class OEmbedPreview {
+  @hbsProperty
   value: OEmbed;
 
   constructor(value: OEmbed) {
     this.value = value;
   }
 
+  @hbsProperty
   get author() {
     return this.value.info ? this.value.info.author_name : '';
   }
 
+  @hbsProperty
   get thumbnail() {
     const { info } = this.value;
     if (!info || !info.thumbnail_url) return '';
     return new SafeString(`<img width="100" src=${info.thumbnail_url} />`);
   }
 
+  @hbsProperty
   get title() {
     return this.value.info ? this.value.info.title : '';
   }
 
+  @hbsMethod
   toHTML() {
     const { info } = this.value;
     if (!info) {
@@ -31,9 +36,7 @@ export default class OEmbedPreview {
 
     let thumbnail = '';
     if (info.thumbnail_url) {
-      thumbnail = `<img class="tcfOEmbedWidget--infoImage" src="${
-        info.thumbnail_url
-      }" />`;
+      thumbnail = `<img class="tcfOEmbedWidget--infoImage" src="${info.thumbnail_url}" />`;
     }
 
     return new SafeString(`

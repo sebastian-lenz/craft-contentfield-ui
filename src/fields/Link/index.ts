@@ -18,7 +18,13 @@ export default class LinkFieldType extends FieldDefinition<LinkField, Link> {
   }
 
   createValue(): Link {
-    return { elementId: 0, openInNewWindow: false, type: 'url', url: '' };
+    return {
+      elementId: 0,
+      hash: '',
+      openInNewWindow: false,
+      type: 'url',
+      url: '',
+    };
   }
 
   isValue(field: LinkField, value: any): value is Link {

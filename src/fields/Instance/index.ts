@@ -3,6 +3,7 @@ import { SafeString } from 'handlebars';
 import cloneModel from '../../store/utils/cloneModel';
 import createModel from '../../store/utils/createModel';
 import fields from '../index';
+import hbsOptions from '../../utils/hbsOptions';
 import InstanceFactory from '../../components/InstanceFactory';
 import InstanceWidget from './InstanceWidget';
 import isModel from '../../store/utils/isModel';
@@ -85,8 +86,8 @@ export default class InstanceFieldType extends FieldDefinition<
     }
 
     const data: PreviewObject = {
-      toHTML: () => new SafeString(template(data)),
-      toString: () => template(data),
+      toHTML: () => new SafeString(template(data, hbsOptions())),
+      toString: () => template(data, hbsOptions()),
     };
 
     data.depth = context.depth;

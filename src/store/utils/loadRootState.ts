@@ -52,7 +52,7 @@ export default function loadRootState(
     status: 'idle',
   };
 
-  payload.config.references = payload.config.references.map(reference => {
+  payload.config.references = payload.config.references.map((reference) => {
     const $element = $(reference.element);
     return {
       ...reference,

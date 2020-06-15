@@ -1,10 +1,14 @@
-import { PreviewObject } from '../FieldDefinition';
-import { Location } from './Location';
-import { SafeString } from 'handlebars';
 import { getGoogleMapsApiKey } from './utils/requireGoogleMaps';
+import { hbsMethod, hbsProperty } from '../../utils/hbsOptions';
+import { Location } from './Location';
+import { PreviewObject } from '../FieldDefinition';
+import { SafeString } from 'handlebars';
 
 export default class LocationPreview implements PreviewObject {
+  @hbsProperty
   latitude: number;
+
+  @hbsProperty
   longitude: number;
 
   constructor(location: Location) {
@@ -12,6 +16,7 @@ export default class LocationPreview implements PreviewObject {
     this.longitude = location.longitude;
   }
 
+  @hbsMethod
   createStaticMap(width: number = 100, height: number = 75): SafeString {
     const { latitude, longitude } = this;
     const key = getGoogleMapsApiKey();
@@ -33,6 +38,7 @@ export default class LocationPreview implements PreviewObject {
     `);
   }
 
+  @hbsMethod
   toHTML(): SafeString {
     return this.createStaticMap();
   }
