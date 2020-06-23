@@ -81,12 +81,16 @@ const api = {
       return location ? createInstanceApi(store, location) : null;
     }
   },
-  getValidator: function(id: string): Validator | null {
+  getValidator: function (id: string): Validator | null {
     return id in validators ? validators[id] : null;
   },
   registerValidator: (id: string, validator: Validator) => {
     validators[id] = validator;
   },
 };
+
+if (window) {
+  (window as any)['contentField'] = api;
+}
 
 export default api;

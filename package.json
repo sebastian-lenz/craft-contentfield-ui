@@ -4,47 +4,54 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "NODE_ENV=production rollup -c",
-    "watch": "NODE_ENV=development rollup -c -w"
+    "build": "webpack --mode=production",
+    "watch": "webpack --mode=development -w"
   },
-  "author": "",
+  "author": "Sebastian Lenz",
   "license": "ISC",
-  "devDependencies": {
-    "@babel/core": "^7.10.2",
-    "@babel/preset-env": "^7.10.2",
-    "@rollup/plugin-commonjs": "^13.0.0",
+  "dependencies": {
     "@types/classnames": "^2.2.10",
     "@types/googlemaps": "^3.39.7",
     "@types/handlebars": "^4.1.0",
-    "@types/jquery": "^3.3.38",
+    "@types/jquery": "^3.5.0",
     "@types/prop-types": "^15.7.3",
-    "@types/react": "^16.9.36",
+    "@types/react": "^16.9.38",
     "@types/react-dom": "^16.9.8",
     "@types/react-redux": "^7.1.9",
-    "@types/redux": "^3.6.0",
+    "@types/redux": "^3.6.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.3",
+    "@babel/polyfill": "^7.10.1",
+    "@babel/preset-env": "^7.10.3",
+    "babel-loader": "^8.1.0",
     "classnames": "^2.2.6",
+    "css-loader": "^3.6.0",
     "handlebars": "^4.7.6",
+    "mini-css-extract-plugin": "^0.9.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dnd": "^9.5.1",
     "react-dnd-html5-backend": "^9.5.1",
-    "react-dnd-umd-builds": "^9.5.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "rollup": "^1.32.1",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-postcss": "^2.9.0",
-    "rollup-plugin-typescript": "^1.0.1",
-    "rollup-plugin-uglify-es": "0.0.1",
     "stylus": "^0.54.7",
+    "stylus-loader": "^3.0.2",
+    "ts-loader": "^7.0.5",
     "tslib": "^1.13.0",
-    "typescript": "^3.9.5"
+    "typescript": "^3.9.5",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12",
+    "webpack-livereload-plugin": "^2.3.0"
   },
-  "dependencies": {
-    "@babel/polyfill": "^7.10.1"
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
   },
+  "browserslist": "> 1%",
   "prettier": {
     "trailingComma": "es5",
     "tabWidth": 2,
