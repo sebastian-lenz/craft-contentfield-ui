@@ -5,7 +5,7 @@ export default function cutCommand({
   owner,
 }: CommandFactoryOptions): Command | null {
   return null;
-
+  /*
   if (!owner || owner.field.type !== 'array') {
     return null;
   }
@@ -17,4 +17,5 @@ export default function cutCommand({
     invoke: () => {},
     label: translate('Cut'),
   };
+  */
 }

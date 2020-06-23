@@ -67,8 +67,8 @@ export default function TextWidget({
         error: errors && errors.length,
       })}
       disabled={disabled}
-      max={max}
-      min={min}
+      max={max === null ? undefined : max}
+      min={min === null ? undefined : min}
       onBlur={handleBlur}
       onChange={handleChange}
       onFocus={handleFocus}

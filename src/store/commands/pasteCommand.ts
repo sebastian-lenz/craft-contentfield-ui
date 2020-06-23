@@ -5,7 +5,7 @@ export default function pasteCommand({
   owner,
 }: CommandFactoryOptions): Command | null {
   return null;
-
+  /*
   if (!owner || owner.field.type !== 'array') {
     return null;
   }
@@ -22,4 +22,5 @@ export default function pasteCommand({
     invoke: () => {},
     label: translate('Paste'),
   };
+  */
 }
