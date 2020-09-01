@@ -44,6 +44,16 @@ export default class ArrayPreview extends Array<PreviewResult> {
     return this.toList('flexRow');
   }
 
+  @hbsProperty
+  get first(): SafeString {
+    return new SafeString(this.length ? toHTML(this[0]) : '');
+  }
+
+  @hbsProperty
+  get one(): SafeString {
+    return this.first;
+  }
+
   @hbsMethod
   toHTML(): SafeString {
     return new SafeString(this.toString());
