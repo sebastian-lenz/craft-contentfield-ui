@@ -8,6 +8,7 @@ export interface Props {
   disabled?: boolean;
   link: Link;
   linkType: ElementLinkType;
+  modalStorageKey?: string | null;
   onUpdate: (value: any) => void;
 }
 
@@ -15,6 +16,7 @@ export default function ElementEditor({
   disabled,
   link,
   linkType,
+  modalStorageKey = null,
   onUpdate,
 }: Props) {
   return (
@@ -25,7 +27,8 @@ export default function ElementEditor({
         disabled={disabled}
         elementType={linkType.elementType}
         limit={1}
-        onUpdate={ids =>
+        modalStorageKey={modalStorageKey}
+        onUpdate={(ids) =>
           onUpdate({ ...link, elementId: ids.length ? ids[0] : 0 })
         }
         sources={linkType.sources}
@@ -37,7 +40,7 @@ export default function ElementEditor({
           <Input
             disabled={disabled}
             value={link.hash}
-            onChange={event =>
+            onChange={(event) =>
               onUpdate({ ...link, hash: event.currentTarget.value })
             }
           />

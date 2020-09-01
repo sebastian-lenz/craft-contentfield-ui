@@ -13,7 +13,13 @@ import './LinkWidget.styl';
 
 export interface Props extends WidgetProps<LinkField> {}
 
-export default function LinkWidget({ data, disabled, field, onUpdate }: Props) {
+export default function LinkWidget({
+  data,
+  disabled,
+  field,
+  model,
+  onUpdate,
+}: Props) {
   let link: Link;
   if (isLink(data)) {
     link = data;
@@ -29,6 +35,7 @@ export default function LinkWidget({ data, disabled, field, onUpdate }: Props) {
 
   const linkType = field.linkTypes[link.type];
   let editor: React.ReactNode;
+
   if (linkType && linkType.type === 'input') {
     editor = (
       <InputEditor
@@ -46,6 +53,7 @@ export default function LinkWidget({ data, disabled, field, onUpdate }: Props) {
         key={link.type}
         link={link}
         linkType={linkType}
+        modalStorageKey={`tcf_${model.__type}_${field.name}_${linkType.type}`}
         onUpdate={onUpdate}
       />
     );
@@ -57,19 +65,19 @@ export default function LinkWidget({ data, disabled, field, onUpdate }: Props) {
       <div className="tcfLinkWidget--type">
         <Select
           disabled={disabled}
-          options={Object.keys(field.linkTypes).map(key => ({
+          options={Object.keys(field.linkTypes).map((key) => ({
             key,
             label: field.linkTypes[key].label,
           }))}
           value={link.type}
-          onChange={type => onUpdate({ ...link, type })}
+          onChange={(type) => onUpdate({ ...link, type })}
         />
       </div>
       {editor}
       {allowNewWindow ? (
         <Checkbox
           disabled={disabled}
-          onChange={openInNewWindow => onUpdate({ ...link, openInNewWindow })}
+          onChange={(openInNewWindow) => onUpdate({ ...link, openInNewWindow })}
           value={link.openInNewWindow}
         >
           <Text value="New window" />
