@@ -24,10 +24,10 @@ export default function InstancePreview({
   mode,
   onClick,
 }: Props) {
-  const [references, schemas] = useSelector((state: RootState) => [
-    state.config.references,
-    state.schemas,
-  ]);
+  const { references, schemas } = useSelector((state: RootState) => ({
+    references: state.config.references,
+    schemas: state.schemas,
+  }));
 
   return (
     <div
