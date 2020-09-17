@@ -35,7 +35,9 @@ export default function CollapsiblePanel({
   if (isActualExpanded) {
     content = <div className="tcfArrayWidgetMember--body">{children}</div>;
   } else if (hasPreview) {
-    content = <InstancePreview field={field} model={model} />;
+    content = (
+      <InstancePreview field={field} model={model} onClick={handleToggle} />
+    );
   }
 
   return (
