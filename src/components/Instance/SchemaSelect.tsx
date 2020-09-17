@@ -4,6 +4,7 @@ import { Dispatch } from 'redux';
 import FieldPanel from '../FieldPanel';
 import Select, { sortOptions } from '../Select';
 import { AnyPathSegment } from '../../store/utils/parsePath';
+import { Context } from '../../contexts/ExpandedStateProvider';
 import { changeType } from '../../store/actions';
 import { Model, Schema } from '../../store/models';
 
@@ -22,6 +23,7 @@ export default function SchemaSelect({
   path,
   schemas,
 }: Props) {
+  const expandedState = React.useContext(Context);
   const options = schemas.map(({ qualifier, label }) => ({
     key: qualifier,
     label,
@@ -33,7 +35,9 @@ export default function SchemaSelect({
     <FieldPanel className="tcfInstance--controlsSchema" label="Type">
       <Select
         disabled={disabled}
-        onChange={(type: string) => dispatch(changeType(path, type))}
+        onChange={(type: string) =>
+          dispatch(changeType(path, type, expandedState))
+        }
         options={options}
         value={model ? model.__type : null}
       />

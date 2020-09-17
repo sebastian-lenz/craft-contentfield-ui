@@ -3,7 +3,7 @@ import uuid from './uuid';
 import { Model, Schema, Schemas } from '../models';
 
 export interface CreateModelOptions {
-  oldModel?: Model;
+  oldModel?: Model | null;
   schemas: Schemas;
   schema: Schema;
 }
