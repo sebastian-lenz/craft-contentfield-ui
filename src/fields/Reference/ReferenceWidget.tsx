@@ -19,10 +19,12 @@ export default function ReferenceWidget({
       disabled={disabled}
       data={data}
       elementType={field.elementType}
-      limit={field.limit}
-      modalStorageKey={`tcf_${model.__type}_${field.name}`}
+      limit={field.limit || null}
+      modalStorageKey={
+        field.modalStorageKey || `tcf_${model.__type}_${field.name}`
+      }
       onUpdate={onUpdate}
-      sources={field.sources}
+      sources={field.sources || null}
       viewMode={field.viewMode}
     />
   );

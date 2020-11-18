@@ -11,8 +11,9 @@ import FieldDefinition, {
 export interface ReferenceField extends Field {
   criteria: Craft.BaseElementSelectCriteria | null;
   elementType: string;
-  limit: number | null;
-  sources: string[] | null;
+  limit?: number | null;
+  modalStorageKey?: string | null;
+  sources?: string[] | null;
   type: 'reference';
   viewMode: 'large' | 'small';
 }
@@ -38,7 +39,7 @@ export default class ReferenceFieldType extends FieldDefinition<
 
   isValue(field: ReferenceField, value: any): value is Array<number> {
     return (
-      Array.isArray(value) && value.every(value => typeof value === 'number')
+      Array.isArray(value) && value.every((value) => typeof value === 'number')
     );
   }
 
