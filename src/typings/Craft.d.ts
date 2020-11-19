@@ -292,16 +292,64 @@ declare namespace Craft {
     [key: string]: any;
   }
 
-  export interface BaseElementSelectInputOptions {
-    id: string;
-    name: string;
+  export interface BaseElementEditorOptions {
+    attributes: any;
+    elementId: string | number;
+    elementIndex: any;
     elementType: string;
+    hudTrigger: any;
+    onBeginLoading: Function;
+    onCreateForm: Function;
+    onEndLoading: Function;
+    onHideHud: Function;
+    onSaveElement: Function;
+    onShowHud: Function;
+    params: any;
+    prevalidate: boolean;
+    showSiteSwitcher: boolean;
+    siteId: string | number;
+    validators: Array<any>;
+  }
+
+  export interface BaseElementSelectorModalOptions {
+    criteria: BaseElementSelectCriteria | null;
+    defaultSiteId: string | number | null;
+    defaultSource: string | null;
+    disabledElementIds: Array<string | number>;
+    disableElementsOnSelect: boolean;
+    hideOnSelect: boolean;
+    hideSidebar: boolean;
+    multiSelect: boolean;
+    onCancel: Function;
+    onSelect: Function;
+    resizable: boolean;
+    showSiteMenu: boolean;
     sources: string[] | null;
+    storageKey: null | string;
+  }
+
+  export interface BaseElementSelectInputOptions {
+    allowSelfRelations?: boolean;
     criteria?: BaseElementSelectCriteria | null;
-    sourceElementId: number | null;
-    viewMode: 'small' | 'large';
+    disabledElementIds?: null | Array<string | number>;
+    editable?: boolean;
+    editorSettings?: Partial<BaseElementEditorOptions>;
+    elementType: string;
+    fieldId?: any;
+    id: string | number;
     limit: number | null;
     modalStorageKey: string | null;
+    modalSettings?: BaseElementSelectorModalOptions;
+    name: string;
+    onRemoveElements?: Function;
+    onSelectElements?: Function;
+    prevalidate?: boolean;
+    selectable?: boolean;
+    showSiteMenu?: boolean;
+    sortable?: boolean;
+    sourceElementId: number | null;
+    sources: string[] | null;
+    viewMode: 'small' | 'large';
   }
 
   export class BaseElementSelectInput extends Garnish.Base {
