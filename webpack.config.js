@@ -2,6 +2,7 @@ const path = require('path');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const LiveReloadPlugin = require('webpack-livereload-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -42,6 +43,15 @@ module.exports = {
     ],
   },
   optimization: {
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          output: {
+            semicolons: false,
+          },
+        },
+      }),
+    ],
     splitChunks: {
       cacheGroups: {
         commons: {
