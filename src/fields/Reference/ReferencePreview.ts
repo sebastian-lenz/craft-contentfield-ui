@@ -161,7 +161,7 @@ export default class ReferencePreview extends Array<ReferencePreviewItem> {
 
   @hbsProperty
   get label(): string {
-    return this.map((item) => item.label).join(', ');
+    return this._map((item) => item.label).join(', ');
   }
 
   @hbsMethod
@@ -173,11 +173,17 @@ export default class ReferencePreview extends Array<ReferencePreviewItem> {
 
   @hbsMethod
   toString(): string {
-    const result: Array<string> = [];
+    return this._map((item) => toHTML(item)).join('');
+  }
+
+  private _map<T>(
+    callback: (item: ReferencePreviewItem, index: number) => T
+  ): Array<T> {
+    const result: Array<T> = [];
     for (let index = 0; index < this.length; index++) {
-      result.push(toHTML(this[index]));
+      result.push(callback(this[index], index));
     }
 
-    return result.join('');
+    return result;
   }
 }
