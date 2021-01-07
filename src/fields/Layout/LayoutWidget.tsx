@@ -120,7 +120,6 @@ export class LayoutWidget extends React.Component<Props> {
     const { preset, columns } = isLayout(data)
       ? data
       : { columns: [] as Array<Column>, preset: null };
-    console.log(stackableColumns, columns.length);
 
     return (
       <div className="tcfLayoutWidget">
