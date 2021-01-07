@@ -90,7 +90,9 @@ const api = {
 };
 
 if (window) {
-  (window as any)['contentField'] = api;
+  const root = window as any;
+  const ns = root['lenz'] || (root['lenz'] = {});
+  ns.contentField = api;
 }
 
 export default api;
