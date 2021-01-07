@@ -15,6 +15,7 @@ import { AnyAction } from './store/actions';
 import { Validator, ValidatorMap, RootState } from './store/models';
 
 import './fields/includes';
+import './utils/detailsToggle';
 import './cp.styl';
 
 const stores: Array<Store<RootState, AnyAction>> = [];
