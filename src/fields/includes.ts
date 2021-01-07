@@ -5,6 +5,7 @@ import CheckboxFieldDefinition, { CheckboxField } from './Checkbox';
 import ColorFieldDefinition, { ColorField } from './Color';
 import OEmbedFieldDefinition, { OEmbedField } from './OEmbed';
 import InstanceFieldDefinition, { InstanceField } from './Instance';
+import LayoutFieldDefinition, { LayoutField } from './Layout';
 import LightswitchFieldDefinition, { LightswitchField } from './Lightswitch';
 import LinkFieldType, { LinkField } from './Link';
 import LocationFieldType, { LocationField } from './Location';
@@ -21,6 +22,7 @@ export type FieldTypeMap = {
   checkbox: CheckboxField;
   color: ColorField;
   instance: InstanceField;
+  layout: LayoutField;
   lightswitch: LightswitchField;
   link: LinkField;
   location: LocationField;
@@ -39,6 +41,7 @@ fields.initialize({
   checkbox: new CheckboxFieldDefinition(),
   color: new ColorFieldDefinition(),
   instance: new InstanceFieldDefinition(),
+  layout: new LayoutFieldDefinition(),
   lightswitch: new LightswitchFieldDefinition(),
   link: new LinkFieldType(),
   location: new LocationFieldType(),

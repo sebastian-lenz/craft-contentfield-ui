@@ -2,6 +2,7 @@ import cloneModel from './cloneModel';
 import createLogger from './createLogger';
 import isModel from './isModel';
 import synchronizeArrays from './synchronizeArrays';
+import synchronizeLayouts from './synchronizeLayouts';
 import { Model, Schemas } from '../models';
 import { TranslateOptions } from './fetchTranslation';
 
@@ -54,7 +55,16 @@ export default async function synchronizeModels({
   for (const name of Object.keys(schema.fields)) {
     const field = schema.fields[name];
 
-    if (field.type === 'array') {
+    if (field.type === 'layout') {
+      l.group(`Layout ${name}`);
+      result[name] = await synchronizeLayouts({
+        ...options,
+        field,
+        source: source[name],
+        target: target[name],
+      });
+      l.groupEnd();
+    } else if (field.type === 'array') {
       l.group(`Array ${name}`);
       result[name] = await synchronizeArrays({
         ...options,

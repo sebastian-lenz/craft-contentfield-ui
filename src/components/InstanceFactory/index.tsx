@@ -18,7 +18,7 @@ export type Props = ExternalProps & {
 export default function InstanceFactory({ field, onCreate, scope }: Props) {
   const schemas = useSelector((state: RootState) => state.schemas);
   const availableSchemas = field.schemas
-    .map(name => schemas[name])
+    .map((name) => schemas[name])
     .sort((a, b) => a.label.localeCompare(b.label));
 
   if (!availableSchemas.length) {

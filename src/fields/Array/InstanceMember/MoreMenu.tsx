@@ -55,5 +55,5 @@ export default connect(
   (state: RootState, { uuid }: ExternalProps) => ({
     commands: resolveCommands(state, uuid),
   }),
-  dispatch => ({ dispatch })
+  (dispatch) => ({ dispatch })
 )(MoreMenu);

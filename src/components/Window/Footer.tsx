@@ -9,7 +9,7 @@ export interface Props {
 
 export default function Footer({ children, className, flex = true }: Props) {
   return (
-    <div className={cx('tcfWindow--footer', className, { flex })}>
+    <div className={cx('tcfWindow--footer flex-nowrap', className, { flex })}>
       {children}
     </div>
   );

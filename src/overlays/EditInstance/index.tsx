@@ -2,15 +2,15 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import Button from '../../components/Button';
+import ExpandedStateProvider from '../../contexts/ExpandedStateProvider';
 import findByUuid from '../../store/utils/findByUuid';
 import InstanceForm from '../../components/InstanceForm';
+import Text from '../../components/Text';
 import Window from '../../components/Window';
 import { EditOverlayState, OverlayState } from '../../store/models/overlay';
 import { RootState, Model } from '../../store/models';
 import { AnyPathSegment } from '../../store/utils/parsePath';
 import { setOverlay } from '../../store/actions';
-import Text from '../../components/Text';
-import ExpandedStateProvider from '../../contexts/ExpandedStateProvider';
 
 export interface Props extends EditOverlayState {
   model: Model;
@@ -62,7 +62,7 @@ export default connect(
   (state: RootState, props: EditOverlayState) => {
     return findByUuid(state, props.uuid);
   },
-  dispatch => ({
+  (dispatch) => ({
     setOverlay: (overlay: OverlayState) => dispatch(setOverlay(overlay)),
   })
 )(EditInstance);

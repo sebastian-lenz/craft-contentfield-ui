@@ -1,0 +1,77 @@
+$grid-gutter = 8px
+$height = 24px
+
+.tcfLayoutPreview
+  position: relative
+  overflow: hidden
+  display: flex
+  flex-flow: row wrap
+
+  background: #fbfcfe
+  border: 1px solid rgba(96, 125, 159, 0.25)
+  border-radius: 3px
+  box-shadow: inset 0 1px 4px -1px rgba(96, 125, 159, 0.25)
+
+  &.isSelected
+    background: rgba(96, 125, 159, 0.2)
+
+  &.isClickable
+    cursor: pointer
+
+  &.isClickable:hover
+    border-color: rgba(96, 125, 159, 0.8)
+
+.tcfLayoutPreview--col
+  position: relative
+  height: $height
+  box-sizing: border-box
+  padding: ($grid-gutter / 2)
+
+  user-select: none
+
+.tcfLayoutPreview--colPanel
+  content: ''
+  display: block
+  overflow: hidden
+  position: relative
+  width: 100%
+  height: 100%
+  
+  background: rgba(#000, 0.333)
+  border-radius: 3px
+
+  color: #fff
+  font-size: 10px
+  line-height: ($height - $grid-gutter)
+  text-align: center
+  text-overflow: ellipsis
+  white-space: nowrap
+
+
+// Grid
+// ----
+
+.tcfLayoutPreview--grid
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  display: flex
+  flex-flow: row nowrap
+
+  pointer-events: none
+
+.tcfLayoutPreview--gridColumn
+  position: relative
+  flex: 1
+
+  &:before
+    content: ''
+    position: absolute
+    top: 0
+    left: ($grid-gutter / 2)
+    right: ($grid-gutter / 2)
+    height: 100%
+
+    background: rgba(#000, 0.05)

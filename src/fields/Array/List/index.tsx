@@ -7,12 +7,12 @@ import InstanceMember from '../InstanceMember';
 import { AnyPathSegment } from '../../../store/utils/parsePath';
 import { ArrayField } from '../index';
 import { Context } from '../../../contexts/InstanceDepthProvider';
+import { DragProps } from '../utils/useDrag';
+import { DropProps } from '../utils/useDrop';
 import { isUuidObject } from '../../../store/utils/uuidObject';
 import { Model, RootState } from '../../../store/models';
 
 import './index.styl';
-import { DragProps } from '../utils/useDrag';
-import { DropProps } from '../utils/useDrop';
 
 export interface Props {
   children?: React.ReactNode;

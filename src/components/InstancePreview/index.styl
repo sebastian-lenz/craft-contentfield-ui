@@ -31,13 +31,17 @@
   .row
     display: flex;
     flex-flow: row
-    margin: 0 -10px
-  
+    margin: -10px
+
+    > *
+      box-sizing: border-box
+      padding: 10px
+
   for num in (1..12)
     .col-{num}
       box-sizing: border-box
+      padding: 10px
       width: 8.333333% * num
-      padding: 0 10px
 
   dl
     display: flex

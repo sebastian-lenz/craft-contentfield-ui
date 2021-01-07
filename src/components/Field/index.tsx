@@ -8,7 +8,7 @@ export interface Props {
   className?: string;
   data: any;
   disabled?: boolean;
-  errors: Array<string>;
+  errors: Array<string> | null;
   model: Model;
   onUpdate: (value: any) => void;
   path: Array<AnyPathSegment>;

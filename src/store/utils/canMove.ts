@@ -1,9 +1,10 @@
+import applyMoveShift from './applyMoveShift';
 import fields from '../../fields';
 import findByPath from './findByPath';
+import findSchema from './findSchema';
 import isPathEqual from './isPathEqual';
 import { IndexPathSegment, Path } from './parsePath';
 import { RootState } from '../models';
-import applyMoveShift from './applyMoveShift';
 
 export interface MoveInfo {
   sourcePath: Path;
@@ -22,10 +23,14 @@ export default function canMove(state: RootState, move: MoveInfo): boolean {
   }
 
   // Make sure we are operating on an array
-  const targetSchema = state.schemas[targetModel.__type];
+  const targetSchema = findSchema(state, targetModel);
   const targetField = targetSchema.fields[targetSegment.name];
   const targetFieldValue = targetModel[targetSegment.name];
-  if (targetField.type !== 'array' || !Array.isArray(targetFieldValue)) {
+  if (
+    !Array.isArray(targetFieldValue) ||
+    !targetField ||
+    targetField.type !== 'array'
+  ) {
     return false;
   }
 

@@ -45,6 +45,20 @@ function findByUuidRecursive(
         result.path.unshift({ type: 'property', name });
         return result;
       }
+    } else if (field.type === 'layout') {
+      const { columns } = model[name];
+
+      for (let index = 0; index < columns.length; index++) {
+        const result = findByUuidRecursive(state, uuid, columns[index]);
+
+        if (result !== null) {
+          result.path.unshift(
+            { type: 'property', name },
+            { type: 'index', name: 'columns', index }
+          );
+          return result;
+        }
+      }
     }
   }
 

@@ -1,0 +1,65 @@
+$grid-gutter = 8px
+
+.tcfLayoutRowEditor
+  position: relative
+  overflow: hidden
+  display: flex 
+  flex-flow: row wrap
+  flex: 1
+
+  background: #fbfcfe
+  border: 1px solid rgba(96, 125, 159, 0.25)
+  border-radius: 3px
+  box-shadow: inset 0 1px 4px -1px rgba(96, 125, 159, 0.25)
+
+.tcfLayoutRowEditor--col
+  position: relative
+  height: 50px
+  box-sizing: border-box
+  padding: ($grid-gutter / 2)
+
+  user-select: none
+
+.tcfLayoutRowEditor--colPanel
+  position: relative
+  width: 100%
+  height: 100%
+  
+  background: rgba(#000, 0.333)
+  border-radius: 3px
+  cursor: move
+
+  .isSelected > &
+    background: rgba(#0B69A3, 0.8)
+
+.tcfLayoutRowEditor--colLabel
+  overflow: hidden
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 100%
+  height: 100%
+
+  color: #fff
+  text-overflow: hidden
+  white-space: nowrap
+
+.tcfLayoutRowEditor--colHandle
+  position: absolute
+  top: 0
+  right: 0
+  height: 100%
+  width: 16px
+
+  &:after
+    content: ''
+    display: block
+    position: absolute
+    top: 4px
+    right: 4px
+    bottom: 4px
+    left: 6px
+
+    background: #fff
+    border-radius: 4px
+    cursor: ew-resize

@@ -20,6 +20,6 @@ export default function resolveCommands(
   };
 
   return commandFactories
-    .map(factory => factory(options))
-    .filter(command => command !== null) as Array<Command>;
+    .map((factory) => factory(options))
+    .filter((command) => command !== null) as Array<Command>;
 }

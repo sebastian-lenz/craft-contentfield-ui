@@ -2,9 +2,9 @@ import { Model } from '../models';
 import { AnyPathSegment } from './parsePath';
 
 export default function findBySegment(
-  scope: Model,
+  scope: any,
   segment: AnyPathSegment
-): Model | null {
+): any | null {
   if (!(segment.name in scope)) {
     return null;
   }

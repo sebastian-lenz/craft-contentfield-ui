@@ -6,12 +6,6 @@ import findByPath from '../utils/findByPath';
 import modifyPath from '../utils/modifyPath';
 import { RootState } from '../models';
 
-import parsePath, { AnyPathSegment, Path } from '../utils/parsePath';
-
-function isObject(value: any): value is Object {
-  return value !== null && typeof value === 'object';
-}
-
 export interface MoveModelOptions extends MoveInfo {}
 
 export interface MoveModelAction extends Action, MoveInfo {
@@ -37,7 +31,7 @@ export function applyMoveModel(
   const childToMove: any = findByPath(model, [...sourcePath, sourceSegment]);
 
   // Remove the element from the source array
-  model = modifyPath(model, sourcePath, sourceModel => {
+  model = modifyPath(model, sourcePath, (sourceModel) => {
     if (!sourceModel) {
       throw new Error('Invalid operation');
     }
@@ -53,7 +47,7 @@ export function applyMoveModel(
   });
 
   // Copy to target
-  model = modifyPath(model, targetPath, targetModel => {
+  model = modifyPath(model, targetPath, (targetModel) => {
     if (!targetModel) {
       throw new Error('Could not find target');
     }

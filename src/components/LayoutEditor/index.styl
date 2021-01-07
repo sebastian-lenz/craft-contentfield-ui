@@ -1,0 +1,59 @@
+.tcfLayoutEditor--title
+  margin-bottom: 20px
+
+  font-size: 16px
+
+.tcfLayoutEditor--row
+  + .tcfLayoutEditor--row
+    margin-top: 20px
+
+.tcfLayoutEditor--rowHead
+  display: flex
+  align-items: center
+  margin-bottom: 5px
+
+  > .tcfIcon
+    margin-right: 5px
+    flex: 0 0 auto
+
+.tcfLayoutEditor--rowBody
+  display: flex
+  flex-flow: row nowrap
+
+.tcfLayoutEditor--rowAttributes
+  display: flex
+  flex-flow: row nowrap
+  justify-content: space-between
+  
+  width: 150px
+  flex: 0 0 auto
+  margin-left: 10px
+
+
+// Column input
+// ------------
+
+.tcfLayoutEditor--columnInput
+  width: 50px
+  padding: 0 5px
+
+.tcfLayoutEditor--columnInputLabel
+  position: absolute
+  width: 40px
+  margin-top: -20px
+
+  font-size: 12px
+  text-align: center
+  opacity: 0.5
+
+  &.hasOwnValue
+    opacity: 1
+
+.tcfLayoutEditor--columnInputField
+  text-align: center
+  -moz-appearance: textfield  
+  
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button
+    -webkit-appearance: none
+    margin: 0
