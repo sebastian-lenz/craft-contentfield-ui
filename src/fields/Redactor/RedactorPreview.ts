@@ -9,7 +9,7 @@ export default class RedactorPreview {
     this.value = value;
   }
 
-  @hbsMethod
+  @hbsProperty
   get summary() {
     return new SafeString(`<div class="snippet">${this.value}</div>`);
   }
