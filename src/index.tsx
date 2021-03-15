@@ -1,4 +1,4 @@
-/// <reference path="../node_modules/craft-cp-typings/index.d.ts"/>
+/// <reference path="../node_modules/craft-cp-types/index.d.ts"/>
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
