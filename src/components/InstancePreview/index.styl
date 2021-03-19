@@ -28,21 +28,6 @@
     &:last-child
       margin-bottom: 0
 
-  .row
-    display: flex;
-    flex-flow: row
-    margin: -10px
-
-    > *
-      box-sizing: border-box
-      padding: 10px
-
-  for num in (1..12)
-    .col-{num}
-      box-sizing: border-box
-      padding: 10px
-      width: 8.333333% * num
-
   dl
     display: flex
     flex-flow: row nowrap
@@ -56,13 +41,15 @@
   dd
     flex: 1
 
-  .pill
+  .tcpPill
     padding: 0 8px
 
     background: rgba(0, 0, 0, 0.1)
     border-radius: 8px
 
-  .snippet
+    text-align: center
+
+  .tcpSnippet
     overflow: hidden
     max-height: 100px
 
@@ -72,38 +59,36 @@
     pointer-events: none
     user-select: none
 
-  .flexRow
+  .tcpRow
+    display: flex;
+    flex-flow: row
+    margin: -10px
+
+    > *
+      box-sizing: border-box
+      padding: 10px
+
+  for $num in (1..12)
+    .tcpWidth-{$num}
+      box-sizing: border-box
+      padding: 10px
+      width: 8.333333% * $num
+
+  .tcpFlex
     display: flex
     flex-flow: row wrap
-    align-items: stretch
-    margin: -5px
 
-    > *
-      margin: 5px
-      max-width: 300px
+    &.column
+      flex-flow: column wrap
 
-  .flexRow.noWrap
-    flex-wrap: nowrap
+    &.noWrap
+      flex-wrap: nowrap
 
-  .flexRow.withMinWidth
-    > *
-      min-width: 100px
-
-  .flexRow.withSeparator
-    > *
-      padding-left: 10px
-      border-left: 1px solid $border-color
-
-    > *:first-child
-      border-left-color: transparent
-
-  .flexColumn
-    display: flex
-    flex-flow column nowrap
-    margin: -5px
-    
-    > * 
-      margin: 5px
+    &.gutter
+      margin: -5px
+      
+      > * 
+        margin: 5px
 
 .tcfInstancePreview--elements
   display: flex

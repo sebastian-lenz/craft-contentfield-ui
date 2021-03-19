@@ -143,6 +143,6 @@ export default class ColumnsFieldType extends FieldDefinition<
       return `<div style="${style}">${toHTML(preview)}</div>`;
     });
 
-    return new SafeString(`<div class="row">${columns.join('')}</div>`);
+    return new SafeString(`<div class="tcpRow">${columns.join('')}</div>`);
   }
 }
