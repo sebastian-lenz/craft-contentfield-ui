@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import ElementSelect from '../../components/ElementSelect';
-import { Link, ElementLinkType } from './Link';
-import Input from '../../components/Input';
+import ElementSelect from '../../../components/ElementSelect';
+import HashInput from './HashInput';
+import { Link, ElementLinkType } from '../Link';
 
 export interface Props {
   disabled?: boolean;
@@ -19,6 +19,9 @@ export default function ElementEditor({
   modalStorageKey = null,
   onUpdate,
 }: Props) {
+  if (linkType.allowHash) {
+  }
+
   return (
     <div className="tcfLinkWidget--editor">
       <ElementSelect
@@ -37,12 +40,12 @@ export default function ElementEditor({
       {linkType.allowHash ? (
         <div className="tcfLinkWidget--editorHash tcfInput--group">
           <div className="tcfInput--groupLabel">#</div>
-          <Input
+          <HashInput
             disabled={disabled}
+            elementId={link.elementId}
+            mode={linkType.allowHash}
+            onChange={(hash) => onUpdate({ ...link, hash })}
             value={link.hash}
-            onChange={(event) =>
-              onUpdate({ ...link, hash: event.currentTarget.value })
-            }
           />
         </div>
       ) : null}

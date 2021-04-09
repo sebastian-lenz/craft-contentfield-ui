@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import Input from '../../components/Input';
-import { Link, InputLinkType } from './Link';
+import Input from '../../../components/Input';
+import { Link, InputLinkType } from '../Link';
 
 export interface Props {
   disabled?: boolean;

@@ -2,6 +2,8 @@ export type AnyLinkType = InputLinkType | ElementLinkType;
 
 export type LinkTypeMap = { [name: string]: AnyLinkType };
 
+export type LinkHashMode = 'input' | 'select';
+
 export interface LinkType {
   label: string;
   type: string;
@@ -13,7 +15,7 @@ export interface InputLinkType extends LinkType {
 }
 
 export interface ElementLinkType extends LinkType {
-  allowHash?: boolean;
+  allowHash?: boolean | LinkHashMode;
   criteria?: Craft.BaseElementSelectCriteria | null;
   elementType: string;
   sources: Array<string> | null;

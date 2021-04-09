@@ -5,6 +5,7 @@ export function createRootState(): RootState {
   return {
     config: {
       apiEndpoints: {
+        anchors: '',
         fetchSite: '',
         oembed: '',
         translate: '',
@@ -35,7 +36,7 @@ export function createRootState(): RootState {
   };
 }
 
-export default function(
+export default function (
   state: RootState = createRootState(),
   action: AnyAction
 ): RootState {

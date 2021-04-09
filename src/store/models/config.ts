@@ -18,6 +18,7 @@ export interface Site {
 
 export interface Config {
   apiEndpoints: {
+    anchors: string;
     fetchSite: string;
     oembed: string;
     translate: string;
