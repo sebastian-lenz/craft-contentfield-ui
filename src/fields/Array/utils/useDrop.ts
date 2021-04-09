@@ -7,7 +7,7 @@ import applyOffset from './applyOffset';
 import canMove, { MoveInfo } from '../../../store/utils/canMove';
 import { AnyField } from '../../index';
 import { AnyPathSegment } from '../../../store/utils/parsePath';
-import { DragItem } from './useDrag';
+import { DragItem, dragType } from './useDrag';
 import { moveModel } from '../../../store/actions';
 
 function toMoveInfo(props: DropProps, item: DragItem): MoveInfo | null {
@@ -43,7 +43,7 @@ export default function useDrop(
   const store = useStore();
 
   return useDropBase({
-    accept: 'MEMBER',
+    accept: dragType,
     drop(item: DragItem) {
       return { item };
     },

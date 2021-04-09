@@ -5,15 +5,20 @@ const LiveReloadPlugin = require('webpack-livereload-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.tsx',
+  entry: {
+    'content-field': './src/index.tsx',
+  },
   output: {
-    jsonpFunction: 'contentFieldJsonp',
     path: path.resolve(__dirname, 'dist'),
-    filename: 'content-field.js',
+    filename: '[name].js',
     chunkFilename: '[name].js',
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.styl'],
+    alias: {
+      // see https://github.com/handlebars-lang/handlebars.js/issues/953
+      handlebars: 'handlebars/dist/handlebars.js',
+    },
   },
   externals: {
     jquery: 'jQuery',

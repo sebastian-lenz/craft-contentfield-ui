@@ -1,8 +1,10 @@
 import * as React from 'react';
-import { useDrag as useDragBase, DragObjectWithType } from 'react-dnd';
+import { useDrag as useDragBase } from 'react-dnd';
 
 import { AnyPathSegment } from '../../../store/utils/parsePath';
 import isPathEqual from '../../../store/utils/isPathEqual';
+
+export const dragType = 'tcf:Member';
 
 export interface DragProps {
   child: any;
@@ -10,33 +12,24 @@ export interface DragProps {
   path: Array<AnyPathSegment>;
 }
 
-export interface DragItem extends DragObjectWithType {
+export interface DragItem {
   data: any;
   height: number;
   path: Array<AnyPathSegment>;
-  type: 'MEMBER';
 }
 
 export default function useDrag(
   props: DragProps,
   ref: React.MutableRefObject<null | HTMLElement>
 ) {
-  const item: DragItem = {
-    data: props.child,
-    height: 100,
-    path: props.path,
-    type: 'MEMBER',
-  };
-
   return useDragBase({
-    item,
-    begin(): DragItem {
+    type: dragType,
+    item() {
       return {
         data: props.child,
         height: ref.current ? ref.current.clientHeight : 100,
         path: props.path,
-        type: 'MEMBER',
-      };
+      } as DragItem;
     },
     canDrag() {
       return !props.disabled;
@@ -47,7 +40,7 @@ export default function useDrag(
       };
     },
     isDragging(monitor) {
-      return isPathEqual(props.path, monitor.getItem().path);
+      return isPathEqual(props.path, monitor.getItem<DragItem>().path);
     },
   });
 }

@@ -11,10 +11,10 @@ export interface Props extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export default function InstancePreviewLabel(props: Props) {
-  const [references, schemas] = useSelector((state: RootState) => [
-    state.config.references,
-    state.schemas,
-  ]);
+  const { references, schemas } = useSelector((state: RootState) => ({
+    references: state.config.references,
+    schemas: state.schemas,
+  }));
 
   return <Renderer {...props} references={references} schemas={schemas} />;
 }

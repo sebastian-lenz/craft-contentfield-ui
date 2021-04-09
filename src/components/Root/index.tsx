@@ -1,7 +1,7 @@
 import * as React from 'react';
-import HTML5Backend from 'react-dnd-html5-backend';
-import { useDispatch, useSelector } from 'react-redux';
 import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useDispatch, useSelector } from 'react-redux';
 
 import ButtonFlat from '../ButtonFlat';
 import createOverlay from '../../overlays';
