@@ -61,7 +61,7 @@ export default class Input extends React.Component<Props> {
 
     for (const id of data) {
       const reference = references.find(
-        ref => ref.id === id && ref.type === elementType
+        (ref) => ref.id === id && ref.type === elementType
       );
 
       if (reference) {
@@ -98,7 +98,7 @@ export default class Input extends React.Component<Props> {
     this.handleChange();
 
     onAddReferences(
-      elements.map(reference => ({
+      elements.map((reference) => ({
         ...reference,
         $element: $(reference.$element[0].outerHTML),
         element: reference.$element[0].outerHTML,
@@ -135,6 +135,7 @@ export default class Input extends React.Component<Props> {
 
     if (element) {
       const {
+        allowSelfReference,
         criteria,
         elementType,
         limit = null,
@@ -152,7 +153,7 @@ export default class Input extends React.Component<Props> {
         modalStorageKey,
         name: this.uuid,
         sources,
-        sourceElementId,
+        sourceElementId: allowSelfReference ? null : sourceElementId,
         viewMode,
       });
 

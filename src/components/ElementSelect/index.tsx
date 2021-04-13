@@ -7,6 +7,7 @@ import { addReferences } from '../../store/actions';
 import { RootState, Reference } from '../../store/models';
 
 export interface ExternalProps {
+  allowSelfReference?: boolean;
   criteria?: Craft.BaseElementSelectCriteria | null;
   data: Array<number> | undefined;
   disabled?: boolean;
@@ -33,7 +34,7 @@ export default connect(
     references: state.config.references,
     sourceElementId: state.config.elementId,
   }),
-  dispatch => ({
+  (dispatch) => ({
     onAddReferences: (references: Array<Reference>) => {
       dispatch(addReferences(references));
     },

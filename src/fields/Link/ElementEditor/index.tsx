@@ -25,6 +25,7 @@ export default function ElementEditor({
   return (
     <div className="tcfLinkWidget--editor">
       <ElementSelect
+        allowSelfReference={linkType.allowSelf}
         criteria={linkType.criteria}
         data={[link.elementId]}
         disabled={disabled}

@@ -16,6 +16,7 @@ export interface InputLinkType extends LinkType {
 
 export interface ElementLinkType extends LinkType {
   allowHash?: boolean | LinkHashMode;
+  allowSelf?: boolean;
   criteria?: Craft.BaseElementSelectCriteria | null;
   elementType: string;
   sources: Array<string> | null;
