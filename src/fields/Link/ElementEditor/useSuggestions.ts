@@ -32,7 +32,7 @@ export default function useAnchors(options: FetchAnchorsOptions) {
       setResult({
         anchors,
         options: anchors.map((anchor) => ({
-          key: anchor.id ? `#@id:${anchor.id}` : anchor.anchor,
+          key: anchor.id ? anchor.id : anchor.anchor,
           label: anchor.title || anchor.anchor,
         })),
         suggestions: anchors.map((anchor) => anchor.anchor),
