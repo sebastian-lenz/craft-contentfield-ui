@@ -120,6 +120,7 @@ export class OEmbedWidget extends React.Component<Props, State> {
     this.setState({ mode: 'loading' });
 
     const { apiEndpoint, model, field } = this.props;
+    const glue = apiEndpoint.indexOf('?') === -1 ? '?' : '&';
     const params = [
       `schema=${encodeURIComponent(model.__type)}`,
       `field=${encodeURIComponent(field.name)}`,
@@ -129,7 +130,7 @@ export class OEmbedWidget extends React.Component<Props, State> {
     const request = new XMLHttpRequest();
     request.onreadystatechange = () => this.handleRequestStateChange(request);
     request.onerror = () => this.handleRequestError();
-    request.open('GET', `${apiEndpoint}&${params.join('&')}`);
+    request.open('GET', `${apiEndpoint}${glue}${params.join('&')}`);
     request.send();
 
     if (this.request) this.request.abort();
