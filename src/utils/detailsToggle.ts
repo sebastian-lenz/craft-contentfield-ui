@@ -34,19 +34,28 @@ function saveState(state: DetailsState) {
 (function () {
   const state = loadState();
   const container = document.getElementById('main-content');
-  if (!container) {
+  const actions = document.getElementById('action-buttons');
+  if (!actions || !container) {
     return;
   }
 
-  const button = document.createElement('div');
-  button.className = `tcfDetailsToggle btn`;
-  button.innerHTML = '<div class="tcfIcon craft">general</div>';
+  const button = document.createElement('button');
+  button.className = `btn`;
+  button.type = 'button';
+  button.innerHTML = '<span class="tcfIcon craft">sidebar-right</span>';
   button.addEventListener('click', () => {
     state.isCollapsed = !state.isCollapsed;
     saveState(state);
     applyState(state, container, button);
   });
 
-  container.insertBefore(button, container.firstElementChild);
+  const group = document.createElement('div');
+  group.className = 'tcfDetailsToggle';
+  group.append(button);
+  actions.insertBefore(
+    group,
+    actions.querySelector('#save-btn-container') || actions.firstElementChild
+  );
+
   applyState(state, container, button);
 })();
