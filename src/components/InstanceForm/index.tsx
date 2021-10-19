@@ -64,7 +64,10 @@ export function InstanceForm({
 
   for (const name of names) {
     const field = schema.fields[name];
-    const errors = model.__errors[name] || null;
+    const errors = model.__errors.hasOwnProperty(name)
+      ? model.__errors[name] || null
+      : null;
+
     const { isAlwaysPlainField: isAlwaysCompact } = fields.getDefinition(field);
 
     if (!currentGroup || field.group) {
@@ -106,7 +109,7 @@ export function InstanceForm({
     );
   }
 
-  const children = groups.sort(getGroupSort).map(group => (
+  const children = groups.sort(getGroupSort).map((group) => (
     <FieldGroup
       isBorderless={isBorderless}
       key={group.index}
