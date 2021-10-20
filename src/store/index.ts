@@ -10,6 +10,8 @@ export function createRootState(): RootState {
         oembed: '',
         translate: '',
       },
+      csrfTokenName: '',
+      csrfTokenValue: '',
       disabled: false,
       elementId: null,
       elementSiteId: 0,
