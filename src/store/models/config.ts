@@ -23,6 +23,8 @@ export interface Config {
     oembed: string;
     translate: string;
   };
+  csrfTokenName: string;
+  csrfTokenValue: string;
   disabled: boolean;
   elementId: number | null;
   elementSiteId: number | null;

@@ -1,4 +1,5 @@
 export interface TranslateOptions {
+  csrfParams?: { [name: string]: string };
   endpoint: string;
   source: string;
   target: string;
@@ -17,19 +18,26 @@ export default async function fetchTranslation(
     return text;
   }
 
-  const { endpoint, ...baseParams } = options;
-  const params = { ...baseParams, text };
-  const query = Object.keys(params)
-    .map(key => `${key}=${encodeURIComponent((params as any)[key])}`)
-    .join('&');
+  const { endpoint, csrfParams = {}, ...baseParams } = options;
+  const params: { [key: string]: string } = {
+    ...baseParams,
+    ...csrfParams,
+    text,
+  };
 
-  return new Promise<string>(resolve => {
-    fetch(`${endpoint}&${query}`)
-      .then(value => value.json())
-      .then(value => {
+  const body = new FormData();
+  Object.keys(params).forEach((key) => body.append(key, params[key]));
+
+  return new Promise<string>((resolve) => {
+    fetch(endpoint, {
+      body,
+      method: 'post',
+    })
+      .then((value) => value.json())
+      .then((value) => {
         resolve(value && value.data ? value.data : text);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(`Translator returned an error: ${error}`);
         errorCount += 1;
         resolve(text);

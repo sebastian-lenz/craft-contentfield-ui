@@ -13,6 +13,7 @@ import { TranslateOptions } from '../utils/fetchTranslation';
 
 export interface SynchronizeOptions {
   arrayOrphanMode?: ArrayOrphanMode;
+  csrfParams?: { [name: string]: string };
   siteId: number;
   translate?: TranslateOptions;
   verbose?: boolean;
@@ -44,9 +45,15 @@ async function applySynchronize(
   // Make sure sync target is a valid model for us
   if (
     !isModel(data) ||
-    !config.rootSchemas.some(type => type === data.__type)
+    !config.rootSchemas.some((type) => type === data.__type)
   ) {
     throw new Error('Selected target site does not contain a valid model.');
+  }
+
+  if (options.translate) {
+    options.translate.csrfParams = {
+      [config.csrfTokenName]: config.csrfTokenValue,
+    };
   }
 
   // If model types are different, clone the target, otherwise sync
