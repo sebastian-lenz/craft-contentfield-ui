@@ -15,6 +15,7 @@ export default function ReferenceWidget({
 }: Props) {
   return (
     <ElementSelect
+      allowSelfReference={field.allowSelfReference}
       criteria={field.criteria}
       disabled={disabled}
       data={data}

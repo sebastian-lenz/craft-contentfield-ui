@@ -9,6 +9,7 @@ import FieldDefinition, {
 } from '../FieldDefinition';
 
 export interface ReferenceField extends Field {
+  allowSelfReference?: boolean;
   criteria: Craft.BaseElementSelectCriteria | null;
   elementType: string;
   limit?: number | null;
