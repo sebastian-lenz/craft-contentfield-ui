@@ -2,6 +2,7 @@ import * as React from 'react';
 import cx from 'classnames';
 
 import fields from '../../fields';
+import isError from '../../store/utils/isError';
 import toHTML from '../../utils/toHTML';
 import { InstanceField } from '../../fields/Instance';
 import { Model, Reference, Schemas } from '../../store/models';
@@ -55,9 +56,7 @@ export default React.memo(
             <span className="tcfIcon material">error</span>
             <span>Could not render preview.</span>
           </p>
-          {error && typeof error === 'object' && 'message' in error ? (
-            <pre>{error.message}</pre>
-          ) : null}
+          {isError(error) ? <pre>{error.message}</pre> : null}
         </>
       );
     }

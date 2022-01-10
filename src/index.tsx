@@ -42,7 +42,7 @@ const api = {
 
       const redux = createStore(
         store,
-        loadRootState(script, field),
+        loadRootState(script, field) as any,
         applyMiddleware(thunk)
       );
 
@@ -71,8 +71,8 @@ const api = {
         </Provider>,
         root
       );
-    } catch (error) {
-      console.error('Could not start content editor: ' + error.message);
+    } catch (error: any) {
+      console.error('Could not start content editor.', error);
     }
   },
   getInstanceApi: (uuid: string) => {
