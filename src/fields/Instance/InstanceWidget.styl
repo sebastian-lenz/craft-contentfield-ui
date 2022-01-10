@@ -5,13 +5,14 @@
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2)
 
 .tcfInstanceWidget--collapsiblePanel
+  depth-colors()
   position: relative
   overflow: hidden
 
   background: #f1f5f8
   border-radius: 5px
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2)
-  
+
   &.isExpanded:not(.depth-1)
     background: #fff
 
@@ -21,10 +22,6 @@
     position: absolute
     top: 0
     left: 0
-    height: 36px 
-    
-    border-left: 3px solid $primary-color
-
-  &.isExpanded.depth-1:after
-    height: auto
     bottom: 0
+    
+    border-left: 3px solid var(--tcf-primary-color)
