@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import uuid from '../../store/utils/uuid';
+import Redactor from '../../components/Redactor';
 import { RedactorField } from './index';
 import { RootState } from '../../store/models';
 import { WidgetProps } from '../FieldDefinition';
-import Redactor from '../../components/Redactor';
 
 export type ExternalProps = WidgetProps<RedactorField>;
 
