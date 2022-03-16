@@ -13,7 +13,7 @@ import { Site, RootState } from '../../store/models';
 import { synchronize } from '../../store/actions';
 import { SynchronizeOptions } from '../../store/actions/synchronize';
 import { TranslateOptions } from '../../store/utils/fetchTranslation';
-import { ArrayOrphanMode } from '../../store/utils/synchronizeModels';
+import { ArrayOrphanMode, SyncMode } from '../../store/utils/synchronizeModels';
 
 function arrayOrphanModes() {
   return [
@@ -32,6 +32,18 @@ function arrayOrphanModes() {
   ];
 }
 
+function syncModes() {
+  return [
+    {
+      key: 'sync' as SyncMode,
+      label: translate('Compare elements, adds newly created elements'),
+    },
+    {
+      key: 'clone' as SyncMode,
+      label: translate('Clone the source, overwrites everything'),
+    },
+  ];
+}
 export type ExternalProps = {
   onClose: () => void;
 };
@@ -47,6 +59,7 @@ export type Props = ExternalProps & {
 export interface State {
   arrayOrphanMode: ArrayOrphanMode;
   site: Site | null;
+  syncMode: SyncMode;
   useTranslator: boolean;
 }
 
@@ -57,13 +70,14 @@ export class Options extends React.Component<Props, State> {
     this.state = {
       arrayOrphanMode: 'hide',
       site: props.availableSites[0] || null,
+      syncMode: 'sync',
       useTranslator: false,
     };
   }
 
   handleApply = (event: React.SyntheticEvent) => {
     const { currentSite, endpoint } = this.props;
-    const { arrayOrphanMode, site, useTranslator } = this.state;
+    const { arrayOrphanMode, site, syncMode, useTranslator } = this.state;
     if (!site) return;
 
     let translate: TranslateOptions | undefined;
@@ -82,6 +96,7 @@ export class Options extends React.Component<Props, State> {
     this.props.onSynchronize({
       arrayOrphanMode,
       siteId: site.id,
+      syncMode,
       translate,
       verbose: 'altKey' in event && (event as any).altKey,
     });
@@ -95,14 +110,18 @@ export class Options extends React.Component<Props, State> {
     this.setState({ site });
   };
 
+  handleSyncModeChange = (syncMode: SyncMode) => {
+    this.setState({ syncMode });
+  };
+
   handleToggleTranslator = (useTranslator: boolean) => {
     this.setState({ useTranslator });
   };
 
   render() {
     const { availableSites, currentSite, hasTranslator, onClose } = this.props;
-    const { arrayOrphanMode, site, useTranslator } = this.state;
-    const siteOptions = availableSites.map(site => ({
+    const { arrayOrphanMode, site, syncMode, useTranslator } = this.state;
+    const siteOptions = availableSites.map((site) => ({
       label: site.label,
       key: site,
     }));
@@ -126,18 +145,35 @@ export class Options extends React.Component<Props, State> {
                 value={site}
               />
             </FieldPanel>
+
             <FieldPanel
               instructions={translate(
-                'Defines what happens to elements that do not exist in the selected language.'
+                'Defines whether the synchronization should compare individual elements or clone the entire source.'
               )}
-              label={translate('Orphaned elements')}
+              label={translate('Synchronization mode')}
             >
               <Select
-                onChange={this.handleArrayOrphanModeChange}
-                options={arrayOrphanModes()}
-                value={arrayOrphanMode}
+                onChange={this.handleSyncModeChange}
+                options={syncModes()}
+                value={syncMode}
               />
             </FieldPanel>
+
+            {syncMode === 'sync' ? (
+              <FieldPanel
+                instructions={translate(
+                  'Defines what happens to elements that do not exist in the selected language.'
+                )}
+                label={translate('Orphaned elements')}
+              >
+                <Select
+                  onChange={this.handleArrayOrphanModeChange}
+                  options={arrayOrphanModes()}
+                  value={arrayOrphanMode}
+                />
+              </FieldPanel>
+            ) : null}
+
             {site && currentSite && site.language !== currentSite.language ? (
               <FieldPanel
                 instructions={translate(
@@ -171,21 +207,19 @@ export class Options extends React.Component<Props, State> {
 
 export default connect(
   (state: RootState) => {
-    const {
-      apiEndpoints,
-      elementSiteId,
-      hasTranslator,
-      supportedSites,
-    } = state.config;
+    const { apiEndpoints, elementSiteId, hasTranslator, supportedSites } =
+      state.config;
 
     return {
-      availableSites: supportedSites.filter(site => site.id !== elementSiteId),
-      currentSite: supportedSites.find(site => site.id === elementSiteId),
+      availableSites: supportedSites.filter(
+        (site) => site.id !== elementSiteId
+      ),
+      currentSite: supportedSites.find((site) => site.id === elementSiteId),
       endpoint: apiEndpoints.translate,
       hasTranslator,
     };
   },
-  dispatch => ({
+  (dispatch) => ({
     onSynchronize: (options: SynchronizeOptions) =>
       dispatch(synchronize(options)),
   })

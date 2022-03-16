@@ -8,6 +8,8 @@ import { TranslateOptions } from './fetchTranslation';
 
 export type ArrayOrphanMode = 'none' | 'hide' | 'remove';
 
+export type SyncMode = 'clone' | 'sync';
+
 export interface SynchronizeOptions {
   arrayOrphanMode?: ArrayOrphanMode;
   schemas: Schemas;

@@ -4,23 +4,25 @@ import addReferences from './addReferences';
 import cloneModel from '../utils/cloneModel';
 import fetchSite from '../utils/fetchSite';
 import isModel from '../utils/isModel';
-import synchronizeModels, { ArrayOrphanMode } from '../utils/synchronizeModels';
+import synchronizeModels from '../utils/synchronizeModels';
 import updateSync from './updateSync';
 import updateValue from './updateValue';
 import { RootState } from '../models';
 import { AnyAction } from './index';
 import { TranslateOptions } from '../utils/fetchTranslation';
+import type { ArrayOrphanMode, SyncMode } from '../utils/synchronizeModels';
 
 export interface SynchronizeOptions {
   arrayOrphanMode?: ArrayOrphanMode;
   csrfParams?: { [name: string]: string };
   siteId: number;
+  syncMode: SyncMode;
   translate?: TranslateOptions;
   verbose?: boolean;
 }
 
 async function applySynchronize(
-  { siteId, ...options }: SynchronizeOptions,
+  { siteId, syncMode, ...options }: SynchronizeOptions,
   dispatch: Dispatch,
   getState: () => RootState
 ) {
@@ -57,7 +59,9 @@ async function applySynchronize(
   }
 
   // If model types are different, clone the target, otherwise sync
-  const isClone = !isModel(model) || model.__type !== data.__type;
+  const isClone =
+    !isModel(model) || model.__type !== data.__type || syncMode === 'clone';
+
   const syncedModel = isClone
     ? await cloneModel({
         ...options,
