@@ -31,6 +31,7 @@ export interface Config {
   fieldHandle: string;
   googleMapsApiKey?: string;
   hasTranslator: boolean;
+  hideSyncButton?: boolean;
   references: Array<Reference>;
   rootSchemas: Array<string>;
   supportedSites: Array<Site>;

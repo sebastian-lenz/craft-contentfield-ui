@@ -19,7 +19,7 @@ export default function Root() {
   const dispatch = useDispatch();
   const model = useSelector((state: RootState) => state.model);
   const overlay = useSelector((state: RootState) => state.overlay);
-  const { disabled, rootSchemas, supportedSites } = useSelector(
+  const { disabled, hideSyncButton, rootSchemas, supportedSites } = useSelector(
     (state: RootState) => state.config
   );
 
@@ -39,7 +39,7 @@ export default function Root() {
   return (
     <DndProvider backend={HTML5Backend}>
       <ExpandedStateProvider>
-        {canSynchronize && !disabled ? (
+        {canSynchronize && !disabled && !hideSyncButton ? (
           <div className="tcfRoot--options">
             <ButtonFlat onClick={handleShowSynchronize} outline>
               <Icon name="material:sync" />
