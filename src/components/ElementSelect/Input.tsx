@@ -1,8 +1,11 @@
 import * as React from 'react';
 
+import translate from '../../store/utils/translate';
 import uuid from '../../store/utils/uuid';
 import { Reference } from '../../store/models';
 import { Props } from './index';
+
+import './index.styl';
 
 export interface AddOptions {
   elements: Array<Reference>;
@@ -170,9 +173,13 @@ export default class Input extends React.Component<Props> {
 
   render() {
     return (
-      <div id={this.uuid} className="elementselect" ref={this.setElement}>
+      <div
+        id={this.uuid}
+        className="tcfElementSelect elementselect"
+        ref={this.setElement}
+      >
         <div className="elements" />
-        <div className="btn add icon dashed">Choose</div>
+        <div className="btn add icon dashed">{translate('Choose')}</div>
       </div>
     );
   }
