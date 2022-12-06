@@ -14,6 +14,7 @@ export interface ExternalProps {
   elementType: string;
   limit: number | null;
   modalStorageKey?: string | null;
+  showSiteMenu?: boolean | string;
   sources: string[] | null;
   onUpdate: (references: Array<number>) => void;
   viewMode: 'large' | 'small';

@@ -14,6 +14,7 @@ export interface ReferenceField extends Field {
   elementType: string;
   limit?: number | null;
   modalStorageKey?: string | null;
+  showSiteMenu?: boolean | string;
   sources?: string[] | null;
   type: 'reference';
   viewMode: 'large' | 'small';

@@ -13,6 +13,7 @@ export default function ReferenceWidget({
   model,
   onUpdate,
 }: Props) {
+  console.log(field);
   return (
     <ElementSelect
       allowSelfReference={field.allowSelfReference}
@@ -25,6 +26,7 @@ export default function ReferenceWidget({
         field.modalStorageKey || `tcf_${model.__type}_${field.name}`
       }
       onUpdate={onUpdate}
+      showSiteMenu={field.showSiteMenu}
       sources={field.sources || null}
       viewMode={field.viewMode}
     />
