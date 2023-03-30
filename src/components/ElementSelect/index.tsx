@@ -8,12 +8,15 @@ import { RootState, Reference } from '../../store/models';
 
 export interface ExternalProps {
   allowSelfReference?: boolean;
+  condition?: any;
   criteria?: Craft.BaseElementSelectCriteria | null;
   data: Array<number> | undefined;
   disabled?: boolean;
   elementType: string;
   limit: number | null;
   modalStorageKey?: string | null;
+  referenceElementId?: number | null;
+  referenceElementSiteId?: number | null;
   showSiteMenu?: boolean | string;
   sources: string[] | null;
   onUpdate: (references: Array<number>) => void;

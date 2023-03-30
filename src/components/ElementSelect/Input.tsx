@@ -139,10 +139,13 @@ export default class Input extends React.Component<Props> {
     if (element) {
       const {
         allowSelfReference,
+        condition = null,
         criteria,
         elementType,
         limit = null,
         modalStorageKey = null,
+        referenceElementId = null,
+        referenceElementSiteId = null,
         showSiteMenu,
         sourceElementId,
         sources,
@@ -150,12 +153,15 @@ export default class Input extends React.Component<Props> {
       } = this.props;
 
       instance = new Craft.BaseElementSelectInput({
+        condition,
         criteria,
         elementType: elementType,
         id: this.uuid,
         limit,
         modalStorageKey,
         name: this.uuid,
+        referenceElementId,
+        referenceElementSiteId,
         showSiteMenu,
         sources,
         sourceElementId: allowSelfReference ? null : sourceElementId,

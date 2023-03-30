@@ -17,6 +17,7 @@ export default function ReferenceWidget({
   return (
     <ElementSelect
       allowSelfReference={field.allowSelfReference}
+      condition={field.condition}
       criteria={field.criteria}
       disabled={disabled}
       data={data}
@@ -26,6 +27,8 @@ export default function ReferenceWidget({
         field.modalStorageKey || `tcf_${model.__type}_${field.name}`
       }
       onUpdate={onUpdate}
+      referenceElementId={field.referenceElementId}
+      referenceElementSiteId={field.referenceElementSiteId}
       showSiteMenu={field.showSiteMenu}
       sources={field.sources || null}
       viewMode={field.viewMode}

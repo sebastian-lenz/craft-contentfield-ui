@@ -10,10 +10,13 @@ import FieldDefinition, {
 
 export interface ReferenceField extends Field {
   allowSelfReference?: boolean;
+  condition: any;
   criteria: Craft.BaseElementSelectCriteria | null;
   elementType: string;
   limit?: number | null;
   modalStorageKey?: string | null;
+  referenceElementId: number | null;
+  referenceElementSiteId: number | null;
   showSiteMenu?: boolean | string;
   sources?: string[] | null;
   type: 'reference';
