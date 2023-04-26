@@ -59,7 +59,7 @@ export default function Header({
   if (schema) {
     handleItems.push(<Icon key="icon" name={schema.icon} />);
 
-    if (schema.previewImage) {
+    if (schema.previewImages && schema.previewImages.length) {
       handleItems.push(
         <InstancePreviewImage key="image" model={model} schema={schema} />
       );

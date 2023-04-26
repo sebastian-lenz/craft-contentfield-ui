@@ -13,7 +13,6 @@ export default function ReferenceWidget({
   model,
   onUpdate,
 }: Props) {
-  console.log(field);
   return (
     <ElementSelect
       allowSelfReference={field.allowSelfReference}

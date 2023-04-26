@@ -31,7 +31,7 @@ export interface Schema {
   icon: string;
   label: string;
   preview: string | null;
-  previewImage?: string | null;
+  previewImages?: string[] | null;
   previewLabel?: string | null;
   previewLabelTemplate: Handlebars.TemplateDelegate | null;
   previewTemplate: Handlebars.TemplateDelegate | null;

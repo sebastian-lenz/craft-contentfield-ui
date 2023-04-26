@@ -2,12 +2,12 @@ import OEmbedWidget from './OEmbedWidget';
 import { Field } from '../../store/models';
 import { isOEmbed, OEmbed } from './OEmbed';
 
+import OEmbedPreview from './OEmbedPreview';
 import FieldDefinition, {
   CreateOptions,
   PreviewOptions,
   PreviewResult,
 } from '../FieldDefinition';
-import OEmbedPreview from './OEmbedPreview';
 
 export interface OEmbedField extends Field {
   type: 'oembed';
