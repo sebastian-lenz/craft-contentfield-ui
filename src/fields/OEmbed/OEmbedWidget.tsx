@@ -88,7 +88,9 @@ export class OEmbedWidget extends React.Component<Props, State> {
       info = (
         <div className="tcfOEmbedWidget--info">
           {thumbnail_url ? (
-            <img className="tcfOEmbedWidget--infoImage" src={thumbnail_url} />
+            <div className="tcfOEmbedWidget--infoImagePanel">
+              <img className="tcfOEmbedWidget--infoImage" src={thumbnail_url} />
+            </div>
           ) : null}
           <div className="tcfOEmbedWidget--infoContent">
             <div className="tcfOEmbedWidget--infoTitle">{title}</div>

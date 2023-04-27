@@ -155,7 +155,7 @@ export default class Input extends React.Component<Props> {
       instance = new Craft.BaseElementSelectInput({
         condition,
         criteria,
-        elementType: elementType,
+        elementType,
         id: this.uuid,
         limit,
         modalStorageKey,
