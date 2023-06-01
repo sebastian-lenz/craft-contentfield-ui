@@ -4,6 +4,7 @@ import cx from 'classnames';
 import getThumbLoader from '../../utils/getThumbLoader';
 import { Reference } from '../../store/models';
 import { Props as SharedProps } from './index';
+import { referenceEuqals } from '../ElementSelect/utils';
 
 export interface Props extends SharedProps {
   reference: Reference;
@@ -18,8 +19,10 @@ export function createAssetPreview(
     return null;
   }
 
-  const id = value[0];
-  const reference = references.find((reference) => reference.id === id);
+  const reference = references.find((reference) =>
+    referenceEuqals(reference, value[0])
+  );
+
   if (!reference || !reference.hasThumb) {
     return null;
   }
