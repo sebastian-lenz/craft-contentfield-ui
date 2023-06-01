@@ -19,22 +19,28 @@ export default function ElementEditor({
   modalStorageKey = null,
   onUpdate,
 }: Props) {
-  if (linkType.allowHash) {
-  }
+  const data = link.elementId
+    ? [{ id: link.elementId, siteId: link.siteId }]
+    : [];
 
   return (
     <div className="tcfLinkWidget--editor">
       <ElementSelect
         allowSelfReference={linkType.allowSelf}
         criteria={linkType.criteria}
-        data={[link.elementId]}
+        data={data}
         disabled={disabled}
         elementType={linkType.elementType}
         limit={1}
         modalStorageKey={modalStorageKey}
-        onUpdate={(ids) =>
-          onUpdate({ ...link, elementId: ids.length ? ids[0] : 0 })
+        onUpdate={(references) =>
+          onUpdate({
+            ...link,
+            elementId: references.length ? references[0].id : 0,
+            siteId: references.length ? references[0].siteId : 0,
+          })
         }
+        showSiteMenu={linkType.showSiteMenu}
         sources={linkType.sources}
         viewMode="small"
       />
@@ -46,6 +52,7 @@ export default function ElementEditor({
             elementId={link.elementId}
             mode={linkType.allowHash}
             onChange={(hash) => onUpdate({ ...link, hash })}
+            siteId={link.siteId}
             value={link.hash}
           />
         </div>

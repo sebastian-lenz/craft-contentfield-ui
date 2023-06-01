@@ -1,3 +1,8 @@
+export interface ReferenceValue {
+  id: number;
+  siteId: number;
+}
+
 export interface Reference {
   $element: JQuery;
   element: string;

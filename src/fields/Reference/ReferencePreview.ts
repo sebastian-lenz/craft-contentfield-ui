@@ -3,6 +3,7 @@ import { hbsProperty, hbsMethod } from '../../utils/hbsOptions';
 import { Reference } from '../../store/models';
 import { ReferencePreviewOptions } from './index';
 import { SafeString } from 'handlebars';
+import { referenceEuqals } from '../../components/ElementSelect/utils';
 
 function createPreviewItems({
   context: { references },
@@ -13,9 +14,10 @@ function createPreviewItems({
   if (!field) return result;
 
   const { elementType } = field;
-  for (const id of value) {
+  for (const item of value) {
     const reference = references.find(
-      (reference) => reference.id === id && reference.type === elementType
+      (reference) =>
+        referenceEuqals(reference, item) && reference.type === elementType
     );
 
     if (reference) {

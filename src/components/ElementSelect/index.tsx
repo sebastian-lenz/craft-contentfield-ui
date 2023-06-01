@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import Display from './Display';
 import Input from './Input';
 import { addReferences } from '../../store/actions';
-import { RootState, Reference } from '../../store/models';
+import { RootState, Reference, ReferenceValue } from '../../store/models';
 
 export interface ExternalProps {
   allowSelfReference?: boolean;
   condition?: any;
   criteria?: Craft.BaseElementSelectCriteria | null;
-  data: Array<number> | undefined;
+  data?: Array<ReferenceValue>;
   disabled?: boolean;
   elementType: string;
   limit: number | null;
@@ -19,7 +19,7 @@ export interface ExternalProps {
   referenceElementSiteId?: number | null;
   showSiteMenu?: boolean | string;
   sources: string[] | null;
-  onUpdate: (references: Array<number>) => void;
+  onUpdate: (references: Array<ReferenceValue>) => void;
   viewMode: 'large' | 'small';
 }
 

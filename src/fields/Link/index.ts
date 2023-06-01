@@ -22,6 +22,7 @@ export default class LinkFieldType extends FieldDefinition<LinkField, Link> {
       elementId: 0,
       hash: '',
       openInNewWindow: false,
+      siteId: 0,
       type: 'url',
       url: '',
     };

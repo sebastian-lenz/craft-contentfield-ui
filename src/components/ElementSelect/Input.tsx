@@ -2,10 +2,11 @@ import * as React from 'react';
 
 import translate from '../../store/utils/translate';
 import uuid from '../../store/utils/uuid';
-import { Reference } from '../../store/models';
+import { Reference, ReferenceValue } from '../../store/models';
 import { Props } from './index';
 
 import './index.styl';
+import { referenceEuqals } from './utils';
 
 export interface AddOptions {
   elements: Array<Reference>;
@@ -13,18 +14,18 @@ export interface AddOptions {
 
 export default class Input extends React.Component<Props> {
   element: HTMLDivElement | null = null;
-  renderedIds: Array<number> = [];
+  rendered: Array<ReferenceValue> = [];
   uuid: string = `element-${uuid()}`;
   instance: Craft.BaseElementSelectInput | null = null;
   isRendering: boolean = false;
 
   componentDidUpdate() {
-    const { renderedIds } = this;
-    const actualIds = this.props.data || [];
+    const { rendered } = this;
+    const values = this.props.data || [];
 
     if (
-      actualIds.length !== renderedIds.length ||
-      !actualIds.every((id, index) => id === renderedIds[index])
+      values.length !== rendered.length ||
+      !values.every((value, index) => referenceEuqals(value, rendered[index]))
     ) {
       this.createReferences();
     }
@@ -38,19 +39,22 @@ export default class Input extends React.Component<Props> {
 
     this.isRendering = true;
 
-    const renderedIds: Array<number> = [];
+    const rendered: Array<ReferenceValue> = [];
     instance.$elementsContainer.empty();
 
     for (const reference of this.getStoredReferences()) {
       const element = instance.createNewElement(reference);
       element.find('input').prop('disabled', true);
       instance.appendElement(element);
-      renderedIds.push(reference.id);
+      rendered.push({
+        id: reference.id,
+        siteId: reference.siteId,
+      });
     }
 
     instance.resetElements();
 
-    this.renderedIds = renderedIds;
+    this.rendered = rendered;
     this.isRendering = false;
   }
 
@@ -62,9 +66,9 @@ export default class Input extends React.Component<Props> {
       return result;
     }
 
-    for (const id of data) {
+    for (const value of data) {
       const reference = references.find(
-        (ref) => ref.id === id && ref.type === elementType
+        (ref) => referenceEuqals(ref, value) && ref.type === elementType
       );
 
       if (reference) {
@@ -75,24 +79,24 @@ export default class Input extends React.Component<Props> {
     return result;
   }
 
-  getSelectedIds(): Array<number> {
+  getSelected(): Array<ReferenceValue> {
     const { instance } = this;
     if (!instance) return [];
 
     // getSelectedElementIds() returns elements in the wrong order
     // getElements() returns deleted elements
-    const ids = [];
-    const actualIds = instance.getSelectedElementIds();
+    const values: Array<ReferenceValue> = [];
     const $elements = instance.getElements();
 
     for (let index = 0; index < $elements.length; index++) {
-      const id = parseInt($elements.eq(index).data('id'));
-      if (actualIds.indexOf(id) !== -1) {
-        ids.push(id);
-      }
+      const $element = $elements.eq(index);
+      values.push({
+        id: parseInt($element.data('id')),
+        siteId: parseInt($element.data('site-id')),
+      });
     }
 
-    return ids;
+    return values;
   }
 
   handleAdd = ({ elements }: AddOptions) => {
@@ -113,9 +117,9 @@ export default class Input extends React.Component<Props> {
   handleChange = () => {
     if (this.isRendering) return;
     const { onUpdate } = this.props;
-    const ids = this.getSelectedIds();
+    const ids = this.getSelected();
 
-    this.renderedIds = ids;
+    this.rendered = ids;
 
     onUpdate(ids);
   };

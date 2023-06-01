@@ -19,6 +19,7 @@ export interface ElementLinkType extends LinkType {
   allowSelf?: boolean;
   criteria?: Craft.BaseElementSelectCriteria | null;
   elementType: string;
+  showSiteMenu?: boolean;
   sources: Array<string> | null;
   type: 'element';
 }
@@ -27,6 +28,7 @@ export interface Link {
   elementId: number;
   hash: string;
   openInNewWindow: boolean;
+  siteId: number;
   type: string;
   url: string;
 }

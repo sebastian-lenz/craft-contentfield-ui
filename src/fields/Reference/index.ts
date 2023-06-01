@@ -1,7 +1,8 @@
 import ReferencePreview from './ReferencePreview';
 import ReferenceWidget from './ReferenceWidget';
-import { Field } from '../../store/models';
+import { Field, ReferenceValue } from '../../store/models';
 
+import { isReferenceValue } from '../../components/ElementSelect/utils';
 import FieldDefinition, {
   PreviewResult,
   PreviewOptions,
@@ -25,12 +26,12 @@ export interface ReferenceField extends Field {
 
 export type ReferencePreviewOptions = PreviewOptions<
   ReferenceField,
-  Array<number>
+  Array<ReferenceValue>
 >;
 
 export default class ReferenceFieldType extends FieldDefinition<
   ReferenceField,
-  Array<number>
+  Array<ReferenceValue>
 > {
   constructor() {
     super({
@@ -38,14 +39,12 @@ export default class ReferenceFieldType extends FieldDefinition<
     });
   }
 
-  createValue(options: CreateOptions<ReferenceField>): Array<number> {
+  createValue(options: CreateOptions<ReferenceField>): Array<ReferenceValue> {
     return [];
   }
 
-  isValue(field: ReferenceField, value: any): value is Array<number> {
-    return (
-      Array.isArray(value) && value.every((value) => typeof value === 'number')
-    );
+  isValue(field: ReferenceField, value: any): value is Array<ReferenceValue> {
+    return Array.isArray(value) && value.every(isReferenceValue);
   }
 
   preview(options: ReferencePreviewOptions): PreviewResult {

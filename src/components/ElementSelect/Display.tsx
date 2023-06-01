@@ -3,15 +3,16 @@ import * as React from 'react';
 import getThumbLoader from '../../utils/getThumbLoader';
 import { Props } from './index';
 import { Reference } from '../../store/models';
+import { referenceEuqals } from './utils';
 
 function toReferences(props: Props) {
   const { data, elementType, references } = props;
   const result: Array<Reference> = [];
 
   if (Array.isArray(data)) {
-    for (const id of data) {
+    for (const value of data) {
       const reference = references.find(
-        ref => ref.id === id && ref.type === elementType
+        (ref) => referenceEuqals(value, ref) && ref.type === elementType
       );
 
       if (reference) {

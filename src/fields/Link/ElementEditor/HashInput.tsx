@@ -9,6 +9,7 @@ import { RootState } from '../../../store/models';
 
 export interface Props {
   apiEndpoint: string;
+  defaultSiteId: number | null;
   disabled?: boolean;
   elementId: number;
   mode: boolean | LinkHashMode;
@@ -19,6 +20,7 @@ export interface Props {
 
 export function HashInput({
   apiEndpoint,
+  defaultSiteId,
   disabled,
   elementId,
   mode,
@@ -29,7 +31,7 @@ export function HashInput({
   const { options, suggestions } = useAnchors({
     apiEndpoint,
     elementId,
-    siteId,
+    siteId: siteId || defaultSiteId,
   });
 
   if (mode === 'select') {
@@ -58,5 +60,5 @@ export function HashInput({
 
 export default connect((state: RootState) => ({
   apiEndpoint: state.config.apiEndpoints.anchors,
-  siteId: state.config.elementSiteId,
+  defaultSiteId: state.config.elementSiteId,
 }))(HashInput);

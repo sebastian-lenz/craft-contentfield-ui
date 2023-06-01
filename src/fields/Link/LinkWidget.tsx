@@ -28,6 +28,7 @@ export default function LinkWidget({
       elementId: 0,
       hash: '',
       openInNewWindow: false,
+      siteId: 0,
       type: '',
       url: '',
     };
