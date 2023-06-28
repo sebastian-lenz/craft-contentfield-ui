@@ -87,11 +87,17 @@ export default class Input extends React.Component<Props> {
     // getElements() returns deleted elements
     const values: Array<ReferenceValue> = [];
     const $elements = instance.getElements();
+    const selected = instance.getSelectedElementIds();
 
     for (let index = 0; index < $elements.length; index++) {
       const $element = $elements.eq(index);
+      const id = parseInt($element.data('id'));
+      if (selected.indexOf(id) === -1) {
+        continue;
+      }
+
       values.push({
-        id: parseInt($element.data('id')),
+        id,
         siteId: parseInt($element.data('site-id')),
       });
     }
