@@ -5,6 +5,8 @@ import { Accordion } from '../Accordion';
 
 import './index.styl';
 
+export const toolbarGroup = 'toolbar';
+
 export interface Props {
   children: React.ReactNode;
   isBorderless?: boolean;
@@ -31,7 +33,7 @@ export default function FieldGroup({
   } else if (
     !label ||
     label === '' ||
-    label === 'toolbar' ||
+    label === toolbarGroup ||
     label === 'default'
   ) {
     return (
