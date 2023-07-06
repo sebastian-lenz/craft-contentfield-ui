@@ -98,7 +98,7 @@ export class OEmbedWidget extends React.Component<Props, State> {
           </div>
         </div>
       );
-    } else {
+    } else if (oembed.url) {
       info = <ErrorMessage title="Invalid embed url" />;
     }
 

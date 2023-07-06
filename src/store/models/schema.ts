@@ -24,6 +24,7 @@ export interface FieldMap {
 export interface FieldGroup {
   label?: string;
   style?: StyleGroup | null;
+  type?: string;
 }
 
 export interface Schema {

@@ -1,8 +1,23 @@
 .tcfFieldGroup
-  padding: 12px
+  margin: 20px 0
+  
+  &:first-child
+    margin-top: 0
 
-  border: 1px solid rgba(0, 0, 20, 0.1)
-  border-radius: 2px
+  &:last-child
+    margin-bottom: 0
+
+  &.bordered
+    padding: 12px
+    
+    border: 1px solid rgba(0, 0, 20, 0.1)
+    border-radius: 2px
+
+  &.shadowed
+    padding: 12px
+
+    border-radius: 5px
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1)
 
 .tcfFieldGroup--label
   margin: 0 0 12px

@@ -83,13 +83,8 @@ export default class DetailsPanel extends React.Component<Props, State> {
 
   render() {
     const { className, itemClassName } = this.props;
-    const {
-      currentChildren,
-      currentUri,
-      inTransition,
-      lastChildren,
-      lastUri,
-    } = this.state;
+    const { currentChildren, currentUri, inTransition, lastChildren, lastUri } =
+      this.state;
 
     const items: Array<React.ReactNode> = [];
 

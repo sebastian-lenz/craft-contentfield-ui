@@ -31,6 +31,7 @@ export interface Group {
   label?: string;
   fields: Array<React.ReactNode>;
   style?: React.CSSProperties;
+  type?: string;
 }
 
 function getGroupSort(a: Group, b: Group) {
@@ -72,6 +73,7 @@ export function InstanceForm({
 
     if (!currentGroup || field.group) {
       const label = field.group ? field.group.label : undefined;
+      const type = field.group ? field.group.type : undefined;
       const style = field.group
         ? pickStyle(responsiveState, field.group.style)
         : undefined;
@@ -81,6 +83,7 @@ export function InstanceForm({
         label: label,
         fields: [],
         style,
+        type,
       };
 
       groups.push(currentGroup);
@@ -115,6 +118,7 @@ export function InstanceForm({
       key={group.index}
       label={group.label}
       style={group.style}
+      type={group.type}
     >
       {group.fields}
     </FieldGroup>
