@@ -15,8 +15,8 @@ export interface Props {
 }
 
 export default function InstancePreviewImage(props: Props) {
-  const references = useSelector((state: RootState) => state.config.references);
-  const preview = createPreview(props, references);
+  const state = useSelector((state: RootState) => state);
+  const preview = createPreview(props, state);
 
   return preview ? (
     preview
