@@ -21,7 +21,7 @@ export interface ReferenceField extends Field {
   showSiteMenu?: boolean | string;
   sources?: string[] | null;
   type: 'reference';
-  viewMode: 'large' | 'small';
+  viewMode: 'cards' | 'large' | 'list';
 }
 
 export type ReferencePreviewOptions = PreviewOptions<

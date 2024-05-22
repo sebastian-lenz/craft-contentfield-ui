@@ -1,11 +1,18 @@
+export type CardType = 'card' | 'largeChip' | 'smallChip';
+
+export interface Card {
+  html: string;
+  id: string;
+  script: string;
+}
+
 export interface ReferenceValue {
   id: number;
   siteId: number;
 }
 
 export interface Reference {
-  $element: JQuery;
-  element: string;
+  cards: { [type in CardType]: Card };
   hasThumb: boolean;
   id: number;
   label: string;
@@ -26,6 +33,7 @@ export interface Config {
     anchors: string;
     fetchSite: string;
     oembed: string;
+    reference: string;
     translate: string;
   };
   csrfTokenName: string;

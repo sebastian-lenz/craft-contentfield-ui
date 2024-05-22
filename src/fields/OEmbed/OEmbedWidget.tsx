@@ -9,6 +9,7 @@ import { RootState } from '../../store/models';
 import { WidgetProps } from '../FieldDefinition';
 
 import './OEmbedWidget.styl';
+import { createUrl } from '../../store/utils/createUrl';
 
 export type Props = WidgetProps<OEmbedField> & {
   apiEndpoint: string;
@@ -122,17 +123,16 @@ export class OEmbedWidget extends React.Component<Props, State> {
     this.setState({ mode: 'loading' });
 
     const { apiEndpoint, model, field } = this.props;
-    const glue = apiEndpoint.indexOf('?') === -1 ? '?' : '&';
-    const params = [
-      `schema=${encodeURIComponent(model.__type)}`,
-      `field=${encodeURIComponent(field.name)}`,
-      `url=${encodeURIComponent(this.getOEmbed().url)}`,
-    ];
+    const params = {
+      schema: model.__type,
+      field: field.name,
+      url: this.getOEmbed().url,
+    };
 
     const request = new XMLHttpRequest();
     request.onreadystatechange = () => this.handleRequestStateChange(request);
     request.onerror = () => this.handleRequestError();
-    request.open('GET', `${apiEndpoint}${glue}${params.join('&')}`);
+    request.open('GET', createUrl(apiEndpoint, params));
     request.send();
 
     if (this.request) this.request.abort();

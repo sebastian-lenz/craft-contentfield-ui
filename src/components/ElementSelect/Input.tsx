@@ -2,14 +2,25 @@ import * as React from 'react';
 
 import translate from '../../store/utils/translate';
 import uuid from '../../store/utils/uuid';
-import { Reference, ReferenceValue } from '../../store/models';
 import { Props } from './index';
+import { Reference, ReferenceValue } from '../../store/models';
+import { getCardByViewMode, referenceEuqals, toListClass } from './utils';
 
 import './index.styl';
-import { referenceEuqals } from './utils';
+
+export interface AddReference {
+  $element: JQuery;
+  $modalElement: JQuery;
+  hasThumb: boolean;
+  id: number;
+  label: string;
+  siteId: number;
+  status: string;
+  url: string;
+}
 
 export interface AddOptions {
-  elements: Array<Reference>;
+  elements: Array<AddReference>;
 }
 
 export default class Input extends React.Component<Props> {
@@ -37,13 +48,19 @@ export default class Input extends React.Component<Props> {
       return;
     }
 
-    this.isRendering = true;
-
+    const { viewMode } = this.props;
     const rendered: Array<ReferenceValue> = [];
+
+    this.isRendering = true;
     instance.$elementsContainer.empty();
 
     for (const reference of this.getStoredReferences()) {
-      const element = instance.createNewElement(reference);
+      const element = instance.createNewElement({
+        $element: $(getCardByViewMode(reference, viewMode)),
+        id: reference.id,
+        label: reference.label,
+      });
+
       element.find('input').prop('disabled', true);
       instance.appendElement(element);
       rendered.push({
@@ -106,16 +123,13 @@ export default class Input extends React.Component<Props> {
   }
 
   handleAdd = ({ elements }: AddOptions) => {
-    const { elementType, onAddReferences } = this.props;
-
+    const { onAddReferences } = this.props;
     this.handleChange();
 
     onAddReferences(
-      elements.map((reference) => ({
-        ...reference,
-        $element: $(reference.$element[0].outerHTML),
-        element: reference.$element[0].outerHTML,
-        type: elementType,
+      elements.map((element) => ({
+        id: element.id,
+        siteId: element.siteId,
       }))
     );
   };
@@ -156,10 +170,11 @@ export default class Input extends React.Component<Props> {
         modalStorageKey = null,
         referenceElementId = null,
         referenceElementSiteId = null,
+        showActionMenu = true,
         showSiteMenu,
         sourceElementId,
         sources,
-        viewMode = 'small',
+        viewMode = 'list',
       } = this.props;
 
       instance = new Craft.BaseElementSelectInput({
@@ -172,10 +187,11 @@ export default class Input extends React.Component<Props> {
         name: this.uuid,
         referenceElementId,
         referenceElementSiteId,
+        showActionMenu,
         showSiteMenu,
         sources,
         sourceElementId: allowSelfReference ? null : sourceElementId,
-        viewMode,
+        viewMode: viewMode == 'grid' ? 'cards' : viewMode,
       });
 
       this.instance = instance;
@@ -196,8 +212,11 @@ export default class Input extends React.Component<Props> {
         className="tcfElementSelect elementselect"
         ref={this.setElement}
       >
-        <div className="elements" />
-        <div className="btn add icon dashed">{translate('Choose')}</div>
+        <ul className={toListClass(this.props.viewMode)} />
+        <div className="flex flex-nowrap">
+          <button className="btn add icon dashed">{translate('Choose')}</button>
+          <div className="spinner hidden"></div>
+        </div>
       </div>
     );
   }

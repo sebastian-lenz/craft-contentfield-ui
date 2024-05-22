@@ -3,6 +3,7 @@ import { hbsMethod, hbsProperty } from '../../utils/hbsOptions';
 import { Location } from './Location';
 import { PreviewObject } from '../FieldDefinition';
 import { SafeString } from 'handlebars';
+import { createUrl } from '../../store/utils/createUrl';
 
 export default class LocationPreview implements PreviewObject {
   @hbsProperty
@@ -24,17 +25,17 @@ export default class LocationPreview implements PreviewObject {
       return new SafeString('');
     }
 
-    const params = [
-      `key=${key}`,
-      `center=${encodeURIComponent(`${latitude},${longitude}`)}`,
-      `markers=${encodeURIComponent(`size:small|${latitude},${longitude}`)}`,
-      `size=${width}x${height}`,
-      `zoom=15`,
-      `maptype=roadmap`,
-    ].join('&');
+    const url = createUrl('https://maps.googleapis.com/maps/api/staticmap', {
+      key,
+      center: `${latitude},${longitude}`,
+      markers: `size:small|${latitude},${longitude}`,
+      size: `${width}x${height}`,
+      zoom: 15,
+      maptype: 'roadmap',
+    });
 
     return new SafeString(`
-      <img src="https://maps.googleapis.com/maps/api/staticmap?${params}" width="${width}" height="${height}" />
+      <img src="${url}" width="${width}" height="${height}" />
     `);
   }
 

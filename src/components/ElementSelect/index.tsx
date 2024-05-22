@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 
 import Display from './Display';
 import Input from './Input';
-import { addReferences } from '../../store/actions';
+import { addReferences, fetchReferences } from '../../store/actions';
 import { RootState, Reference, ReferenceValue } from '../../store/models';
+
+export type ViewMode = 'cards' | 'grid' | 'large' | 'list';
 
 export interface ExternalProps {
   allowSelfReference?: boolean;
@@ -17,14 +19,15 @@ export interface ExternalProps {
   modalStorageKey?: string | null;
   referenceElementId?: number | null;
   referenceElementSiteId?: number | null;
+  showActionMenu?: boolean;
   showSiteMenu?: boolean | string;
   sources: string[] | null;
   onUpdate: (references: Array<ReferenceValue>) => void;
-  viewMode: 'large' | 'small';
+  viewMode: ViewMode;
 }
 
 export interface Props extends ExternalProps {
-  onAddReferences: (references: Array<Reference>) => void;
+  onAddReferences: (references: Array<ReferenceValue>) => void;
   references: Array<Reference>;
   sourceElementId: number | null;
 }
@@ -39,8 +42,8 @@ export default connect(
     sourceElementId: state.config.elementId,
   }),
   (dispatch) => ({
-    onAddReferences: (references: Array<Reference>) => {
-      dispatch(addReferences(references));
+    onAddReferences: (references: Array<ReferenceValue>) => {
+      dispatch(fetchReferences(references));
     },
   })
 )(ElementSelect);

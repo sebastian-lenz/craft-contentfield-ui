@@ -42,7 +42,7 @@ export default function ElementEditor({
         }
         showSiteMenu={linkType.showSiteMenu}
         sources={linkType.sources}
-        viewMode="small"
+        viewMode="list"
       />
       {linkType.allowHash ? (
         <div className="tcfLinkWidget--editorHash tcfInput--group">

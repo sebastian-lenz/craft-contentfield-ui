@@ -23,7 +23,7 @@ export function createAssetPreview(
     referenceEuqals(reference, value[0])
   );
 
-  if (!reference || !reference.hasThumb) {
+  if (!reference) {
     return null;
   }
 
@@ -31,21 +31,24 @@ export function createAssetPreview(
 }
 
 export function AssetPreview({ className, reference, size = 'small' }: Props) {
-  const element = React.useRef<HTMLDivElement>(null);
+  const ref = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    if (element.current) {
-      const $element = $('.element', element.current);
-      Craft.setElementSize($element, size);
+    if (ref.current) {
+      const $element = $('.element', ref.current);
       getThumbLoader().load($element);
     }
-  }, [element.current, reference]);
+  }, [ref.current, reference]);
+
+  const card = reference.cards[size === 'large' ? 'largeChip' : 'smallChip'];
 
   return (
     <div
       className={cx('tcfInstancePreviewImage', className, size)}
-      dangerouslySetInnerHTML={{ __html: reference.element }}
-      ref={element}
+      dangerouslySetInnerHTML={{
+        __html: card.html,
+      }}
+      ref={ref}
     />
   );
 }

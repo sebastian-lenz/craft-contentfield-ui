@@ -1,5 +1,6 @@
 import { Action } from 'redux';
 import { RootState, Reference } from '../models';
+import { referenceEuqals } from '../../components/ElementSelect/utils';
 
 export interface AddReferencesAction extends Action {
   references: Array<Reference>;
@@ -14,22 +15,15 @@ export function applyAddReferences(
   const scope = document.createElement('div');
 
   for (const reference of action.references) {
-    if (
-      !references.some(
-        ({ id, type }) => reference.id === id && reference.type === type
-      )
-    ) {
-      scope.innerHTML = reference.element;
-      const element = scope.firstElementChild;
-      if (element) {
-        element.removeAttribute('style');
-        reference.element = element.outerHTML;
-      }
+    const index = references.findIndex((existing) =>
+      referenceEuqals(existing, reference)
+    );
 
-      reference.$element = $(reference.element);
-      reference.hasThumb = reference.$element.hasClass('hasthumb');
-      references.push(reference);
+    if (index !== -1) {
+      references.slice(index, 1);
     }
+
+    references.push(reference);
   }
 
   return {

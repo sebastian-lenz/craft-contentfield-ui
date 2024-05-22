@@ -1,3 +1,4 @@
+import { createUrl } from './createUrl';
 import { Model, Reference } from '../models';
 
 export interface FetchSiteOptions {
@@ -25,14 +26,10 @@ export default function fetchSite({
   apiEndpoint,
   ...params
 }: FetchSiteOptions): Promise<FetchSiteResult> {
-  const query = Object.keys(params)
-    .map(key => `${key}=${encodeURIComponent((params as any)[key])}`)
-    .join('&');
-
   return new Promise((resolve, reject) => {
-    fetch(`${apiEndpoint}&${query}`)
-      .then(value => value.json())
-      .then(value => {
+    fetch(createUrl(apiEndpoint, params))
+      .then((value) => value.json())
+      .then((value) => {
         if (isFetchSiteResult(value)) {
           resolve(value);
         } else {
@@ -43,7 +40,7 @@ export default function fetchSite({
           );
         }
       })
-      .catch(error => {
+      .catch((error) => {
         reject(`${error}`);
       });
   });

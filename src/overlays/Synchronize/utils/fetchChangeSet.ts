@@ -1,4 +1,5 @@
 import { Model, Reference } from '../../../store/models';
+import { createUrl } from '../../../store/utils/createUrl';
 import { ChangeSet } from './createChangeSet';
 
 export interface FetchChangeSetOptions {
@@ -29,14 +30,11 @@ export default function fetchChangeSet({
   ...params
 }: FetchChangeSetOptions): Promise<ChangeSet> {
   const { siteId } = params;
-  const query = Object.keys(params)
-    .map(key => `${key}=${encodeURIComponent((params as any)[key])}`)
-    .join('&');
 
-  return new Promise(resolve => {
-    fetch(`${apiEndpoint}&${query}`)
-      .then(value => value.json())
-      .then(value => {
+  return new Promise((resolve) => {
+    fetch(createUrl(apiEndpoint, params))
+      .then((value) => value.json())
+      .then((value) => {
         if (isFetchResult(value)) {
           resolve({
             result: true,
@@ -53,7 +51,7 @@ export default function fetchChangeSet({
           });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         resolve({
           message: `${error}`,
           result: false,

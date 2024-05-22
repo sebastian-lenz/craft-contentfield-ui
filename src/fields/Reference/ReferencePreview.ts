@@ -3,7 +3,10 @@ import { hbsProperty, hbsMethod } from '../../utils/hbsOptions';
 import { Reference } from '../../store/models';
 import { ReferencePreviewOptions } from './index';
 import { SafeString } from 'handlebars';
-import { referenceEuqals } from '../../components/ElementSelect/utils';
+import {
+  getCardByViewMode,
+  referenceEuqals,
+} from '../../components/ElementSelect/utils';
 
 function createPreviewItems({
   context: { references },
@@ -41,12 +44,17 @@ export class ReferencePreviewItem {
     size: 'large' | 'small' = 'large',
     onlyThumb: boolean = true
   ): string {
-    const { reference } = this;
-    const $element = reference.$element.clone(false, true);
-    $element.removeClass('large removable small');
-    $element.addClass(size);
+    const el = getCardByViewMode(
+      this.reference,
+      size === 'large' ? 'large' : 'list'
+    );
 
-    const $thumb = $element.find('.elementthumb');
+    if (!el) {
+      return '';
+    }
+
+    el.classList.remove('removable');
+    const $thumb = $(el).find('.elementthumb');
     if ($thumb.length) {
       let image: HTMLImageElement = $thumb.find('img')[0] as HTMLImageElement;
       if (!image) {
@@ -64,7 +72,7 @@ export class ReferencePreviewItem {
       }</div>`;
     }
 
-    return $element[0].outerHTML;
+    return el.outerHTML;
   }
 
   @hbsMethod
@@ -77,8 +85,12 @@ export class ReferencePreviewItem {
 
   @hbsProperty
   get asBackground(): SafeString | null {
-    const { reference } = this;
-    const $thumb = reference.$element.find('.elementthumb');
+    const el = getCardByViewMode(this.reference, 'large');
+    if (!el) {
+      return null;
+    }
+
+    const $thumb = $(el).find('.elementthumb');
     const srcset = $thumb.attr('data-srcset');
     if (!srcset) return null;
 

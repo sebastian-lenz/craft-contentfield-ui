@@ -52,15 +52,6 @@ export default function loadRootState(
     status: 'idle',
   };
 
-  payload.config.references = payload.config.references.map((reference) => {
-    const $element = $(reference.element);
-    return {
-      ...reference,
-      $element,
-      hasThumb: $element.hasClass('hasthumb'),
-    };
-  });
-
   for (const name of Object.keys(payload.schemas)) {
     const schema = payload.schemas[name];
     schema.previewTemplate = toTemplate(schema.preview);

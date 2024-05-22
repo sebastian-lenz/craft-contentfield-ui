@@ -10,6 +10,7 @@ import uuidVisibility, {applyUuidVisibility, UuidVisibilityAction} from './uuidV
 import updateValue, { applyUpdateValue, UpdateValueAction } from './updateValue';
 import updateSync, { applyUpdateSync, UpdateSyncAction } from './updateSync';
 
+import fetchReferences from './fetchReferences';
 import synchronize from './synchronize';
 import toggleUserFavorite from './toggleUserFavorite'
 
@@ -53,6 +54,7 @@ export {
   updateSync,
   updateValue,
 
+  fetchReferences,
   synchronize,
   toggleUserFavorite,
 };

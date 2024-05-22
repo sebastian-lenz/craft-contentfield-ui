@@ -1,3 +1,5 @@
+import { createUrl } from './createUrl';
+
 export interface AnchorData {
   anchor: string;
   id?: string;
@@ -26,13 +28,8 @@ export default function fetchAnchors({
   apiEndpoint,
   ...params
 }: FetchAnchorsOptions): Promise<FetchAnchorsResult> {
-  const query = Object.keys(params)
-    .filter((key) => !!(params as any)[key])
-    .map((key) => `${key}=${encodeURIComponent((params as any)[key])}`)
-    .join('&');
-
   return new Promise((resolve, reject) => {
-    fetch(`${apiEndpoint}&${query}`)
+    fetch(createUrl(apiEndpoint, params))
       .then((value) => value.json())
       .then((value) => {
         if (isFetchAnchorsResult(value)) {
