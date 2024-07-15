@@ -7,7 +7,9 @@ export function createRootState(): RootState {
       apiEndpoints: {
         anchors: '',
         fetchSite: '',
+        hotspotAsset: '',
         oembed: '',
+        reference: '',
         translate: '',
       },
       csrfTokenName: '',

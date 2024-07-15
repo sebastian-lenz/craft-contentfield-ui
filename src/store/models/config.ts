@@ -32,6 +32,7 @@ export interface Config {
   apiEndpoints: {
     anchors: string;
     fetchSite: string;
+    hotspotAsset: string;
     oembed: string;
     reference: string;
     translate: string;

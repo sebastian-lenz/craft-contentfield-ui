@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 
 import debounce from '../../utils/debounce';
 import ErrorMessage from '../../components/ErrorMessage';
+import { createUrl } from '../../store/utils/createUrl';
 import { isOEmbed, OEmbed } from './OEmbed';
-import { OEmbedField } from './index';
-import { RootState } from '../../store/models';
-import { WidgetProps } from '../FieldDefinition';
+import type { OEmbedField } from './index';
+import type { RootState } from '../../store/models';
+import type { WidgetProps } from '../FieldDefinition';
 
 import './OEmbedWidget.styl';
-import { createUrl } from '../../store/utils/createUrl';
 
 export type Props = WidgetProps<OEmbedField> & {
   apiEndpoint: string;

@@ -18,6 +18,7 @@ module.exports = {
     alias: {
       // see https://github.com/handlebars-lang/handlebars.js/issues/953
       handlebars: 'handlebars/dist/handlebars.js',
+      '@app': path.resolve(__dirname, 'src'),
     },
   },
   externals: {

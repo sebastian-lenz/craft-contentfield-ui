@@ -16,11 +16,13 @@ import SelectFieldDefinition, { SelectField } from './Select';
 import SwatchColorFieldDefinition, { SwatchColorField } from './SwatchColor';
 import TextFieldDefinition, { TextField } from './Text';
 import TextareaFieldDefinition, { TextareaField } from './Textarea';
+import HotspotFieldType, { HotspotField } from './Hotspot';
 
 export type FieldTypeMap = {
   array: ArrayField;
   checkbox: CheckboxField;
   color: ColorField;
+  hotspot: HotspotField;
   instance: InstanceField;
   layout: LayoutField;
   lightswitch: LightswitchField;
@@ -40,6 +42,7 @@ fields.initialize({
   array: new ArrayFieldDefinition(),
   checkbox: new CheckboxFieldDefinition(),
   color: new ColorFieldDefinition(),
+  hotspot: new HotspotFieldType(),
   instance: new InstanceFieldDefinition(),
   layout: new LayoutFieldDefinition(),
   lightswitch: new LightswitchFieldDefinition(),

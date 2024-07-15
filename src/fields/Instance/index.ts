@@ -19,6 +19,7 @@ import FieldDefinition, {
 
 export interface InstanceField extends Field {
   collapsible?: boolean;
+  defaultSchema: string;
   schemas: Array<string>;
   type: 'instance';
 }
@@ -48,7 +49,7 @@ export default class InstanceFieldType extends FieldDefinition<
 
   createValue({ field, schema, schemas }: CreateOptions<InstanceField>): Model {
     if (!schema) {
-      schema = schemas[field.schemas[0]];
+      schema = schemas[field.defaultSchema];
     }
 
     if (!schema) {

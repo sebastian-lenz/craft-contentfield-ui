@@ -1,0 +1,75 @@
+.tcfHotspotEditor
+  position: relative
+
+  user-select: none
+
+.tcfHotspotEditor__hitArea
+  fill-opacity: 0
+  
+.tcfHotspotEditor__handle
+  fill: #fff
+  stroke: #000
+  stroke-width: 1px
+
+
+// Dialog
+// ------
+
+.tcfHotspotEditor__dialog
+  padding: 20px
+
+  border: 1px solid rgba(0, 0, 20, 0.1)
+  border-radius: 5px
+  box-shadow: 0 25px 100px rgba(0, 0, 0, 0.5) !important
+  
+  ::backdrop
+    background: rgba(0, 0, 0, 0.2)
+
+.tcfHotspotEditor__dialogCloser
+  position: absolute
+  z-index: 10
+  display: flex
+  top: 20px
+  right: 20px
+  padding: 8px
+
+
+// Toolbar
+// -------
+
+.tcfHotspotEditor__toolbar
+  display: flex
+  flex-flow: row nowrap
+  margin: 0 0 8px
+  gap: 8px
+
+.tcfHotspotEditor__toolbarButton
+  display: flex
+  align-items: center
+  justify-content: center
+  padding: 8px
+  gap: 8px
+
+  border-radius: 4px
+
+  &:disabled
+    opacity: 0.333
+
+  &:not(:disabled):hover
+    background-color: var(--custom-bg-color,var(--gray-050))
+
+  &.active
+    background-color: var(--ui-control-bg-color)
+
+
+// Shapes
+// ------
+
+.tcfHotspotEditor__shapePoint,
+.tcfHotspotEditor__shapeRectangle
+  fill: var(--link-color)
+  fill-opacity: 0.2
+  stroke: #fff
+  stroke-width: 2px
+
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, .5))

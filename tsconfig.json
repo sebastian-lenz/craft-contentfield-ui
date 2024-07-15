@@ -1,14 +1,18 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
     "experimentalDecorators": true,
     "importHelpers": true,
     "jsx": "react",
     "moduleResolution": "node",
+    "outDir": "./lib/",
+    "rootDir": "./src",
     "strict": true,
     "target": "es6",
-    "outDir": "./lib/",
-    "rootDir": "./src"
+    "paths": {
+      "@app/*": ["src/*"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"]
 }

@@ -1,7 +1,7 @@
 import findBySegment from './findBySegment';
+import isModel from './isModel';
 import parsePath, { AnyPathSegment } from './parsePath';
 import { Model } from '../models';
-import isModel from './isModel';
 
 export default function findByPath(
   scope: Model,

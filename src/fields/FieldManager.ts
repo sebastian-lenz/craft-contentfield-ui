@@ -4,7 +4,7 @@ import { Field } from '../store/models';
 import { FieldTypeMap } from './includes';
 
 export type Definitions = {
-  [key in FieldType]: FieldDefinition<FieldTypeMap[key]>
+  [key in FieldType]: FieldDefinition<FieldTypeMap[key]>;
 };
 
 export default class FieldManager {
@@ -19,8 +19,9 @@ export default class FieldManager {
   }
 
   getDefinition(fieldOrType: AnyField | FieldType): FieldDefinition {
-    return this.definitions[
-      typeof fieldOrType === 'object' ? fieldOrType.type : fieldOrType
-    ] as FieldDefinition;
+    const type =
+      typeof fieldOrType === 'string' ? fieldOrType : fieldOrType.type;
+
+    return this.definitions[type] as FieldDefinition;
   }
 }

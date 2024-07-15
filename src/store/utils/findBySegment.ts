@@ -1,4 +1,3 @@
-import { Model } from '../models';
 import { AnyPathSegment } from './parsePath';
 
 export default function findBySegment(

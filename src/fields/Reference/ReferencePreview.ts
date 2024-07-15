@@ -54,7 +54,7 @@ export class ReferencePreviewItem {
     }
 
     el.classList.remove('removable');
-    const $thumb = $(el).find('.elementthumb');
+    const $thumb = $(el).find('.thumb');
     if ($thumb.length) {
       let image: HTMLImageElement = $thumb.find('img')[0] as HTMLImageElement;
       if (!image) {
