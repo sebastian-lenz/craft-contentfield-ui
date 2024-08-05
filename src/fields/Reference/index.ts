@@ -3,11 +3,14 @@ import ReferenceWidget from './ReferenceWidget';
 import { Field, ReferenceValue } from '../../store/models';
 
 import { isReferenceValue } from '../../components/ElementSelect/utils';
-import FieldDefinition, {
+import FieldDefinition from '../FieldDefinition';
+import type {
   PreviewResult,
   PreviewOptions,
   CreateOptions,
+  CloneOptions,
 } from '../FieldDefinition';
+import { translateReferenceSiteId } from '@app/store/utils/translateReferenceSiteId';
 
 export interface ReferenceField extends Field {
   allowSelfReference?: boolean;
@@ -37,6 +40,21 @@ export default class ReferenceFieldType extends FieldDefinition<
     super({
       widget: ReferenceWidget,
     });
+  }
+
+  async cloneValue(
+    options: CloneOptions<ReferenceField>
+  ): Promise<Array<ReferenceValue>> {
+    const references = await super.cloneValue(options);
+    for (const reference of references) {
+      reference.siteId = await translateReferenceSiteId(
+        reference.id,
+        reference.siteId,
+        options
+      );
+    }
+
+    return references;
   }
 
   createValue(options: CreateOptions<ReferenceField>): Array<ReferenceValue> {

@@ -1,9 +1,9 @@
 import { Dispatch } from 'redux';
 
 import addReferences from './addReferences';
+import { createUrl } from '../utils/createUrl';
 import type { AnyAction } from './index';
 import type { RootState, ReferenceValue } from '../models';
-import { createUrl } from '../utils/createUrl';
 
 export async function applyFetchReferences(
   references: Array<ReferenceValue>,

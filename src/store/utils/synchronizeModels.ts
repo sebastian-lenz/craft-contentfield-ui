@@ -3,7 +3,7 @@ import createLogger from './createLogger';
 import isModel from './isModel';
 import synchronizeArrays from './synchronizeArrays';
 import synchronizeLayouts from './synchronizeLayouts';
-import { Model, Schemas } from '../models';
+import { Model, Schemas, type Config, type Reference } from '../models';
 import { TranslateOptions } from './fetchTranslation';
 
 export type ArrayOrphanMode = 'none' | 'hide' | 'remove';
@@ -12,7 +12,11 @@ export type SyncMode = 'clone' | 'sync';
 
 export interface SynchronizeOptions {
   arrayOrphanMode?: ArrayOrphanMode;
+  config: Config;
+  references: Array<Reference>;
   schemas: Schemas;
+  sourceSiteId: number | null;
+  targetSiteId: number | null;
   translate?: TranslateOptions;
   verbose?: boolean;
 }

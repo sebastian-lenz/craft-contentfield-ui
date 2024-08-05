@@ -1,8 +1,10 @@
 import LinkWidget from './LinkWidget';
 import { Field } from '../../store/models';
 
-import FieldDefinition, { PreviewResult } from '../FieldDefinition';
+import FieldDefinition from '../FieldDefinition';
 import { isLink, Link, LinkTypeMap } from './Link';
+import { translateReferenceSiteId } from '@app/store/utils/translateReferenceSiteId';
+import type { PreviewResult, CloneOptions } from '../FieldDefinition';
 
 export interface LinkField extends Field {
   type: 'link';
@@ -15,6 +17,17 @@ export default class LinkFieldType extends FieldDefinition<LinkField, Link> {
     super({
       widget: LinkWidget,
     });
+  }
+
+  async cloneValue(options: CloneOptions<LinkField>): Promise<Link> {
+    const result = await super.cloneValue(options);
+    result.siteId = await translateReferenceSiteId(
+      result.elementId,
+      result.siteId,
+      options
+    );
+
+    return result;
   }
 
   createValue(): Link {

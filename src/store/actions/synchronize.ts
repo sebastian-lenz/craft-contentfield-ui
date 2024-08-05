@@ -65,14 +65,22 @@ async function applySynchronize(
   const syncedModel = isClone
     ? await cloneModel({
         ...options,
+        config,
+        references,
         schemas,
         source: data,
+        sourceSiteId: siteId,
+        targetSiteId: config.elementSiteId,
       })
     : await synchronizeModels({
         ...options,
+        config,
+        references,
         schemas,
         source: data,
+        sourceSiteId: siteId,
         target: model,
+        targetSiteId: config.elementSiteId,
       });
 
   dispatch(addReferences(references));
