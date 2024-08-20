@@ -2,6 +2,7 @@ import fields from './index';
 
 import ArrayFieldDefinition, { ArrayField } from './Array';
 import CheckboxFieldDefinition, { CheckboxField } from './Checkbox';
+import CKEditorFieldDefinition, { CKEditorField } from './CKEditor';
 import ColorFieldDefinition, { ColorField } from './Color';
 import OEmbedFieldDefinition, { OEmbedField } from './OEmbed';
 import InstanceFieldDefinition, { InstanceField } from './Instance';
@@ -21,6 +22,7 @@ import HotspotFieldType, { HotspotField } from './Hotspot';
 export type FieldTypeMap = {
   array: ArrayField;
   checkbox: CheckboxField;
+  ckeditor: CKEditorField;
   color: ColorField;
   hotspot: HotspotField;
   instance: InstanceField;
@@ -41,6 +43,7 @@ export type FieldTypeMap = {
 fields.initialize({
   array: new ArrayFieldDefinition(),
   checkbox: new CheckboxFieldDefinition(),
+  ckeditor: new CKEditorFieldDefinition(),
   color: new ColorFieldDefinition(),
   hotspot: new HotspotFieldType(),
   instance: new InstanceFieldDefinition(),

@@ -18,6 +18,7 @@ import './fields/includes';
 import './utils/scriptPath';
 import './cp.styl';
 
+const ckeditors: { [id: string]: any } = {};
 const stores: Array<Store<RootState, AnyAction>> = [];
 const validators: ValidatorMap = {};
 
@@ -75,6 +76,9 @@ const api = {
       console.error('Could not start content editor.', error);
     }
   },
+  getCKEditor: function (id: string): any | null {
+    return id in ckeditors ? ckeditors[id] : null;
+  },
   getInstanceApi: (uuid: string) => {
     for (const store of stores) {
       const state = store.getState();
@@ -87,6 +91,9 @@ const api = {
   },
   registerValidator: (id: string, validator: Validator) => {
     validators[id] = validator;
+  },
+  registerCKEditor: (id: string, config: any) => {
+    ckeditors[id] = config;
   },
 };
 
