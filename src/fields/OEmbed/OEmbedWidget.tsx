@@ -122,11 +122,15 @@ export class OEmbedWidget extends React.Component<Props, State> {
   updateOEmbed = debounce(() => {
     this.setState({ mode: 'loading' });
 
+    // We cannot pass `?` to the action
+    // ___@CTF_URL_QUERY___ will be replaced by the server action
+    // https://httpd.apache.org/docs/current/rewrite/flags.html#flag_unsafe_allow_3f
+
     const { apiEndpoint, model, field } = this.props;
     const params = {
       schema: model.__type,
       field: field.name,
-      url: this.getOEmbed().url,
+      url: this.getOEmbed().url.replace(/\?/g, '___@CTF_URL_QUERY___'),
     };
 
     const request = new XMLHttpRequest();
