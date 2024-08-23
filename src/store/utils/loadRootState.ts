@@ -42,10 +42,11 @@ function loadUserState(): UserState {
 }
 
 export default function loadRootState(
-  script: Element,
+  script: HTMLScriptElement,
   field: HTMLInputElement
 ): RootState {
-  const payload = JSON.parse(script.innerHTML) as RootState;
+  const payloadJson = decodeURIComponent(escape(atob(script.innerText)));
+  const payload = JSON.parse(payloadJson) as RootState;
 
   payload.user = loadUserState();
   payload.sync = {

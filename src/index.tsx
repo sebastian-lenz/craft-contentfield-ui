@@ -32,7 +32,9 @@ const api = {
       }
 
       const root = element.querySelector('.tcfField--app');
-      const script = element.querySelector('script[type="application/json"]');
+      const script = element.querySelector<HTMLScriptElement>(
+        'script[type="application/json"]'
+      );
       const field = element.querySelector<HTMLInputElement>(
         'input.tcfField--model'
       );
